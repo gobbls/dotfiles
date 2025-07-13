@@ -26,4 +26,7 @@
     "workbench.panel.showLabels": false,
     "git.openRepositoryInParentFolders": "never",
     "svelte.enable-ts-plugin": true,
+    "cSpell.userWords": [
+        "weatherforecast"
+    ],
 }

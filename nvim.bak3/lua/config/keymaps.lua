@@ -8,8 +8,5 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set("n", "j", "gj", { desc = "Up", noremap = true })
 vim.keymap.set("n", "k", "gk", { desc = "Down", noremap = true })
 
--- Open Netrw
+-- Netrw leader-keybind
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-
--- Exit editor
-vim.keymap.set("n", "<leader>qq", vim.cmd.q)

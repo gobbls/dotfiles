@@ -1,0 +1,17 @@
+[init]
+	defaultBranch = main
+[status]
+  branch = true
+  showStash = true
+  showUntrackedFiles = all
+[user]
+	name = MiiNK1
+	email = 98641699+MiiNK1Y@users.noreply.github.com
+[core]
+  whitespace = error
+
+[url "git@github.com:MiiNK1/"]
+  insteadOf = "mi:"
+
+[url "git@github.com:"]
+  insteadOf = "gh:"

@@ -10,7 +10,22 @@ set $menu "wofi"
 
 
 # Set wallpaper for all display outputs
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
+#		Forest trail	
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
+# 	Girl
+output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-5gv5l7.jpg fill
+# 	Purple paint mix
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-6oz76x.png fill
+# 	Black ocean
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-9dj3qd.jpg fill
+# 	Late nigth drive
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-21gmgm.png fill
+#		Red paint mix
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-o5mk29.png fill
+#		Purple & yellow paint mix
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-p9ew59.jpg fill
+# 	Slight light purple
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
 
 
 ### Idle configuration

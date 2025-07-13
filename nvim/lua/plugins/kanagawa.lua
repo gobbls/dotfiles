@@ -7,19 +7,26 @@ return {
 		require("kanagawa").setup({
 			transparent = true,
 			colors = {
-					theme = {
-							all = {
-									ui = {
-											bg_gutter = "none",
-											-- trying to make Telescope borders not have background.
-											--float = {
-											--	bg = "none"
-											--}
-									}
-							}
+				theme = {
+					wave = {
+						ui = {
+							bg_gutter = "none",
+						}
 					}
-			}
+				}
+			},
+			overrides = function(colors)
+				local theme = colors.theme
+				return {
+					TelescopeTitle = { fg = theme.vcs.changed, bold = true },
+					TelescopePromptBorder = { fg = theme.vcs.changed },
+					TelescopeResultsBorder = { fg = theme.vcs.changed },
+					TelescopePreviewBorder = { fg = theme.vcs.changed },
+
+					NoiceCmdlinePopupBorder = { fg = theme.vcs.changed },
+				}
+			end,
 		})
-		vim.cmd("colorscheme kanagawa")
+		vim.cmd("colorscheme kanagawa-wave")
 	end,
 }

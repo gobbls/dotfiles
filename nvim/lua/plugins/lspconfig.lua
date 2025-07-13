@@ -4,8 +4,7 @@ return {
 		"mason.nvim",
 		{
 			"mason-org/mason-lspconfig.nvim",
-			config = function()
-			end
+			config = function() end
 		},
 		{
 			"folke/lazydev.nvim",
@@ -21,5 +20,6 @@ return {
 		require("lspconfig").lua_ls.setup {}
 		require("lspconfig").ts_ls.setup {}
 		require("lspconfig").svelte.setup {}
+		require("lspconfig").cssls.setup {}
 	end
 }

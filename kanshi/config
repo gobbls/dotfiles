@@ -1,5 +1,5 @@
 output 'LG Electronics LG HDR WQHD+ 307NTAB8Y560' {
-  mode 3840x1600
+  mode 3840x1600@59.994
   position 0,0
   alias $HOME_LG
 }

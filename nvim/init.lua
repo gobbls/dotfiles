@@ -1,10 +1,16 @@
 -- Editor preference
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
+-- Preset a column in the gutter for linting symbols.
 vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
+
+-- Ignore Neovim providers
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- Fetch the lazy configs
 require("config.keymaps")

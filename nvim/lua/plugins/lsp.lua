@@ -1,5 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
+	{ "mason-org/mason-lspconfig.nvim", config = function() end },
 	dependencies = {
 		"folke/lazydev.nvim",
 		"hrsh7th/cmp-nvim-lsp",

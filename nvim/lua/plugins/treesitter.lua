@@ -16,6 +16,7 @@ return {
 			"json",
 			"markdown",
 			"markdown_inline",
+			"vimdoc",
 		},
 		auto_install = true,
 		highlight = { enable = true }

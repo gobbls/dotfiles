@@ -1,3 +1,7 @@
+-- disable Netrw as the file-explorer
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Editor preference
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4

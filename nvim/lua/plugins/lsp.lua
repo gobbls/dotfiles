@@ -1,16 +1,11 @@
 return {
 	"neovim/nvim-lspconfig",
-	{ "mason-org/mason-lspconfig.nvim", config = function() end },
 	dependencies = {
 		"folke/lazydev.nvim",
-		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-buffer",
-		"hrsh7th/cmp-cmdline",
-		"hrsh7th/cmp-path",
-		"hrsh7th/nvim-cmp",
+		"saghen/blink.cmp",
 	},
 	config = function()
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
 		local lspconfig = require("lspconfig")
 		local lsp_keymaps = function()
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer = 0})
@@ -42,5 +37,5 @@ return {
 			capabilities = capabilities,
 			on_attach = lsp_keymaps
 		}
-	end
+	end,
 }

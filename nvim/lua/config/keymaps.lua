@@ -16,7 +16,11 @@ vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", ex
 vim.keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 -- Open Netrw
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- Exit editor
 vim.keymap.set("n", "<leader>qq", vim.cmd.q)
+
+-- Open NvimTree
+-- vim.keymap.set("n", "<leader>ft", vim.cmd.NvimTreeToggle, { desc = "NeovimTree"})
+vim.keymap.set("n", "<leader>e", vim.cmd.NvimTreeToggle, { desc = "NeovimTree"})

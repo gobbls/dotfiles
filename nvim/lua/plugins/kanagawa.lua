@@ -2,7 +2,8 @@ return {
 	"rebelot/kanagawa.nvim",
 	lazy = false,
 	priority = 1000,
-	-- This package refuses to use 'opts', so 'config' is required.
+	enabled = true,
+	-- This package refuses to use "opts", so "config" is required.
 	config = function()
 		require("kanagawa").setup({
 			transparent = true,
@@ -11,9 +12,9 @@ return {
 					wave = {
 						ui = {
 							bg_gutter = "none",
-						}
-					}
-				}
+						},
+					},
+				},
 			},
 			overrides = function(colors)
 				local theme = colors.theme
@@ -22,7 +23,6 @@ return {
 					TelescopePromptBorder = { fg = theme.vcs.changed },
 					TelescopeResultsBorder = { fg = theme.vcs.changed },
 					TelescopePreviewBorder = { fg = theme.vcs.changed },
-
 					NoiceCmdlinePopupBorder = { fg = theme.vcs.changed },
 				}
 			end,

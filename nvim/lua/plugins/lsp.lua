@@ -7,6 +7,17 @@ return {
 	config = function()
 		local capabilities = require("blink.cmp").get_lsp_capabilities()
 		local lspconfig = require("lspconfig")
+		local diagnostics = function()
+			vim.diagnostic.config({
+				underline = true,
+				update_in_insert = false,
+				virtual_text = {
+					spacing = 4,
+					source = "if_many",
+					prefix = "●",
+				},
+			})
+		end
 		local lsp_keymaps = function()
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer = 0})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {buffer = 0})
@@ -19,23 +30,23 @@ return {
 		end
 		lspconfig.lua_ls.setup {
 			capabilities = capabilities,
-			on_attach = lsp_keymaps
+			on_attach = lsp_keymaps and diagnostics,
 		}
 		lspconfig.ts_ls.setup {
 			capabilities = capabilities,
-			on_attach = lsp_keymaps
+			on_attach = lsp_keymaps and diagnostics,
 		}
 		lspconfig.svelte.setup {
 			capabilities = capabilities,
-			on_attach = lsp_keymaps
+			on_attach = lsp_keymaps and diagnostics,
 		}
 		lspconfig.cssls.setup {
 			capabilities = capabilities,
-			on_attach = lsp_keymaps
+			on_attach = lsp_keymaps and diagnostics,
 		}
 		lspconfig.html.setup {
 			capabilities = capabilities,
-			on_attach = lsp_keymaps
+			on_attach = lsp_keymaps and diagnostics,
 		}
 	end,
 }

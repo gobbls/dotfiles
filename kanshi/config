@@ -13,7 +13,7 @@ output 'BOE 0x094C Unknown' {
 
 profile home_only_ultrawide {
   output $HOME_LG enable
-  output $INTERNAL enable
+  output $INTERNAL disable
 }
 
 profile only_laptop {

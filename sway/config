@@ -10,7 +10,7 @@ set $menu "wofi"
 
 
 # Set wallpaper for all display outputs
-#		Forest trail	
+#	Forest trail	
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
 # 	Girl
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-5gv5l7.jpg fill
@@ -20,12 +20,14 @@ set $menu "wofi"
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-9dj3qd.jpg fill
 # 	Late nigth drive
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-21gmgm.png fill
-#		Red paint mix
+#	Red paint mix
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-o5mk29.png fill
-#		Purple & yellow paint mix
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-p9ew59.jpg fill
+#	Purple & yellow paint mix
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-p9ew59.jpg fill
 # 	Slight light purple
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
+output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
+#	Elf
+#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
 
 
 ### Idle configuration
@@ -244,7 +246,7 @@ input type:keyboard {
 ### Colors
 #
 # class                 border  backgr. text    indicator child_border
-client.focused          #C4A7E7 #C4A7E7 #000000 #9CCFD8   #C4A7E7
+client.focused          #C4A7E7 #C4A7E7 #000000 #C4A7E7   #C4A7E7
 client.focused_inactive #6E6A86 #6E6A86 #E0DEF4 #6E6A86   #6E6A86
 client.unfocused        #191724 #191724 #888888 #191724   #191724
 client.urgent           #EB6f92 #EB6f92 #E0DEF4 #EB6f92   #EB6f92

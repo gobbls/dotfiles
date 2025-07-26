@@ -48,5 +48,12 @@ return {
 			capabilities = capabilities,
 			on_attach = lsp_keymaps and diagnostics,
 		}
+		local pid = vim.fn.getpid()
+		local omnisharp_bin = "/home/a13k5/.local/share/nvim/mason/bin/OmniSharp"
+		lspconfig.omnisharp.setup {
+			cmd = { omnisharp_bin, "-z", "--hostPID", tostring(pid), "DotNet:enablePackageRestore=false", "--encoding", "utf-8", "--languageserver" },
+			capabilities = capabilities,
+			on_attach = lsp_keymaps and diagnostics,
+		}
 	end,
 }

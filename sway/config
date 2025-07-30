@@ -15,7 +15,7 @@ set $menu "wofi"
 # 	Girl
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-5gv5l7.jpg fill
 # 	Purple paint mix
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-6oz76x.png fill
+output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-6oz76x.png fill
 # 	Black ocean
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-9dj3qd.jpg fill
 # 	Late nigth drive
@@ -25,7 +25,7 @@ set $menu "wofi"
 #	Purple & yellow paint mix
 #output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-p9ew59.jpg fill
 # 	Slight light purple
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
 #	Elf
 #output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
 
@@ -279,6 +279,13 @@ exec_always systemctl --user start sway-session.target
 #
 # Sway breaks Kanshi on sway-reload, restart kanshi service on reload
 exec_always systemctl --user restart kanshi.service
+
+### SwayFX stuff
+#
+blur enable
+blur_passes 2
+shadows enable
+corner_radius 8
 
 
 ### Was here by default, \

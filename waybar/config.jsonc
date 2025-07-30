@@ -7,7 +7,9 @@
   ],
 
   "modules-center": [
-    "sway/window"
+    "sway/window",
+	"clock",
+	"sway/date"
   ],
 
   "modules-right": [
@@ -20,7 +22,6 @@
     "sway/language",
     "battery",
     "custom/notification",
-    "clock"
   ],
 
   "sway/workspaces": {
@@ -128,6 +129,7 @@
   },
 
   "clock": {
+	"format": "{:%d-%m | %H:%M}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
     "format-alt": "{:%d-%m-%Y}"
   }

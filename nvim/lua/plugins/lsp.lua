@@ -48,6 +48,10 @@ return {
 			capabilities = capabilities,
 			on_attach = lsp_keymaps and diagnostics,
 		}
+		lspconfig.marksman.setup {
+			capabilities = capabilities,
+			on_attach = lsp_keymaps and diagnostics,
+		}
 		local pid = vim.fn.getpid()
 		local omnisharp_bin = "/home/a13k5/.local/share/nvim/mason/bin/OmniSharp"
 		lspconfig.omnisharp.setup {

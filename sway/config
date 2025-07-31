@@ -266,6 +266,14 @@ titlebar_padding 1
 titlebar_border_thickness 0
 
 
+### SwayFX stuff
+#
+blur enable
+blur_passes 2
+shadows enable
+corner_radius 8
+
+
 ### Auto run certain programs on login
 #
 # NetworkManager tray icon and menu
@@ -279,13 +287,6 @@ exec_always systemctl --user start sway-session.target
 #
 # Sway breaks Kanshi on sway-reload, restart kanshi service on reload
 exec_always systemctl --user restart kanshi.service
-
-### SwayFX stuff
-#
-blur enable
-blur_passes 2
-shadows enable
-corner_radius 8
 
 
 ### Was here by default, \

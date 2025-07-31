@@ -1,5 +1,6 @@
 # Background color
-color=#00000000
+#color=#00000000 # alpha set to 00 makes the background buggy.
+color=#000000
 
 # Layout text colors
 layout-bg-color=#00000000

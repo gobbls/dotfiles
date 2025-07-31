@@ -1,11 +1,11 @@
 show =          drun
 height =        300
-width =         600
+width =         500
 normal_window = false
 hide_scroll =   true
-allow_images =  true
+allow_images =  false
 image_size =    20
 insensitive =   true
 no_actions =    true
-columns =       2
+columns =       1
 prompt =

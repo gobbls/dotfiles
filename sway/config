@@ -9,23 +9,10 @@ set $term foot
 set $menu "wofi"
 
 
-# Set wallpaper for all display outputs
+### Set wallpaper for all display outputs
+#
 #	Forest trail	
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
-# 	Girl
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-5gv5l7.jpg fill
-# 	Purple paint mix
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-6oz76x.png fill
-# 	Black ocean
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-9dj3qd.jpg fill
-# 	Late nigth drive
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-21gmgm.png fill
-#	Red paint mix
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-o5mk29.png fill
-#	Purple & yellow paint mix
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-p9ew59.jpg fill
-# 	Slight light purple
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-yqj7pk.png fill
+output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
 #	Elf
 #output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
 
@@ -35,11 +22,10 @@ output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-6oz76x.png fill
 # Lock screen after 30 minutes of inactivity, then turn off
 # displays after another 5 minutes, and turn your screens back on when
 # resumed. It will also lock screen before going to sleep.
-#
 exec swayidle -w \
-  timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f' \
-  timeout 2100 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-  before-sleep 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
+	timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f' \
+	timeout 2100 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+	before-sleep 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
 
 
 ### Key bindings
@@ -144,48 +130,36 @@ bindsym $mod+space focus mode_toggle
 # Move focus to the parent container
 bindsym $mod+a focus parent
 #
-## Scratchpad:
-#
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
-#
-# Move the currently focused window to the scratchpad
-bindsym $mod+Shift+minus move scratchpad
-#
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
-bindsym $mod+minus scratchpad show
-#
 ## Resizing containers:
 #
 mode "resize" {
-  # left will shrink the containers width
-  # right will grow the containers width
-  # up will shrink the containers height
-  # down will grow the containers height
-  bindsym $left   resize shrink width 10px
-  bindsym $down   resize grow height 10px
-  bindsym $up     resize shrink height 10px
-  bindsym $right  resize grow width 10px
-  # Ditto, with arrow keys
-  bindsym Left    resize shrink width 10px
-  bindsym Down    resize grow height 10px
-  bindsym Up      resize shrink height 10px
-  bindsym Right   resize grow width 10px
-  #
-  # Return to default mode
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
+	# [left]	will shrink the containers width
+	# [right]	will grow the containers width
+	# [up]		will shrink the containers height
+	# [down]	will grow the containers height
+	bindsym $left   resize shrink width		10px
+	bindsym $down   resize grow height		10px
+	bindsym $up     resize shrink height	10px
+	bindsym $right  resize grow width		10px
+	# Ditto, with arrow keys
+	bindsym Left    resize shrink width		10px
+	bindsym Down    resize grow height		10px
+	bindsym Up      resize shrink height	10px
+	bindsym Right   resize grow width		10px
+	#
+	# Return to default mode
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 #
 ## Utilities:
 #
 # Special keys to adjust volume via PulseAudio (PipeWire actually)
-bindsym --locked XF86AudioMute          exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume   exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
-bindsym --locked XF86AudioRaiseVolume   exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
-bindsym --locked XF86AudioMicMute       exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+bindsym --locked XF86AudioMute          exec pactl set-sink-mute	\@DEFAULT_SINK@		toggle
+bindsym --locked XF86AudioLowerVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		-5%
+bindsym --locked XF86AudioRaiseVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		+5%
+bindsym --locked XF86AudioMicMute       exec pactl set-source-mute	\@DEFAULT_SOURCE@	toggle
 #
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown  exec brightnessctl set 5%-
@@ -208,18 +182,18 @@ bindsym $mod+Shift+v exec pavucontrol
 ### Status Bar:
 #
 bar {
-  # Overwriting the default statusbar (swaybar) in favor of "Waybar".
-  swaybar_command waybar
+	# Overwriting the default statusbar (swaybar) in favor of "Waybar".
+	swaybar_command waybar
 }
 
 
 ### Target certain windows for floating
 #
 # For FileRoller (Thunar unarchiver)
-for_window [title="Extract"] floating enable
-for_window [title="File Operation Progress"] floating enable
-for_window [title="Confirm to replace files"] floating enable
-for_window [title="Rename"] floating enable
+for_window [title="Extract"]					floating enable
+for_window [title="File Operation Progress"]	floating enable
+for_window [title="Confirm to replace files"]	floating enable
+for_window [title="Rename"]						floating enable
 
 
 ### Custom device controll
@@ -227,23 +201,25 @@ for_window [title="Rename"] floating enable
 ## Touchpad stuff:
 #
 input type:touchpad {
-  # Enable tap-to-click
-  tap enabled
-  # Enable two-finger-scroll inthe CORRECT(!) direction
-  natural_scroll enabled
+	# Enable tap-to-click
+	tap enabled
+	# Enable two-finger-scroll inthe CORRECT(!) direction
+	natural_scroll enabled
 }
 #
 ## Keyboard stuff:
 #
 input type:keyboard {
-  # Languages to rotate between
-  xkb_layout us,no
-  # Toggle between languages & make "CapsLock" an aditional "Escape"
-  xkb_options grp:win_space_toggle,caps:escape
+	# Languages to rotate between
+	xkb_layout us,no
+	# Toggle between languages & make "CapsLock" an aditional "Escape"
+	xkb_options grp:win_space_toggle,caps:escape
 }
 
 
 ### Colors
+#
+# Rose Pine
 #
 # class                 border  backgr. text    indicator child_border
 client.focused          #C4A7E7 #C4A7E7 #000000 #C4A7E7   #C4A7E7
@@ -272,6 +248,7 @@ blur enable
 blur_passes 2
 shadows enable
 corner_radius 8
+default_dim_inactive 0.2
 
 
 ### Auto run certain programs on login

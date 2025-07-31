@@ -13,6 +13,7 @@
 		"tray",
 		"pulseaudio",
 		"network",
+		"bluetooth",
 		"cpu",
 		"backlight",
 		"sway/language",
@@ -43,11 +44,11 @@
 
 	"pulseaudio": {
 		"on-click": "pavucontrol",
-		"format": "{icon}  {volume}%  |  {format_source}",
-		"format-bluetooth": "{volume}% {icon}   |  {format_source}",
-		"format-bluetooth-muted": "  {icon}   |  {format_source}",
+		"format": "{icon} {volume}%  |  {format_source}",
+		"format-bluetooth": "{icon}  {volume}%  |  {format_source}",
+		"format-bluetooth-muted": "  {icon}   |  {format_source}",
 		"format-muted": "  {format_source}",
-		"format-source": "  {volume}%",
+		"format-source": " {volume}%",
 		"format-source-muted": "",
 		"format-icons": {
 			"headphone": "",
@@ -62,15 +63,25 @@
 
 	"network": {
 		"tooltip": false,
-		"format-wifi": "  {essid}",
-		"format-ethernet": "  {ipaddr}/{cidr}",
-		"format-linked": "  {ifname} (No IP)",
+		"format-wifi": "󰤨  {essid}",
+		"format-ethernet": "󰈀 {ipaddr}/{cidr}",
+		"format-linked": "󰈀 {ifname} (No IP)",
 		"format-disconnected": "⚠ Disconnected",
+	},
+
+	"bluetooth": {
+		"format": "<span color='#00BFFF'>  </span>{status} ",
+		"format-connected": "<span color='#00BFFF'>  </span>{device_alias} ",
+		"format-connected-battery": "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ",
+		"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
 	},
 
 	"cpu": {
 		"tooltip": false,
-		"format": "  {usage}%",
+		"format": " {usage}%",
 	},
 
 	"backlight": {
@@ -80,6 +91,7 @@
 	},
 
 	"sway/language": {
+		"format": "󰌌 {short}",
 		"tooltip": false,
 	},
 
@@ -107,14 +119,14 @@
 		"on-click-right": "swaync-client -d -sw",
 		"escape": true,
 		"format-icons": {
-			"notification": "<span foreground='red'><sup> </sup></span>",
-			"none": "",
-			"dnd-notification": "<span foreground='red'><sup> </sup></span>",
-			"dnd-none": "",
-			"inhibited-notification": "<span foreground='red'><sup> </sup></span>",
-			"inhibited-none": "",
-			"dnd-inhibited-notification": "<span foreground='red'><sup> </sup></span>",
-			"dnd-inhibited-none": "",
+			"notification": "<span foreground='red'><sup> </sup></span>",
+			"none": "",
+			"dnd-notification": "󰂛<span foreground='red'><sup> </sup></span>",
+			"dnd-none": "󰂛",
+			"inhibited-notification": "<span foreground='red'><sup> </sup></span>",
+			"inhibited-none": "",
+			"dnd-inhibited-notification": "󰂛<span foreground='red'><sup> </sup></span>",
+			"dnd-inhibited-none": "󰂛",
 		},
 	},
 }

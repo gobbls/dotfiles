@@ -12,9 +12,13 @@ set $menu "wofi"
 ### Set wallpaper for all display outputs
 #
 #	Forest trail	
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
-#	Elf
+#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
+#	Lewd elf in bath (Krys Decker)
 #output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
+#	Lewd mermaid (Krys Decker)
+#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-mermaid-8955318.jpeg fill
+#	Lewd Shadowheart (Krys Decker)
+output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-Shadowheart-8128918.jpeg fill
 
 
 ### Idle configuration
@@ -230,6 +234,13 @@ client.placeholder      #000000 #0c0c0c #E0DEF4 #000000   #0c0c0c
 client.background       #191724
 
 
+### Targeted styles / colors
+#
+## Wofi
+# Remove borders
+for_window [app_id="wofi"] border pixel 0
+
+
 ### Other stuff
 #
 # Window gaps
@@ -245,7 +256,7 @@ titlebar_border_thickness 0
 ### SwayFX stuff
 #
 blur enable
-blur_passes 2
+blur_passes 3
 shadows enable
 corner_radius 8
 default_dim_inactive 0.2

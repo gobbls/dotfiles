@@ -1,48 +1,48 @@
 @import '/home/a13k5/.config/wofi/rose-pine.css';
 
 * {
-  color: @text;
+	color: @text;
+}
+
+#window {
+	background-color: rgba(0.5, 0.5, 0.5, 0.3);
 }
 
 #outer-box {
-  background-color: @base;
-  /*
-  border: 1px solid @rose;
-  */
-  padding: 10px;
+	padding: 20px;
 }
 
 #input {
-  border-radius: 0;
-  border: none;
-
-  margin: 10px;
-  padding: 5px;
-  background-color: @base;
-  font-size: 25px;
+	all:unset;
+	margin: 10px;
+	padding: 5px;
+	font-size: 25px;
 }
 
 #input:focus {
-  box-shadow: 0 3px 0 0 @rose;
-  outline: none;
+	box-shadow: 0 3px 0 0 @rose;
 }
 
 #inner-box {
-  margin: 6px;
-  background-color: @base;
-}
-
-#img {
-  padding-right: 10px;
+	margin: 10px;
 }
 
 #entry {
-  padding: 8px;
-  font-size: 20px;
+	all: unset;
+	padding: 8px;
+	font-size: 20px;
+	border-radius: 10px;
+	overflow: hidden;
 }
 
 #entry:selected {
-  outline: none;
-  background-color: transparent;
-  box-shadow: -5px 0 0 -2px @rose;
+	background: linear-gradient(
+					90deg,
+					@rose 0%,
+					rgba(0, 0, 0, 0) 80%
+				);
+}
+
+#img {
+	padding-right: 10px;
 }

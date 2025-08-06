@@ -37,11 +37,6 @@
 		"gitBg":			"p:sumiInk4",
 		"timeBg":			"p:sumiInk5"
 	},
-	"secondary_prompt": {
-		"background": "transparent",
-		"foreground": "p:userBg",
-		"template": " \udb80\udd42"
-	},
 	"blocks": [
 		{
 			"type": "prompt",
@@ -111,8 +106,8 @@
 					"style": "diamond",
 					"leading_diamond": "\ue0b6",
 					"trailing_diamond": "\ue0b4",
-					"background": "p:timeBg",
 					"foreground": "p:brightFg",
+					"background": "p:timeBg",
 					"template": " {{ .CurrentDate | date .Format }} ",
 					"properties": {
 						"time_format": "15:04"
@@ -121,8 +116,8 @@
 			]
 		},
 		{
-			"newLine": true,
 			"type": "prompt",
+			"newLine": true,
 			"alignment": "left",
 			"segments": [
 				{
@@ -133,5 +128,10 @@
 				}
 			]
 		}
-	]
+	],
+	"secondary_prompt": {
+		"foreground": "p:userBg",
+		"background": "transparent",
+		"template": " \udb80\udd42"
+	}
 }

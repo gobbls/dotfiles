@@ -54,9 +54,9 @@
 					"type": "python",
 					"style": "diamond",
 					"leading_diamond": "\ue0b6",
-					"foreground": "p:darkFg",
+					"foreground": "p:brightFg",
 					"background": "p:envBg",
-					"template": " \ue73c {{ .Full }} "
+					"template": " {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}\ueb29 {{ .Venv }} |{{ end }} \ue73c {{ .Full }}{{ end }} "
 				},
 				{
 					"type": "docker",

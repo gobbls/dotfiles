@@ -1,0 +1,137 @@
+{
+	"version": 3,
+	"final_space": true,
+	"palette": {
+		"sumiInk0":			"#16161D",
+		"sumiInk3":			"#1F1F28",
+		"sumiInk4":			"#2A2A37",
+		"sumiInk5":			"#363646",
+		"sumiInk6":			"#54546D",
+		"lotusGray":		"#dcd7ba",
+		"fujiGray":			"#727169",
+		"waveBlue1":		"#223249",
+		"waveBlue2":		"#2D4F67",
+		"springViolet1":	"#938AA9",
+		"oniViolet":		"#957FB8",
+		"crystalBlue":		"#7E9CD8",
+		"waveAqua2":		"#7AA89F",
+		"sakuraPink":		"#D27E99",
+		"samuraiRed":		"#E82424",
+		"springBlue":		"#7FB4CA",
+		"springGreen":		"#98BB6C",
+		"waveRed":			"#E46876",
+		"surimiOrange":		"#FFA066",
+		"waveAqua1":		"#6A9589",
+		"carpYellow":		"#E6C384",
+		"boatYellow2":		"#C0A36E",
+		"peachRed":			"#FF5D62",
+		"springViolet2":	"#9CABCA",
+		"dragonBlue":		"#658594",
+
+		"brightFg":			"p:carpYellow",
+		"darkFg":			"p:sumiInk0",
+
+		"userBg":			"p:springGreen",
+		"envBg":			"p:sumiInk0",
+		"pathBg":			"p:sumiInk3",
+		"gitBg":			"p:sumiInk4",
+		"timeBg":			"p:sumiInk5"
+	},
+	"secondary_prompt": {
+		"background": "transparent",
+		"foreground": "p:userBg",
+		"template": " \udb80\udd42"
+	},
+	"blocks": [
+		{
+			"type": "prompt",
+			"alignment": "left",
+			"segments": [
+				{
+					"type": "session",
+					"style": "diamond",
+					"leading_diamond": "\u256D\ue0b6",
+					"foreground": "p:darkFg",
+					"background": "p:userBg",
+					"template": "{{ if .SSHSession }}\ueb39 {{ end }} {{ .UserName }} "
+				},
+				{
+					"type": "python",
+					"style": "diamond",
+					"leading_diamond": "\ue0b6",
+					"foreground": "p:darkFg",
+					"background": "p:envBg",
+					"template": " \ue73c {{ .Full }} "
+				},
+				{
+					"type": "docker",
+					"style": "diamond",
+					"leading_diamond": "\ue0b6",
+					"foreground": "p:darkFg",
+					"background": "p:envBg",
+					"template": " \uf21f {{ .Context }} "
+				},
+				{
+					"type": "path",
+					"style": "diamond",
+					"leading_diamond": "\ue0b6",
+					"foreground": "p:brightFg",
+					"background": "p:pathBg",
+					"template": " {{ .Path }} ",
+					"properties": {
+						"style": "mixed",
+						"mixed_threshold": 7
+					}
+				},
+				{
+					"type": "git",
+					"style": "diamond",
+					"leading_diamond": "\ue0b6",
+					"foreground": "p:brightFg",
+					"background": "p:gitBg",
+					"background_templates": [
+						"{{ if or (.Working.Changed) (.Staging.Changed) }}p:springViolet1{{ end }}",
+						"{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:waveRed{{ end }}",
+						"{{ if gt .Ahead 0 }}p:springGreen{{ end }}",
+						"{{ if gt .Behind 0 }}p:sakuraPink{{ end }}"
+					],
+					"template": " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf4a7 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }} ",
+					"properties": {
+						"fetch_status": true,
+						"fetch_upstream_icon": true,
+						"source": "cli",
+						"mapped_branches": {
+							"feat/*": "\ueb44 ",
+							"bug/*": "\uf427 "
+						}
+					}
+				},
+				{
+					"type": "time",
+					"style": "diamond",
+					"leading_diamond": "\ue0b6",
+					"trailing_diamond": "\ue0b4",
+					"background": "p:timeBg",
+					"foreground": "p:brightFg",
+					"template": " {{ .CurrentDate | date .Format }} ",
+					"properties": {
+						"time_format": "15:04"
+					}
+				}
+			]
+		},
+		{
+			"newLine": true,
+			"type": "prompt",
+			"alignment": "left",
+			"segments": [
+				{
+					"type": "shell",
+					"style": "plain",
+					"foreground": "p:userBg",
+					"template": "\u2570\udb80\udd42"
+				}
+			]
+		}
+	]
+}

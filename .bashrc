@@ -60,4 +60,4 @@ export PATH="$PATH:/home/a13k5/.local/bin"
 PS1='[\u@\h \W]\$ '
 
 # Oh-my-posh (for last line of config!)
-eval "$(oh-my-posh init bash --config /home/a13k5/.dotfiles/oh-my-posh/dracula.omp.json)"
+eval "$(oh-my-posh init bash --config /home/a13k5/.dotfiles/oh-my-posh/kanagawa.omp.json)"

@@ -12,13 +12,13 @@ set $menu "wofi"
 ### Set wallpaper for all display outputs
 #
 #	Forest trail	
-#output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
+output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
 #	Lewd elf in bath (Krys Decker)
 #output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
 #	Lewd mermaid (Krys Decker)
 #output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-mermaid-8955318.jpeg fill
 #	Lewd Shadowheart (Krys Decker)
-output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-Shadowheart-8128918.jpeg fill
+#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-Shadowheart-8128918.jpeg fill
 
 
 ### Idle configuration

@@ -111,11 +111,12 @@ set $katanaGray     #717C7C
 
 
 # Setting the colors
-set $focused			$carpYellow
-set $focused_inactive	$boatYellow1
-set $unfocused			$sumiInk2
+set $focused			$sumiInk3
+set $focused_inactive	$sumiInk2
+set $unfocused			$sumiInk1
 set $urgent				$samuraiRed
 set $placeholder		$sakuraPink
-set $background			$sumiInk4
+set $background			$lightBlue
 set $darkFg				$sumiInk0
-set $brightFg			$fujiGray
+set $brightFg			$fujiWhite
+set $mediumFg			$fujiGray

@@ -213,9 +213,9 @@ input type:keyboard {
 # Kanagawa
 #
 # class                 border				background			text		indicator			child_border
-client.focused          $focused			$focused 			$darkFg		$focused			$focused
-client.focused_inactive $focused_inactive	$focused_inactive	$darkFg		$focused_inactive	$focused_inactive
-client.unfocused        $unfocused			$unfocused			$brightFg	$unfocused			$unfocused
+client.focused          $focused			$focused 			$brightFg	$focused			$focused
+client.focused_inactive $focused_inactive	$focused_inactive	$mediumFg	$focused_inactive	$focused_inactive
+client.unfocused        $unfocused			$unfocused			$mediumFg	$unfocused			$unfocused
 client.urgent           $urgent				$urgent				#E0DEF4		$urgent				$urgent
 client.placeholder      $placeholder		#0c0c0c				#E0DEF4		$placeholder		#0c0c0c
 client.background		$background 

@@ -1,3 +1,7 @@
+include /etc/sway/config.d/*
+include ./kanagawa.sway
+
+
 ### Variables
 #
 set $mod Mod4
@@ -10,15 +14,7 @@ set $menu "wofi"
 
 
 ### Set wallpaper for all display outputs
-#
-#	Forest trail	
 output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
-#	Lewd elf in bath (Krys Decker)
-#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-elf-girl-8999739.jpeg fill
-#	Lewd mermaid (Krys Decker)
-#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-mermaid-8955318.jpeg fill
-#	Lewd Shadowheart (Krys Decker)
-#output * bg /home/a13k5/Pictures/T7/wallpapers/KrysDecker-artist-Shadowheart-8128918.jpeg fill
 
 
 ### Idle configuration
@@ -191,15 +187,6 @@ bar {
 }
 
 
-### Target certain windows for floating
-#
-# For FileRoller (Thunar unarchiver)
-for_window [title="Extract"]					floating enable
-for_window [title="File Operation Progress"]	floating enable
-for_window [title="Confirm to replace files"]	floating enable
-for_window [title="Rename"]						floating enable
-
-
 ### Custom device controll
 #
 ## Touchpad stuff:
@@ -223,22 +210,27 @@ input type:keyboard {
 
 ### Colors
 #
-# Rose Pine
+# Kanagawa
 #
-# class                 border  backgr. text    indicator child_border
-client.focused          #C4A7E7 #C4A7E7 #000000 #C4A7E7   #C4A7E7
-client.focused_inactive #6E6A86 #6E6A86 #E0DEF4 #6E6A86   #6E6A86
-client.unfocused        #191724 #191724 #888888 #191724   #191724
-client.urgent           #EB6f92 #EB6f92 #E0DEF4 #EB6f92   #EB6f92
-client.placeholder      #000000 #0c0c0c #E0DEF4 #000000   #0c0c0c
-client.background       #191724
+# class                 border				background			text		indicator			child_border
+client.focused          $focused			$focused 			$darkFg		$focused			$focused
+client.focused_inactive $focused_inactive	$focused_inactive	$darkFg		$focused_inactive	$focused_inactive
+client.unfocused        $unfocused			$unfocused			$brightFg	$unfocused			$unfocused
+client.urgent           $urgent				$urgent				#E0DEF4		$urgent				$urgent
+client.placeholder      $placeholder		#0c0c0c				#E0DEF4		$placeholder		#0c0c0c
+client.background		$background 
 
 
 ### Targeted styles / colors
 #
-## Wofi
 # Remove borders
 for_window [app_id="wofi"] border pixel 0
+#
+# Floating
+for_window [title="Rename"]	floating enable
+for_window [title="Extract"] floating enable
+for_window [title="File Operation Progress"] floating enable
+for_window [title="Confirm to replace files"] floating enable
 
 
 ### Other stuff
@@ -275,9 +267,3 @@ exec_always systemctl --user start sway-session.target
 #
 # Sway breaks Kanshi on sway-reload, restart kanshi service on reload
 exec_always systemctl --user restart kanshi.service
-
-
-### Was here by default, \
-### unshure about what it does, keeping it here just in case.
-#
-include /etc/sway/config.d/*

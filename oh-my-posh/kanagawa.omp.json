@@ -48,7 +48,7 @@
 					"leading_diamond": "\u256D\ue0b6",
 					"foreground": "p:darkFg",
 					"background": "p:userBg",
-					"template": "{{ if .SSHSession }}\ueb39 {{ end }} {{ .UserName }} "
+					"template": " {{ if .SSHSession }}\ueb39 {{ .UserName }}@{{ .HostName }}{{ else }}{{ .UserName }}{{ end }} "
 				},
 				{
 					"type": "python",

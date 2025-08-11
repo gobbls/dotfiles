@@ -111,7 +111,7 @@ set $katanaGray     #717C7C
 
 
 # Setting the colors
-set $focused			$sumiInk3
+set $focused			$autumnGreen
 set $focused_inactive	$sumiInk2
 set $unfocused			$sumiInk1
 set $urgent				$samuraiRed

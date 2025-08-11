@@ -1,48 +1,48 @@
-@import './rose-pine.css';
+@import './kanagawa.css';
 
 * {
-  padding-right: 4px;
-  padding-left: 4px;
-  font-family: JetbrainsMono Nerd Font;
-  font-size: 16px;
+	padding-right: 4px;
+	padding-left: 4px;
+	font-family: JetbrainsMono Nerd Font;
+	font-size: 16px;
 }
 
 #waybar {
-  background-color: transparent;
-  color: @text;
+	background-color: transparent;
+	color: @fujiWhite;
 }
 
 #workspaces button {
-  color: @text;
+	color: @fujiWhite;
 }
 
 #workspaces button.visible {
-  color: @gold;
+	color: @winterYellow;
 }
 
 #workspaces button.focused {
-  color: @iris;
+	color: @autumnGreen;
 }
 
 #workspaces button.urgent {
-  color: @rose;
+	color: @autumnRed;
 }
 
 .modules-left,
 .modules-center,
 .modules-right {
-  margin: 4px;
-  margin-bottom: 0;
-  border-radius: 10px;
-  background-color: @base;
+	margin: 4px;
+	margin-bottom: 0;
+	border-radius: 10px;
+	background-color: @sumiInk0;
 }
 
 .modules-center {
-  padding: 0 10px;
+	padding: 0 10px;
 }
 
 #waybar.empty .modules-center {
-  background: transparent;
+	background: transparent;
 }
 
 #tray,
@@ -56,57 +56,58 @@
 #battery,
 #custom-notification,
 #clock {
-  padding: 3px 15px;
-  border-right: 1px solid @overlay;
+	padding: 3px 15px;
+	border-right: 1px solid @sumiInk4;
 }
 
-#tray > .passive {
-  -gtk-icon-effect: dim;
+#tray>.passive {
+	-gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-  color: @rose;
+#tray>.needs-attention {
+	-gtk-icon-effect: highlight;
+	color: @autumnRed;
 }
 
 #network.disconnected {
-  color: @rose;
+	color: @autumRed;
 }
 
 #language {
-  min-width: 20px;
+	min-width: 20px;
 }
 
 #cpu,
 #backlight,
 #battery {
-  min-width: 50px;
+	min-width: 50px;
 }
 
-#battery.charging, #battery.plugged {
-  color: @foam;
+#battery.charging,
+#battery.plugged {
+	color: @waveBlue1;
 }
 
 #battery.warning {
-  color: @rose;
+	color: @autumnRed;
 }
 
 @keyframes blink {
-  to {
-    color: transparent;
-  }
+	to {
+		color: transparent;
+	}
 }
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.critical:not(.charging) {
-  color: @love;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: steps(12);
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+	color: @autumnRed;
+	animation-name: blink;
+	animation-duration: 0.5s;
+	animation-timing-function: steps(12);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 
 #clock {
-  border-right: none;
+	border-right: none;
 }

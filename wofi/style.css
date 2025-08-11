@@ -1,7 +1,7 @@
-@import '/home/a13k5/.config/wofi/rose-pine.css';
+@import '/home/a13k5/.config/wofi/kanagawa.css';
 
 * {
-	color: @text;
+	color: @fujiwhite;
 }
 
 #window {
@@ -13,14 +13,14 @@
 }
 
 #input {
-	all:unset;
+	all: unset;
 	margin: 10px;
 	padding: 5px;
 	font-size: 25px;
 }
 
 #input:focus {
-	box-shadow: 0 3px 0 0 @rose;
+	box-shadow: 0 3px 0 0 @autumnYellow;
 }
 
 #inner-box {
@@ -36,11 +36,9 @@
 }
 
 #entry:selected {
-	background: linear-gradient(
-					90deg,
-					@rose 0%,
-					rgba(0, 0, 0, 0) 80%
-				);
+	background: linear-gradient(90deg,
+			@oniViolet 0%,
+			rgba(0, 0, 0, 0) 80%);
 }
 
 #img {

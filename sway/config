@@ -14,7 +14,7 @@ set $menu "wofi"
 
 
 ### Set wallpaper for all display outputs
-output * bg /home/a13k5/Pictures/T7/wallpapers/wallhaven-7jg5vy.jpg fill
+output * bg /home/a13k5/Pictures/wallpapers/scaled/green_bush.png fill
 
 
 ### Idle configuration

@@ -33,14 +33,19 @@ alias ffs='fastfetch'
 
 # Applications
 alias yt-dlp-a='yt-dlp \
-  --extract-audio \
-  --audio-format "mp3" \
-  --sponsorblock-remove "all" \
-  --output "%(title)s.%(ext)s"'
+	--ignore-config \
+	--extract-audio \
+	--audio-format "mp3" \
+	--sponsorblock-remove "all" \
+	--output "%(title)s.%(ext)s"'
 
 alias yt-dlp-v='yt-dlp \
-  --sponsorblock-remove "all" \
-  --output "%(title)s.%(ext)s"'
+	--ignore-config \
+	--sponsorblock-remove "all" \
+	--output "%(title)s.%(ext)s"'
+
+# immediately hop into dotfiles
+alias dots="cd ~/.dotfiles && nvim ."
 
 ###################
 # === exports === #

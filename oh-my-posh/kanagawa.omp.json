@@ -132,6 +132,6 @@
 	"secondary_prompt": {
 		"foreground": "p:userBg",
 		"background": "transparent",
-		"template": " \udb80\udd42"
+		"template": " \udb80\udd42 "
 	}
 }

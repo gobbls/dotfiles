@@ -1,2 +1,5 @@
-tmux/plugins/tmux/*.git*
-tmux/plugins/tmux-kanagawa/*.git*
+# Ignore all plugins, since they will be installed by TPM on startup.
+tmux/plugins/*
+
+# Don't ignore TPM though.
+!tmux/plugins/tpm

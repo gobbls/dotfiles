@@ -1,0 +1,18 @@
+- [ ] sway
+- [ ] waybar
+- [ ] wofi
+- [ ] swaync
+- [ ] foot
+    - [ ] termux
+    - [ ] oh-my-posh
+    - [ ] neovim
+        - [ ] lualine
+        - [ ] dashboard
+        - [ ] telescope
+- [ ] GTK
+    - [ ] thunar
+- [ ] QT
+    - [ ] qbittorrent
+    - [ ] vlc
+- [ ] obsidian
+- [ ] firefox

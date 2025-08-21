@@ -24,8 +24,13 @@ output 'BOE 0x094C Unknown' {
 	alias $INTERNAL
 }
 
-profile ultrawide_usbc {
+profile ultrawide_only_usbc {
 	output $LG_USBC enable
+	output $INTERNAL disable
+}
+
+profile ultrawide_only_hdmi {
+	output $LG_HDMI enable
 	output $INTERNAL disable
 }
 

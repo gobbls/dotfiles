@@ -7,6 +7,7 @@ return {
 			javascript = { "prettier" },
 			typescript = { "prettier" },
 			svelte = { "prettier" },
+			json = { "prettier" },
 		},
 		default_format_opts = {
 			lsp_format = "fallback",

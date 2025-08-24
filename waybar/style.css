@@ -1,63 +1,60 @@
 @import './kanagawa.css';
 
 * {
-	padding-right: 4px;
-	padding-left: 4px;
-	font-family: JetbrainsMono Nerd Font;
+	font-family: "0xProtoNerdFont";
 	font-size: 16px;
 }
 
-#waybar {
+window#waybar {
 	background-color: transparent;
-	color: @fujiWhite;
-}
-
-#workspaces button {
-	color: @fujiWhite;
-}
-
-#workspaces button.visible {
-	color: @winterYellow;
-}
-
-#workspaces button.focused {
-	color: @autumnGreen;
-}
-
-#workspaces button.urgent {
-	color: @autumnRed;
+	color: @fujiwhite;
 }
 
 .modules-left,
 .modules-center,
 .modules-right {
-	margin: 4px;
-	margin-bottom: 0;
+	margin: 4px 4px 0 4px;
+}
+
+#workspaces {
 	border-radius: 10px;
-	background-color: @sumiInk0;
+	background-color: rgba(20, 20, 20, 0.6);
+	padding: 4px;
 }
 
-.modules-center {
-	padding: 0 10px;
+#workspaces button {
+	padding: 0px 4px;
+	border-radius: 6px;
 }
 
-#waybar.empty .modules-center {
-	background: transparent;
+#workspaces button.focused {
+	background-color: @sumiInk2;
+	color: @springGreen;
 }
 
+#workspaces button.urgent {
+	background-color: @autumnRed;
+}
+
+#clock,
 #tray,
-#idle_inhibitor,
 #pulseaudio,
 #wireplumber,
-#network,
+#bluetooth,
 #cpu,
+#memory,
 #backlight,
 #language,
 #battery,
-#custom-notification,
+#custom-notification {
+	margin: 0 4px;
+	padding: 0 15px;
+	border-radius: 10px;
+	background-color: rgba(20, 20, 20, 0.6);
+}
+
 #clock {
-	padding: 3px 15px;
-	border-right: 1px solid @sumiInk4;
+	border-right: none;
 }
 
 #tray>.passive {
@@ -69,27 +66,13 @@
 	color: @autumnRed;
 }
 
-#network.disconnected {
-	color: @autumRed;
-}
-
-#language {
-	min-width: 20px;
-}
-
-#cpu,
-#backlight,
-#battery {
-	min-width: 50px;
-}
-
 #battery.charging,
 #battery.plugged {
-	color: @waveBlue1;
+	color: @oniViolet;
 }
 
 #battery.warning {
-	color: @autumnRed;
+	color: @peachRed;
 }
 
 @keyframes blink {
@@ -98,16 +81,14 @@
 	}
 }
 
-/* Using steps() instead of linear as a timing function to limit cpu usage */
+/*
+ * Using steps() instead of linear as a timing function to limit cpu usage
+ */
 #battery.critical:not(.charging) {
-	color: @autumnRed;
+	color: @peachRed;
 	animation-name: blink;
 	animation-duration: 0.5s;
 	animation-timing-function: steps(12);
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
-}
-
-#clock {
-	border-right: none;
 }

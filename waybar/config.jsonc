@@ -12,9 +12,9 @@
 	"modules-right": [
 		"tray",
 		"pulseaudio",
-		"network",
 		"bluetooth",
 		"cpu",
+		"memory",
 		"backlight",
 		"sway/language",
 		"battery",
@@ -22,15 +22,11 @@
 	],
 
 	"sway/workspaces": {
-		"format": "{name} {icon}",
-		"format-icons": {
-			"focused": "",
-			"default": "",
-		},
+		"format": "{index}",
 	},
 
 	"sway/mode": {
-		"format": "<span style=\"italic\">{}</span>",
+		"format": "<span style=\"italic\"> {}</span>",
 	},
 
 	"clock": {
@@ -38,70 +34,54 @@
 	},
 
 	"tray": {
-		"icon-size": 21,
-		"spacing": 7,
+		"icon-size": 18,
+		"spacing": 10,
 	},
 
 	"pulseaudio": {
 		"on-click": "pavucontrol",
-		"format": "{icon} {volume}%  |  {format_source}",
-		"format-bluetooth": "{icon}  {volume}%  |  {format_source}",
-		"format-bluetooth-muted": "  {icon}   |  {format_source}",
-		"format-muted": "  {format_source}",
-		"format-source": " {volume}%",
-		"format-source-muted": "",
-		"format-icons": {
-			"headphone": "",
-			"hands-free": "",
-			"headset": "",
-			"phone": "",
-			"portable": "",
-			"car": "",
-			"default": ["", "", ""],
-		},
-	},
-
-	"network": {
-		"tooltip": false,
-		"format-wifi": "󰤨  {essid}",
-		"format-ethernet": "󰈀 {ipaddr}/{cidr}",
-		"format-linked": "󰈀 {ifname} (No IP)",
-		"format-disconnected": "⚠ Disconnected",
+		"format": "{volume}% | {format_source}",
+		"format-muted": "muted | {format_source}",
+		"format-bluetooth": "{volume}%  | {format_source}",
+		"format-bluetooth-muted": "muted  | {format_source}",
+		"format-source": "{volume}%",
+		"format-source-muted": "muted",
 	},
 
 	"bluetooth": {
-		"format": "<span color='#00BFFF'>  </span>{status} ",
-		"format-connected": "<span color='#00BFFF'>  </span>{device_alias} ",
-		"format-connected-battery": "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ",
-		"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+		"format": "{status} ",
+		"format-connected": "{device_alias} ",
+		"format-connected-battery": "{device_alias} {device_battery_percentage}% ",
 	},
 
 	"cpu": {
 		"tooltip": false,
-		"format": " {usage}%",
+		"format": "{usage}% ",
+	},
+
+	"memory": {
+		"interval": 30,
+		"format": "{used:0.1f}G/{total:0.1f}G ",
 	},
 
 	"backlight": {
 		"tooltip": false,
-		"format": "{icon}  {percent}%",
+		"format": "{percent}% {icon}",
 		"format-icons": ["", "", "", "", "", "", "", "", ""],
 	},
 
 	"sway/language": {
-		"format": "󰌌 {short}",
 		"tooltip": false,
+		"format": "{short} 󰌌",
 	},
 
 	"battery": {
 		"tooltip": false,
-		"format": "{icon} {capacity}%",
-		"format-full": "{icon} {capacity}%",
-		"format-charging": " {capacity}%",
-		"format-plugged": " {capacity}%",
-		"format-alt": "{icon} {time}",
+		"format": "{capacity}% {icon}",
+		"format-full": "{capacity}% {icon}",
+		"format-charging": "{capacity}% Charging",
+		"format-plugged": "{capacity}% Connected",
+		"format-alt": "{time} {icon}",
 		"format-icons": ["", "", "", "", ""],
 		"states": {
 			"warning": 30,
@@ -119,13 +99,13 @@
 		"on-click-right": "swaync-client -d -sw",
 		"escape": true,
 		"format-icons": {
-			"notification": "<span foreground='red'><sup> </sup></span>",
+			"notification": " <span foreground='red'><sup></sup></span>",
 			"none": "",
-			"dnd-notification": "󰂛<span foreground='red'><sup> </sup></span>",
+			"dnd-notification": "󰂛 <span foreground='red'><sup></sup></span>",
 			"dnd-none": "󰂛",
-			"inhibited-notification": "<span foreground='red'><sup> </sup></span>",
+			"inhibited-notification": " <span foreground='red'><sup></sup></span>",
 			"inhibited-none": "",
-			"dnd-inhibited-notification": "󰂛<span foreground='red'><sup> </sup></span>",
+			"dnd-inhibited-notification": "󰂛 <span foreground='red'><sup></sup></span>",
 			"dnd-inhibited-none": "󰂛",
 		},
 	},

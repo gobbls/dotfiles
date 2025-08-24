@@ -14,7 +14,7 @@ set $menu "wofi"
 
 
 ### Set wallpaper for all display outputs
-output * bg /home/a13k5/Pictures/wallpapers/scaled/green_bush.png fill
+output * bg /home/a13k5/Pictures/wallpapers/fresh-green_forest_dark.png fill
 
 
 ### Idle configuration
@@ -247,11 +247,17 @@ titlebar_border_thickness 0
 
 ### SwayFX stuff
 #
+# Blur
 blur enable
-blur_passes 3
-shadows enable
+blur_passes 2
+#
+# Specifically apply blur to application
+layer_effects "waybar" blur enable; blur_ignore_transparent enable
+#
+# Misc
 corner_radius 8
-default_dim_inactive 0.2
+shadows enable
+#default_dim_inactive 0.2
 
 
 ### Auto run certain programs on login

@@ -1,42 +1,17 @@
-# Changed output name, USB-C for USB docking, HDMI for picture.
-# output DP-3 'LG Electronics LG HDR WQHD+ 307NTAB8Y560' {
-#
-output DP-3 {
-	mode 3840x1600@59.994
-	position 0,0
-	alias $LG_USBC
-}
-
-# Changed output name, USB-C for USB docking, HDMI for picture.
-# output HDMI-A-1 'LG Electronics LG HDR WQHD+ 307NTAB8Y560' {
-#
 output HDMI-A-1 {
 	mode 3840x1600@74.997
 	position 0,0
 	alias $LG_HDMI
 }
 
-# Laptop monitor position (relative to LG): center beneath LG
-#
-output 'BOE 0x094C Unknown' {
+output eDP-1 {
 	mode 1920x1200
 	position 960,1600
 	alias $INTERNAL
 }
 
-profile ultrawide_only_usbc {
-	output $LG_USBC enable
-	output $INTERNAL disable
-}
-
 profile ultrawide_only_hdmi {
 	output $LG_HDMI enable
-	output $INTERNAL disable
-}
-
-profile ultrawide_hdmi {
-	output $LG_HDMI enable
-	output $LG_USBC disable
 	output $INTERNAL disable
 }
 

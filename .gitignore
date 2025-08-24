@@ -1,3 +1,5 @@
+.fonts/
+
 # Ignore all plugins, since they will be installed by TPM on startup.
 tmux/plugins/*
 

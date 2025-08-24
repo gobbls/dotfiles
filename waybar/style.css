@@ -66,6 +66,10 @@ window#waybar {
 	color: @autumnRed;
 }
 
+#language {
+	min-width: 40px;
+}
+
 #battery.charging,
 #battery.plugged {
 	color: @oniViolet;

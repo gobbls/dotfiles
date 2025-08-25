@@ -82,14 +82,18 @@
 	"battery": {
 		"tooltip": false,
 		"format": "{capacity}% {icon}",
-		"format-full": "{capacity}% {icon}",
+		"format-full": "full {icon}",
 		"format-charging": "{capacity}% Charging",
 		"format-plugged": "{capacity}% Connected",
-		"format-alt": "{time} {icon}",
 		"format-icons": ["", "", "", "", ""],
 		"states": {
 			"warning": 30,
 			"critical": 15,
+		},
+		"events": {
+			"on-charging-100": "notify-send -u normal '󱊣 Battery Full'",
+			"on-discharging-warning": "notify-send -u normal '󱊡 Low Battery'",
+			"on-discharging-critical": "notify-send -u critical '󰂎 Very Low Battery'",
 		},
 	},
 

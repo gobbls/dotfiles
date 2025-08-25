@@ -50,6 +50,10 @@
 
 	"bluetooth": {
 		"format": "{status} ",
+		"format-on": "on ",
+		"format-off": "off ",
+		"format-disabled": "off ",
+		"format-no-controller": "off ",
 		"format-connected": "{device_alias} ",
 		"format-connected-battery": "{device_alias} {device_battery_percentage}% ",
 	},

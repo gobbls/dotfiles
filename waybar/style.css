@@ -46,7 +46,8 @@ window#waybar {
 #backlight,
 #language,
 #battery,
-#custom-notification {
+#custom-notification,
+#custom-power {
 	margin: 0 4px;
 	padding: 0 15px;
 	border-radius: 10px;
@@ -95,4 +96,19 @@ window#waybar {
 	animation-timing-function: steps(12);
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
+}
+
+menu {
+	padding: 5px;
+	border-radius: 15px;
+	background: @sumiInk0;
+	color: @fujiWhite;
+}
+
+menuitem {
+	border-radius: 10px;
+}
+
+menuitem:hover {
+	background-color: @autumnGreen;
 }

@@ -19,6 +19,7 @@
 		"sway/language",
 		"battery",
 		"custom/notification",
+		"custom/power",
 	],
 
 	"sway/workspaces": {
@@ -56,6 +57,12 @@
 		"format-no-controller": "off ",
 		"format-connected": "{device_alias} ",
 		"format-connected-battery": "{device_alias} {device_battery_percentage}% ",
+		"menu": "on-click",
+		"menu-file": "~/.config/waybar/menues/bluetooth.xml",
+		"menu-actions": {
+			"on": "systemctl start bluetooth",
+			"off": "systemctl stop bluetooth",
+		},
 	},
 
 	"cpu": {
@@ -77,6 +84,12 @@
 	"sway/language": {
 		"tooltip": false,
 		"format": "{short} 󰌌",
+		"menu": "on-click",
+		"menu-file": "~/.config/waybar/menues/keyboard_lang.xml",
+		"menu-actions": {
+			"layout_us": "swaymsg input type:keyboard xkb_switch_layout 0",
+			"layout_no": "swaymsg input type:keyboard xkb_switch_layout 1"
+		}
 	},
 
 	"battery": {
@@ -117,4 +130,16 @@
 			"dnd-inhibited-none": "󰂛",
 		},
 	},
+	"custom/power": {
+		"format" : "⏻ ",
+		"tooltip": false,
+		"menu": "on-click",
+		"menu-file": "~/.config/waybar/menues/power_menu.xml", // Menu file in resources folder
+		"menu-actions": {
+			"shutdown": "shutdown",
+			"reboot": "reboot",
+			"suspend": "systemctl suspend",
+			"hibernate": "systemctl hibernate"
+		}
+    },
 }

@@ -1,14 +1,14 @@
-- [ ] sway
-- [ ] waybar
+- [x] sway
+- [x] waybar
 - [ ] wofi
 - [ ] swaync
-- [ ] foot
-    - [ ] termux
-    - [ ] oh-my-posh
-    - [ ] neovim
-        - [ ] lualine
-        - [ ] dashboard
-        - [ ] telescope
+- [x] foot
+    - [ ] tmux
+    - [x] oh-my-posh
+    - [x] neovim
+        - [x] lualine
+        - [x] dashboard
+        - [x] telescope
 - [ ] GTK
     - [ ] thunar
 - [ ] QT

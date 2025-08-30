@@ -99,16 +99,16 @@ window#waybar {
 }
 
 menu {
-	padding: 5px;
-	border-radius: 15px;
+	padding: 10px 7px;
 	background: @sumiInk0;
 	color: @fujiWhite;
 }
 
 menuitem {
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 menuitem:hover {
 	background-color: @autumnGreen;
+	color: @fujiWhite;
 }

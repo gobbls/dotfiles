@@ -31,6 +31,7 @@
 	},
 
 	"clock": {
+		"tooltip": false,
 		"format": "{:%d-%m | %H:%M}",
 	},
 
@@ -40,6 +41,7 @@
 	},
 
 	"pulseaudio": {
+		"tooltip": false,
 		"on-click": "pavucontrol",
 		"format": "{volume}% | {format_source}",
 		"format-muted": "muted | {format_source}",

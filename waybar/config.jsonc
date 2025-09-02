@@ -138,7 +138,7 @@
 		"menu": "on-click",
 		"menu-file": "~/.config/waybar/menues/power_menu.xml", // Menu file in resources folder
 		"menu-actions": {
-			"shutdown": "shutdown",
+			"shutdown": "shutdown now",
 			"reboot": "reboot",
 			"suspend": "systemctl suspend",
 			"hibernate": "systemctl hibernate"

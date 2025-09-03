@@ -133,7 +133,7 @@
 		},
 	},
 	"custom/power": {
-		"format" : "⏻ ",
+		"format" : "⏻",
 		"tooltip": false,
 		"menu": "on-click",
 		"menu-file": "~/.config/waybar/menues/power_menu.xml", // Menu file in resources folder

@@ -1,11 +1,9 @@
-# ~/.bashrc
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-###################
-# === aliases === #
-###################
+#################
+# == aliases == #
+#################
 
 # Git
 alias gs='git status'
@@ -47,9 +45,9 @@ alias yt-dlp-v='yt-dlp \
 # immediately hop into dotfiles
 alias dots="cd ~/.dotfiles && nvim ."
 
-###################
-# === exports === #
-###################
+#################
+# == exports == #
+#################
 
 # Nvm
 export NVM_DIR="$HOME/.nvm"
@@ -58,9 +56,9 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH="$PATH:/home/a13k5/.local/bin"
 
-##################
-# === prompt === #
-##################
+################
+# == prompt == #
+################
 
 PS1='[\u@\h \W]\$ '
 

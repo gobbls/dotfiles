@@ -3,7 +3,6 @@ return {
 	opts = {
 		-- Figure out how to install these if missing...
 		-- Currently no way for Mason to do so without another plugin.
-		--
 		-- "shfmt",
 		-- "css-lsp",
 		-- "html-lsp",
@@ -15,5 +14,5 @@ return {
 		-- "stylua",
 		-- "svelte-language-server",
 		-- "typescript-language-server",
-	}
+	},
 }

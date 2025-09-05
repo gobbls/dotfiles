@@ -2,7 +2,7 @@
 
 * {
 	font-family: "0xProtoNerdFont";
-	font-size: 16px;
+	font-size: 14px;
 }
 
 window#waybar {
@@ -13,18 +13,19 @@ window#waybar {
 .modules-left,
 .modules-center,
 .modules-right {
-	margin: 4px 4px 0 4px;
+	margin-top: 4px;
 }
 
 #workspaces {
-	border-radius: 10px;
+	border-radius: 7px;
+	padding: 2px;
+	margin: 0 4px;
 	background-color: rgba(20, 20, 20, 0.6);
-	padding: 4px;
 }
 
 #workspaces button {
+	border-radius: 5px;
 	padding: 0px 4px;
-	border-radius: 6px;
 }
 
 #workspaces button.focused {
@@ -48,9 +49,9 @@ window#waybar {
 #battery,
 #custom-notification,
 #custom-power {
+	border-radius: 7px;
+	padding: 0 12px;
 	margin: 0 4px;
-	padding: 0 15px;
-	border-radius: 10px;
 	background-color: rgba(20, 20, 20, 0.6);
 }
 
@@ -96,6 +97,10 @@ window#waybar {
 	animation-timing-function: steps(12);
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
+}
+
+#custom-power {
+	margin-left: 4px;
 }
 
 menu {

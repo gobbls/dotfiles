@@ -7,10 +7,11 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
--- Preset a column in the gutter for linting symbols.
-vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
+
+-- Preset a column in the gutter for linting symbols.
+vim.opt.signcolumn = "yes"
 
 -- Ignore Neovim providers
 vim.g.loaded_python3_provider = 0

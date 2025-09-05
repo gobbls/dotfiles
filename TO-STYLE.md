@@ -3,7 +3,7 @@
 - [ ] wofi
 - [ ] swaync
 - [x] foot
-    - [ ] tmux
+    - [x] tmux
     - [x] oh-my-posh
     - [x] neovim
         - [x] lualine
@@ -14,5 +14,5 @@
 - [ ] QT
     - [ ] qbittorrent
     - [ ] vlc
-- [ ] obsidian
-- [ ] firefox
+- [x] obsidian
+- [x] firefox

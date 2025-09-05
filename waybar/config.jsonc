@@ -1,4 +1,3 @@
-// -*- mode: jsonc -*-
 {
 	"modules-left": [
 		"sway/workspaces",

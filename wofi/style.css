@@ -14,8 +14,8 @@
 
 #input {
 	all: unset;
-	margin: 10px;
 	padding: 5px;
+	margin: 10px;
 	font-size: 25px;
 }
 
@@ -29,16 +29,14 @@
 
 #entry {
 	all: unset;
+	border-radius: 10px;
 	padding: 8px;
 	font-size: 20px;
-	border-radius: 10px;
 	overflow: hidden;
 }
 
 #entry:selected {
-	background: linear-gradient(90deg,
-			@oniViolet 0%,
-			rgba(0, 0, 0, 0) 80%);
+	background: linear-gradient(90deg, @oniViolet 0%, rgba(0, 0, 0, 0) 80%);
 }
 
 #img {

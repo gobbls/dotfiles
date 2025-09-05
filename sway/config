@@ -1,9 +1,10 @@
 include /etc/sway/config.d/*
 include ./kanagawa.sway
 
+###################
+# == Variables == #
+###################
 
-### Variables
-#
 set $mod Mod4
 set $left h
 set $down j
@@ -12,53 +13,53 @@ set $right l
 set $term foot
 set $menu "wofi"
 
+###############################################
+# == Set wallpaper for all display outputs == #
+###############################################
 
-### Set wallpaper for all display outputs
-output * bg /home/a13k5/Pictures/wallpapers/fresh-green_forest_dark.png fill
+output * bg /home/a13k5/Pictures/wallpapers/ultrawide/b\&w_evangelion-panels.png fill
 
+############################
+# == Idle configuration == #
+############################
 
-### Idle configuration
-#
-# Lock screen after 30 minutes of inactivity, then turn off
-# displays after another 5 minutes, and turn your screens back on when
+# Lock screen after 30 minutes of inactivity, then turn off \
+# displays after another 5 minutes, and turn the screens back on when \
 # resumed. It will also lock screen before going to sleep.
 exec swayidle -w \
 	timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f' \
 	timeout 2100 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
 	before-sleep 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
 
+######################
+# == Key bindings == #
+######################
 
-### Key bindings
-#
-## The basics:
-#
 # Lock display with swaylock
 bindsym $mod+x exec 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
-#
+
 # Start a terminal
 bindsym $mod+Return exec $term
-#
+
 # Kill focused window
 bindsym $mod+Shift+q kill
-#
-# Start your launcher
+
+# Start application launcher
 bindsym $mod+d exec $menu
-#
+
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
 # Despite the name, also works for non-floating windows.
-# Change normal to inverse to use left mouse button for resizing and right
+# Change normal to inverse to use left mouse button for resizing and right \
 # mouse button for dragging.
 floating_modifier $mod normal
-#
+
 # Reload the configuration file
 bindsym $mod+Shift+c reload
-#
+
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
-## Moving around:
-#
+
 # Move your focus around
 bindsym $mod+$left  focus left
 bindsym $mod+$down  focus down
@@ -69,7 +70,7 @@ bindsym $mod+Left   focus left
 bindsym $mod+Down   focus down
 bindsym $mod+Up     focus up
 bindsym $mod+Right  focus right
-#
+
 # Move the focused window with the same, but add Shift
 bindsym $mod+Shift+$left  move left
 bindsym $mod+Shift+$down  move down
@@ -80,9 +81,7 @@ bindsym $mod+Shift+Left   move left
 bindsym $mod+Shift+Down   move down
 bindsym $mod+Shift+Up     move up
 bindsym $mod+Shift+Right  move right
-#
-## Workspaces:
-#
+
 # Switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -105,33 +104,29 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
-#
-## Layout stuff:
-#
-# You can "split" the current object of your focus with
+
+# You can "split" the current object of your focus with \
 # $mod+b or $mod+v, for horizontal and vertical splits respectively.
 bindsym $mod+b splith
 bindsym $mod+v splitv
-#
+
 # Switch the current container between different layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
-#
+
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
-#
+
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
-#
+
 # Swap focus between the tiling area and the floating area
 bindsym $mod+space focus mode_toggle
-#
+
 # Move focus to the parent container
 bindsym $mod+a focus parent
-#
-## Resizing containers:
-#
+
 mode "resize" {
 	# [left]	will shrink the containers width
 	# [right]	will grow the containers width
@@ -146,60 +141,51 @@ mode "resize" {
 	bindsym Down    resize grow height		10px
 	bindsym Up      resize shrink height	10px
 	bindsym Right   resize grow width		10px
-	#
+
 	# Return to default mode
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-#
-## Utilities:
-#
+
 # Special keys to adjust volume via PulseAudio (PipeWire actually)
 bindsym --locked XF86AudioMute          exec pactl set-sink-mute	\@DEFAULT_SINK@		toggle
 bindsym --locked XF86AudioLowerVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		-5%
 bindsym --locked XF86AudioRaiseVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		+5%
 bindsym --locked XF86AudioMicMute       exec pactl set-source-mute	\@DEFAULT_SOURCE@	toggle
-#
+
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown  exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
-#
+
 # Special key to take a screenshot with grim
 bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
-#
+
 # Toggle control center
 bindsym $mod+Shift+n exec swaync-client -t -sw
-#
-## Launch applications:
-#
-bindsym $mod+Shift+b exec firefox
-bindsym $mod+Shift+f exec thunar
-bindsym $mod+Shift+g exec gimp
-bindsym $mod+Shift+v exec pavucontrol
 
+####################
+# == Status Bar == #
+####################
 
-### Status Bar:
-#
 bar {
 	# Overwriting the default statusbar (swaybar) in favor of "Waybar".
 	swaybar_command waybar
 }
 
+################################
+# == Custom device controll == #
+################################
 
-### Custom device controll
-#
-## Touchpad stuff:
-#
+# Touchpad stuff
 input type:touchpad {
 	# Enable tap-to-click
 	tap enabled
 	# Enable two-finger-scroll inthe CORRECT(!) direction
 	natural_scroll enabled
 }
-#
-## Keyboard stuff:
-#
+
+# Keyboard stuff
 input type:keyboard {
 	# Languages to rotate between
 	xkb_layout us,no
@@ -207,11 +193,11 @@ input type:keyboard {
 	xkb_options grp:win_space_toggle,caps:escape
 }
 
+################
+# == Colors == #
+################
 
-### Colors
-#
 # Kanagawa
-#
 # class                 border				background			text		indicator			child_border
 client.focused          $focused			$focused 			$brightFg	$focused			$focused
 client.focused_inactive $focused_inactive	$focused_inactive	$mediumFg	$focused_inactive	$focused_inactive
@@ -220,56 +206,60 @@ client.urgent           $urgent				$urgent				#E0DEF4		$urgent				$urgent
 client.placeholder      $placeholder		#0c0c0c				#E0DEF4		$placeholder		#0c0c0c
 client.background		$background 
 
+##################################
+# == Targeted styles / colors == #
+##################################
 
-### Targeted styles / colors
-#
 # Remove borders
 for_window [app_id="wofi"] border pixel 0
-#
+
 # Floating
+# TODO: Not consistent, need fix.
 for_window [title="Rename"]	floating enable
 for_window [title="Extract"] floating enable
 for_window [title="File Operation Progress"] floating enable
 for_window [title="Confirm to replace files"] floating enable
 
+##############
+# == Misc == #
+##############
 
-### Other stuff
-#
 # Window gaps
 gaps inner 12
-#
+
 # Hide titlebar, other border styling
 default_border pixel 3
 default_floating_border pixel 3
 titlebar_padding 1
 titlebar_border_thickness 0
 
+######################
+# == SwayFX stuff == #
+######################
 
-### SwayFX stuff
-#
 # Blur
 blur enable
 blur_passes 2
-#
+
 # Specifically apply blur to application
 layer_effects "waybar" blur enable; blur_ignore_transparent enable
-#
+
 # Misc
 corner_radius 8
 shadows enable
-#default_dim_inactive 0.2
 
+####################
+# == Auto run's == #
+####################
 
-### Auto run certain programs on login
-#
 # NetworkManager tray icon and menu
 exec nm-applet
-#
+
 # Notification daemon
 exec swaync
-#
+
 # Display configuration with Kanshi through systemd
 exec_always systemctl --user start sway-session.target
-#
+
 # Sway breaks Kanshi on sway-reload, restart kanshi service on reload
 exec_always systemctl --user restart kanshi.service

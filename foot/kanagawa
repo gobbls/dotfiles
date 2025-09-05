@@ -1,6 +1,3 @@
-# -*- conf -*-
-# Kanagawa
-
 [colors]
 foreground = dcd7ba
 background = 1f1f28

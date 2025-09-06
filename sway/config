@@ -244,12 +244,15 @@ titlebar_border_thickness 0
 blur enable
 blur_passes 2
 
-# Specifically apply blur to application
-layer_effects "waybar" blur enable; blur_ignore_transparent enable
-
 # Misc
 corner_radius 8
 shadows enable
+
+# Specifically apply blur to application
+layer_effects "waybar" {
+	blur enable;
+	blur_ignore_transparent enable;
+}
 
 ####################
 # == Auto run's == #

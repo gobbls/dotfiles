@@ -171,6 +171,9 @@ bindsym $mod+Shift+n exec swaync-client -t -sw
 bar {
 	# Overwriting the default statusbar (swaybar) in favor of "Waybar".
 	swaybar_command waybar
+	hidden_state hide
+	mode hide
+	modifier Mod4
 }
 
 ################################

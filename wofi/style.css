@@ -1,0 +1,33 @@
+* {
+	color: #D9D9D0;
+	font-size: 18px;
+}
+
+#outer-box {
+	background-color: #000000;
+}
+
+#inner-box {
+	padding: 10px;
+}
+
+#input {
+	all: unset;
+	padding: 10px;
+	border-bottom: 1px solid #121217;
+}
+
+/* Hide 'backspace' icon */
+#input>image.right {
+	-gtk-icon-transform: scaleX(0);
+}
+
+#entry {
+	all: unset;
+	padding: 5px;
+	border-left: 5px solid transparent;
+}
+
+#entry:selected {
+	border-left: 5px solid #AAAA3A;
+}

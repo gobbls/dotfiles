@@ -1,0 +1,125 @@
+{
+  "version": 3,
+  "final_space": true,
+  "palette": {
+    "dragonBlack0": "#0d0c0c",
+    "dragonBlack1": "#12120f",
+    "dragonBlack2": "#1D1C19",
+    "dragonBlack3": "#181616",
+    "dragonBlack4": "#282727",
+    "dragonBlack5": "#393836",
+    "dragonBlack6": "#625e5a",
+    "dragonWhite": "#c5c9c5",
+    "dragonGreen": "#87a987",
+    "dragonGreen2": "#8a9a7b",
+    "dragonPink": "#a292a3",
+    "dragonOrange": "#b6927b",
+    "dragonOrange2": "#b98d7b",
+    "dragonGray": "#a6a69c",
+    "dragonGray2": "#9e9b93",
+    "dragonGray3": "#7a8382",
+    "dragonBlue": "#658594",
+    "dragonBlue2": "#8ba4b0",
+    "dragonViolet": "#8992a7",
+    "dragonRed": "#c4746e",
+    "dragonAqua": "#8ea4a2",
+    "dragonAsh": "#737c73",
+    "dragonTeal": "#949fb5",
+    "dragonYellow": "#c4b28a",
+
+    "brightFg": "p:dragonWhite",
+    "darkFg": "p:dragonBlack3",
+    "pathFg": "p:dragonGray",
+
+    "userBg": "p:dragonPink",
+    "envBg": "p:dragonOrange2",
+    "pathBg": "p:dragonBlack4",
+    "gitBg": "p:dragonBlue"
+  },
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "session",
+          "style": "diamond",
+          "leading_diamond": "\u256D\ue0b6",
+          "foreground": "p:darkFg",
+          "background": "p:userBg",
+          "template": "{{ if .SSHSession }}\ueb39{{ .UserName }}@{{ .HostName }}{{ else }}{{ .UserName }}{{ end }}"
+        },
+        {
+          "type": "python",
+          "style": "diamond",
+          "leading_diamond": " \ue0b6",
+          "foreground": "p:darkFg",
+          "background": "p:envBg",
+          "template": "{{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}\ueb29{{ .Venv }} | {{ end }}\ue73c {{ .Full }}{{ end }}"
+        },
+        {
+          "type": "docker",
+          "style": "diamond",
+          "leading_diamond": " \ue0b6",
+          "foreground": "p:darkFg",
+          "background": "p:envBg",
+          "template": "\uf21f {{ .Context }}"
+        },
+        {
+          "type": "path",
+          "style": "diamond",
+          "leading_diamond": " \ue0b6",
+          "foreground": "p:pathFg",
+          "background": "p:pathBg",
+          "template": "{{ .Path }}",
+          "properties": {
+            "style": "mixed",
+            "mixed_threshold": 7
+          }
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "leading_diamond": " \ue0b6",
+          "foreground": "p:darkFg",
+          "background": "p:gitBg",
+          "background_templates": [
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}p:dragonViolet{{ end }}",
+            "{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:dragonRed{{ end }}",
+            "{{ if gt .Ahead 0 }}p:dragonAqua{{ end }}",
+            "{{ if gt .Behind 0 }}p:dragonYellow{{ end }}"
+          ],
+          "template": "{{ .UpstreamIcon }} {{ .HEAD }} {{if .BranchStatus }}{{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} | {{ end }}{{ if .Staging.Changed }} \uf4a7 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uf0c7 {{ .StashCount }}{{ end }}",
+          "properties": {
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "source": "cli",
+            "mapped_branches": {
+              "feat/*": " \ueb44 ",
+              "bug/*": " \uf188 "
+            }
+          }
+        }
+      ],
+      "trailing_diamond": "\ue0b4"
+    },
+    {
+      "type": "prompt",
+      "newLine": true,
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "shell",
+          "style": "plain",
+          "foreground": "p:userBg",
+          "template": "\u2570\udb80\udd42"
+        }
+      ]
+    }
+  ],
+  "secondary_prompt": {
+    "foreground": "p:userBg",
+    "background": "transparent",
+    "template": " \udb80\udd42 "
+  }
+}

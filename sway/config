@@ -1,0 +1,252 @@
+include /etc/sway/config.d/*
+include ./kanagawa.sway
+
+###################
+# == Variables == #
+###################
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $menu "wofi"
+
+###############################################
+# == Set wallpaper for all display outputs == #
+###############################################
+
+output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
+
+##########################
+# == Output positions == #
+##########################
+
+output HDMI-A-1 pos 0 0
+output eDP-1 pos 960 1600
+
+############################
+# == Idle configuration == #
+############################
+
+# Lock screen after 30 minutes of inactivity, then turn off \
+# displays after another 5 minutes, and turn the screens back on when \
+# resumed. It will also lock screen before going to sleep.
+exec swayidle -w \
+	timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f' \
+	timeout 2100 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+	before-sleep 'swaylock -C /home/a13k5/.config/swaylock/rose-pine-f'
+
+######################
+# == Key bindings == #
+######################
+
+# Lock display with swaylock
+bindsym $mod+x exec 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
+
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start application launcher
+bindsym $mod+d exec "pgrep -x wofi >/dev/null 2>&1 && killall wofi || wofi"
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right \
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Move your focus around
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left   focus left
+bindsym $mod+Down   focus down
+bindsym $mod+Up     focus up
+bindsym $mod+Right  focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left  move left
+bindsym $mod+Shift+$down  move down
+bindsym $mod+Shift+$up    move up
+bindsym $mod+Shift+$right move right
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left   move left
+bindsym $mod+Shift+Down   move down
+bindsym $mod+Shift+Up     move up
+bindsym $mod+Shift+Right  move right
+
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# You can "split" the current object of your focus with \
+# $mod+b or $mod+v, for horizontal and vertical splits respectively.
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+mode "resize" {
+	# [left]	will shrink the containers width
+	# [right]	will grow the containers width
+	# [up]		will shrink the containers height
+	# [down]	will grow the containers height
+	bindsym $left   resize shrink width		10px
+	bindsym $down   resize grow height		10px
+	bindsym $up     resize shrink height	10px
+	bindsym $right  resize grow width		10px
+	# Ditto, with arrow keys
+	bindsym Left    resize shrink width		10px
+	bindsym Down    resize grow height		10px
+	bindsym Up      resize shrink height	10px
+	bindsym Right   resize grow width		10px
+
+	# Return to default mode
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Special keys to adjust volume via PulseAudio (PipeWire actually)
+bindsym --locked XF86AudioMute          exec pactl set-sink-mute	\@DEFAULT_SINK@		toggle
+bindsym --locked XF86AudioLowerVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		-5%
+bindsym --locked XF86AudioRaiseVolume   exec pactl set-sink-volume	\@DEFAULT_SINK@		+5%
+bindsym --locked XF86AudioMicMute       exec pactl set-source-mute	\@DEFAULT_SOURCE@	toggle
+
+# Special keys to adjust brightness via brightnessctl
+bindsym --locked XF86MonBrightnessDown  exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
+
+# Special key to take a screenshot with grim
+bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
+
+# Toggle control center
+bindsym $mod+Shift+n exec swaync-client -t -sw
+
+####################
+# == Status Bar == #
+####################
+
+bar {
+	# Overwriting the default statusbar (swaybar) in favor of "Waybar".
+	swaybar_command waybar
+}
+
+################################
+# == Custom device controll == #
+################################
+
+# Touchpad stuff
+input type:touchpad {
+	# Enable tap-to-click
+	tap enabled
+	# Enable two-finger-scroll inthe CORRECT(!) direction
+	natural_scroll enabled
+}
+
+# Keyboard stuff
+input type:keyboard {
+	# Languages to rotate between
+	xkb_layout us,no
+	# Toggle between languages & make "CapsLock" an aditional "Escape"
+	xkb_options grp:win_space_toggle,caps:escape
+}
+
+################
+# == Colors == #
+################
+
+# Kanagawa
+# class                 border				background			text		indicator			child_border
+client.focused          $focused			$focused 			$brightFg	$focused			$focused
+client.focused_inactive $focused_inactive	$focused_inactive	$mediumFg	$focused_inactive	$focused_inactive
+client.unfocused        $unfocused			$unfocused			$mediumFg	$unfocused			$unfocused
+client.urgent           $urgent				$urgent				#E0DEF4		$urgent				$urgent
+client.placeholder      $placeholder		#0c0c0c				#E0DEF4		$placeholder		#0c0c0c
+client.background		$background 
+
+##################################
+# == Targeted styles / colors == #
+##################################
+
+# Remove borders
+for_window [app_id="wofi"] border pixel 0
+
+######################
+# == Sway borders == #
+######################
+
+# Window gaps
+gaps inner 9
+
+# Hide titlebar, other border styling
+default_border pixel 3
+default_floating_border pixel 3
+titlebar_padding 1
+titlebar_border_thickness 0
+
+###########################
+# == Targeted floating == #
+###########################
+
+for_window [app_id="thunar" title="Rename*"] floating enable
+# Maybe this will work in some cases (?), but not working for 'Thunar rename'.
+#for_window [window_type="dialog"] floating enable
+
+####################
+# == Auto run's == #
+####################
+
+# NetworkManager tray icon and menu
+exec nm-applet
+
+# Notification daemon
+exec swaync

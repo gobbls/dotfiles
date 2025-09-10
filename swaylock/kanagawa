@@ -1,0 +1,50 @@
+# Background color
+color=#0d0c0c
+
+# Layout text colors
+layout-bg-color=#0d0c0c
+layout-border-color=#0d0c0c
+layout-text-color=#c5c9c5
+
+# Text color
+text-color=#8ba4b0
+text-clear-color=#8ea4a2
+text-caps-lock-color=#c4b28a
+text-ver-color=#a292a3
+text-wrong-color=#c4746e
+
+# Highlight segments
+bs-hl-color=#19172466
+key-hl-color=#8ba4b0
+caps-lock-bs-hl-color=#19172466
+caps-lock-key-hl-color=#c4b28a
+
+# Highlight segments separator
+separator-color=#00000000
+
+# Inside of the indicator
+inside-color=#8ba4b055
+inside-clear-color=#8ea4a255
+inside-caps-lock-color=#c4b28a55
+inside-ver-color=#a292a355
+inside-wrong-color=#c4746e55
+
+# Line between the inside and ring
+line-color=#8ba4b011
+line-clear-color=#8ea4a211
+line-caps-lock-color=#c4b28a11
+line-ver-color=#a292a311
+line-wrong-color=#c4746e11
+
+# Indicator ring
+ring-color=#8ba4b0aa
+ring-clear-color=#8ea4a2aa
+ring-caps-lock-color=#c4b28aaa
+ring-ver-color=#a292a3aa
+ring-wrong-color=#c4746eaa
+
+# Size
+indicator-radius=80
+
+# Make the indicator visible at any time
+indicator-idle-visible

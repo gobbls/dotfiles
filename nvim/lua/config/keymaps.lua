@@ -9,6 +9,15 @@ vim.keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Do
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
+vim.keymap.set("n", "<leader>cl", function()
+	local col = vim.api.nvim_get_option_value("colorcolumn", {})
+	if col == "0" then
+		vim.api.nvim_set_option_value("colorcolumn", "80", {})
+	else
+		vim.api.nvim_set_option_value("colorcolumn", "0", {})
+	end
+end, { desc = "Toggle colored bar at column 80." })
+
 -- Open lint-message in floating window
 vim.keymap.set("n", "<leader>dd", "<CMD> lua vim.diagnostic.open_float() <CR>", { desc = "Open wrapped lint-message." })
 

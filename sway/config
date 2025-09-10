@@ -34,16 +34,16 @@ output eDP-1 pos 960 1600
 # displays after another 5 minutes, and turn the screens back on when \
 # resumed. It will also lock screen before going to sleep.
 exec swayidle -w \
-	timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f' \
+	timeout 1800 'swaylock -C /home/a13k5/.config/swaylock/kanagawa -f' \
 	timeout 2100 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-	before-sleep 'swaylock -C /home/a13k5/.config/swaylock/rose-pine-f'
+	before-sleep 'swaylock -C /home/a13k5/.config/swaylock/kanagawa -f'
 
 ######################
 # == Key bindings == #
 ######################
 
 # Lock display with swaylock
-bindsym $mod+x exec 'swaylock -C /home/a13k5/.config/swaylock/rose-pine -f'
+bindsym $mod+x exec 'swaylock -C /home/a13k5/.config/swaylock/kanagawa -f'
 
 # Start a terminal
 bindsym $mod+Return exec $term

@@ -17,13 +17,19 @@ set $menu "wofi"
 # == Set wallpaper for all display outputs == #
 ###############################################
 
-output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
+#output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
+#output * bg /home/a13k5/Images/wallpapers/ns/1991875.jpg fill
+#output * bg /home/a13k5/Images/wallpapers/ns/1991865.jpg fill
+#output * bg /home/a13k5/Images/wallpapers/ns/1444076.jpg fill
+output * bg /home/a13k5/Images/wallpapers/ns/1990985.jpg fill
 
 ##########################
 # == Output positions == #
 ##########################
 
 output HDMI-A-1 pos 0 0
+#output DP-1 pos 0 0
+output DP-3 pos 0 0
 output eDP-1 pos 960 1600
 
 ############################

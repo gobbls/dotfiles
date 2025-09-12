@@ -6,7 +6,10 @@
 }
 
 .floating-notifications.background .notification-row {
+	/*
 	padding: 1rem;
+	*/
+	padding: 0.3rem;
 }
 
 .floating-notifications.background .notification-row .notification-background {

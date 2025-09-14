@@ -13,6 +13,11 @@ window#waybar {
 	padding: 0px 6px;
 }
 
+#workspaces button.visible {
+	background-color: #737c73;
+	color: #141415;
+}
+
 #workspaces button.focused {
 	background-color: #C0A36E;
 	color: #141415;

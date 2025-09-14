@@ -17,19 +17,17 @@ set $menu "wofi"
 # == Set wallpaper for all display outputs == #
 ###############################################
 
-#output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
-#output * bg /home/a13k5/Images/wallpapers/ns/1991875.jpg fill
-#output * bg /home/a13k5/Images/wallpapers/ns/1991865.jpg fill
-#output * bg /home/a13k5/Images/wallpapers/ns/1444076.jpg fill
-output * bg /home/a13k5/Images/wallpapers/ns/1990985.jpg fill
+output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
 
 ##########################
 # == Output positions == #
 ##########################
 
+# LG (HDMI and DisplayPort)
 output HDMI-A-1 pos 0 0
-#output DP-1 pos 0 0
 output DP-3 pos 0 0
+
+# Internal
 output eDP-1 pos 960 1600
 
 ############################
@@ -173,6 +171,8 @@ bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
 
 # Special key to take a screenshot with grim
 bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
+# Keybind to select a region to screenshot
+bindsym Shift+Print exec grim -g "$(slurp)" && notify-send -u normal 'grim took a screenshot!'
 
 # Toggle control center
 bindsym $mod+Shift+n exec swaync-client -t -sw
@@ -243,7 +243,10 @@ titlebar_border_thickness 0
 # == Targeted floating == #
 ###########################
 
-for_window [app_id="thunar" title="Rename*"] floating enable
+for_window [app_id="Thunar" title="Rename"] floating enable
+for_window [app_id="Thunar" title="File Operation Progress"] floating enable
+for_window [app_id="Thunar" title="Confirm to replace files"] floating enable
+
 # Maybe this will work in some cases (?), but not working for 'Thunar rename'.
 #for_window [window_type="dialog"] floating enable
 

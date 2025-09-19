@@ -4,7 +4,7 @@ return {
 		formatters_by_ft = {
 			bash = { "shfmt" },
 			lua = { "stylua" },
-			python = { "ruff" },
+			python = { "ruff_format" },
 			javascript = { "prettier" },
 			typescript = { "prettier" },
 			svelte = { "prettier" },

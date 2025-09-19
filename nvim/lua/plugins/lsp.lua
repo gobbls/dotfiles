@@ -36,6 +36,41 @@ return {
 			capabilities = capabilities,
 			on_attach = lsp_keymaps and diagnostics,
 		})
+
+		-- pyright and ruff works along eachother, as recomenended by ruff docs:
+		-- "Currently, the server is intended to be used alongside another Python Language Server \
+		-- in order to support features like navigation and autocompletion."
+		-- https://docs.astral.sh/ruff/editors/
+		lspconfig.pyright.setup({
+			capabilities = capabilities,
+			on_attach = lsp_keymaps and diagnostics,
+			-- fix offset encoding error (either ruff or pyright uses utf-16, force utf-8)
+			offset_encoding = "utf-8",
+			settings = {
+				pyright = {
+					-- Using Ruff's import organizer
+					disableOrganizeImports = true,
+				},
+				python = {
+					analysis = {
+						-- Ignore all files for analysis to exclusively use Ruff for linting
+						ignore = { "*" },
+					},
+				},
+			},
+		})
+		lspconfig.ruff.setup({
+			capabilities = capabilities,
+			on_attach = lsp_keymaps and diagnostics,
+			-- fix offset encoding error (either ruff or pyright uses utf-16, force utf-8)
+			offset_encoding = "utf-8",
+			init_options = {
+				settings = {
+					logLevel = "debug",
+				},
+			},
+		})
+
 		lspconfig.ts_ls.setup({
 			capabilities = capabilities,
 			on_attach = lsp_keymaps and diagnostics,

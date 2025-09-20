@@ -9,6 +9,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
+vim.opt.guicursor = "n-v-c-i:block"
 
 -- Preset a column in the gutter for linting symbols.
 vim.opt.signcolumn = "yes"

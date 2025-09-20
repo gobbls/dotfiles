@@ -1,27 +1,43 @@
 return {
-	"mason-org/mason.nvim",
+	"mason-org/mason-lspconfig.nvim",
 	dependencies = {
-		"mason-org/mason-lspconfig.nvim",
-		opts = {
-			automatic_enable = false,
-			ensure_installed = {
-				"bash-language-server",
-				"css-lsp",
-				"html-lsp",
-				"lua-language-server",
-				"marksman", -- markdown linting
-				"omnisharp",
-				"prettier",
-				"pyright", -- for linting
-				"ruff", -- for formatting
-				"shfmt", -- formatting
-				"stylua", -- formatting
-				"svelte-language-server",
-				"typescript-language-server",
+		{ "mason-org/mason.nvim", opts = {} },
+		"neovim/nvim-lspconfig",
+	},
+	opts = {
+		automatic_enable = false,
+		ensure_installed = {
+			-- "bash-language-server"
+			"bashls",
 
-				--"json-lsp", -- maybe don't need this
-			},
+			-- "css-lsp"
+			"cssls",
+
+			-- "html-lsp"
+			"html",
+
+			-- "lua-language-server"
+			"lua_ls",
+
+			-- "marksman", -- markdown linting
+
+			"omnisharp",
+
+			--"prettier",
+
+			"pyright", -- for linting
+			"ruff", -- for formatting
+
+			-- "shfmt", -- formatting
+			-- "stylua", -- formatting
+
+			--"svelte-language-server",
+			"svelte",
+
+			-- "typescript-language-server",
+			"ts_ls",
+
+			--"json-lsp", -- maybe don't need this
 		},
 	},
-	opts = {},
 }

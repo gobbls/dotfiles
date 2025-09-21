@@ -19,17 +19,13 @@ return {
 			-- "lua-language-server"
 			"lua_ls",
 
-			-- "marksman", -- markdown linting
-
+			"marksman", -- markdown linting
 			"omnisharp",
-
-			--"prettier",
-
+			"prettier",
 			"pyright", -- for linting
 			"ruff", -- for formatting
-
-			-- "shfmt", -- formatting
-			-- "stylua", -- formatting
+			"shfmt", -- formatting
+			"stylua", -- formatting
 
 			--"svelte-language-server",
 			"svelte",
@@ -37,7 +33,7 @@ return {
 			-- "typescript-language-server",
 			"ts_ls",
 
-			--"json-lsp", -- maybe don't need this
+			"json-lsp", -- maybe don't need this
 		},
 	},
 }

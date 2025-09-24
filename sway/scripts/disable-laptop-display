@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+connected_outputs=$(swaymsg -t get_outputs)
+
+if echo "$connected_outputs" | grep -q -E -i "DP-3|HDMI-A-1"; then
+	swaymsg output eDP-1 disable
+	notify-send "Disabled laptop display."
+else
+	swaymsg output eDP-1 enable
+	notify-send "Enabled laptop display."
+fi

@@ -66,9 +66,9 @@ return {
 		},
 		sections = {
 			lualine_a = { "''", "mode" },
-			lualine_b = { "branch", "diff", "diagnostics" },
-			lualine_c = { "filename" },
-			lualine_x = { "encoding", "fileformat", "filetype" },
+			lualine_b = { "filename", "diff" },
+			lualine_c = { "diagnostics" },
+			lualine_x = { "selectioncount", "encoding", "filetype" },
 			lualine_y = { "progress" },
 			lualine_z = { "location" },
 		},

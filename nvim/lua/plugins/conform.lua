@@ -10,6 +10,7 @@ return {
 			svelte = { "prettier" },
 			json = { "prettier" },
 			jsonc = { "prettier" },
+			--cs = { "csharpier" },
 		},
 		default_format_opts = {
 			lsp_format = "fallback",

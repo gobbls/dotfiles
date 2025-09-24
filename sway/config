@@ -10,14 +10,14 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term foot
+set $term ghostty
 set $menu "wofi"
 
 ###############################################
 # == Set wallpaper for all display outputs == #
 ###############################################
 
-output * bg /home/a13k5/Images/wallpapers/wallhaven-k87kj6.jpg fill
+output * bg /home/a13k5/Images/wallpapers/wallhaven-8gom5y.jpg fill
 
 ##########################
 # == Output positions == #
@@ -260,3 +260,6 @@ exec nm-applet
 
 # Notification daemon
 exec swaync
+
+# Disable laptop display if external connected by listening to events
+exec_always --no-startup-id ~/.config/sway/scripts/disable-laptop-display

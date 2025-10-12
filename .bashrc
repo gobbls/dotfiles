@@ -23,7 +23,7 @@ alias gi='git init'
 alias gcl='git clone'
 
 # System
-alias ls='ls -AoXh --group-directories-first --color=auto'
+alias ls='ls -oXh --group-directories-first --color=auto'
 alias grep='grep --color=auto'
 alias vim='nvim'
 alias vi='nvim'

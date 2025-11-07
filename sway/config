@@ -1,0 +1,121 @@
+include /etc/sway/config.d/*
+
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot
+set $menu wofi
+
+floating_modifier $mod normal
+
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Return exec $term
+bindsym $mod+x exec "swaylock -f -c 000000"
+bindsym $mod+d exec "pgrep -x wofi >/dev/null 2>&1 && killall wofi || wofi"
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
+bindsym Shift+Print exec grim -g "$(slurp)" && notify-send -u normal 'grim took a *selective* screenshot!'
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+output eDP-1 pos 960 1600
+output DP-1 pos 0 0
+output DP-3 pos 0 0
+output HDMI-A-1 pos 0 0
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+for_window [app_id="thunar" title="Rename"] floating enable
+for_window [app_id="thunar" title=".*Confirm.*"] floating enable
+for_window [app_id="thunar" title=".*Progress.*"] floating enable
+
+for_window [app_id="Thunar" title="Rename"] floating enable
+for_window [app_id="Thunar" title=".*Confirm.*"] floating enable
+for_window [app_id="Thunar" title=".*Progress.*"] floating enable
+
+#gaps inner 9
+default_border pixel 2
+default_floating_border pixel 2
+titlebar_padding 2
+titlebar_border_thickness 0
+
+bar {
+	swaybar_command waybar
+}
+
+input type:touchpad {
+	natural_scroll enabled
+}
+
+input type:keyboard {
+    xkb_layout us,no
+    xkb_options grp:win_space_toggle,caps:escape
+}
+
+# class			border	backg.	text	indica.	child_border
+client.focused	#285577	#285577	#ffffff	#285577	#285577
+
+exec swayidle -w \
+	timeout 1500 'swaylock -f -c 000000' \
+	timeout 3000 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+	before-sleep 'swaylock -f -c 000000'
+
+exec nm-applet
+exec swaync

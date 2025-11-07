@@ -1,0 +1,36 @@
+* {
+	color: #D9D9D0;
+	font-size: 18px;
+}
+
+#outer-box {
+	background-color: #000000;
+}
+
+#inner-box {
+	padding: 10px;
+}
+
+#input {
+	all: unset;
+	padding: 10px;
+	border-bottom: 1px solid #121217;
+}
+
+#entry {
+	all: unset;
+	padding: 5px;
+	border-left-width: 0px;
+	border-left-style: solid;
+	border-left-color: #285577;
+	transition: border-left-width 200ms ease-in-out;
+}
+
+#img {
+	margin-right: 10px;
+	margin-left: 4px;
+}
+
+#entry:selected {
+	border-left-width: 8px;
+}

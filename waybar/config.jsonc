@@ -1,0 +1,110 @@
+{
+	"modules-left": ["sway/workspaces", "sway/mode"],
+
+	"modules-center": ["clock"],
+
+	"modules-right": [
+		"tray",
+		"custom/separator",
+		"pulseaudio",
+		"custom/separator",
+		"cpu",
+		"custom/separator",
+		"memory",
+		"custom/separator",
+		"sway/language",
+		"custom/separator",
+		"battery",
+		"custom/separator",
+		"custom/notification"
+	],
+
+	"custom/separator": {
+		"format": "::",
+		"interval": "once",
+		"tooltip": false
+	},
+
+	"sway/workspaces": {
+		"format": "{index}"
+	},
+
+	"sway/mode": {
+		"format": "<span style=\"italic\"> {}</span>"
+	},
+
+	"clock": {
+		"tooltip": false,
+		"format": "{:%d-%m | %H:%M}"
+	},
+
+	"tray": {
+		"icon-size": 18,
+		"spacing": 10
+	},
+
+	"pulseaudio": {
+		"tooltip": false,
+		"on-click": "pavucontrol",
+		"format": "{volume}% | {format_source}",
+		"format-muted": "muted | {format_source}",
+		"format-bluetooth": "{volume}%  | {format_source}",
+		"format-bluetooth-muted": "muted  | {format_source}",
+		"format-source": "{volume}%",
+		"format-source-muted": "muted"
+	},
+
+	"cpu": {
+		"tooltip": false,
+		"format": "{usage}% "
+	},
+
+	"memory": {
+		"tooltip": false,
+		"interval": 30,
+		"format": "{used:0.1f}G / {total:0.1f}G "
+	},
+
+	"sway/language": {
+		"tooltip": false,
+		"format": "{short}"
+	},
+
+	"battery": {
+		"tooltip": false,
+		"format": "{capacity}% {icon}",
+		"format-full": "full {icon}",
+		"format-charging": "{capacity}% Charging",
+		"format-plugged": "{capacity}% Connected",
+		"format-icons": ["", "", "", "", ""],
+		"states": {
+			"warning": 30,
+			"critical": 15
+		},
+		"events": {
+			"on-discharging-warning": "notify-send -u normal '󱊡 Low Battery'",
+			"on-discharging-critical": "notify-send -u critical '󰂎 Very Low Battery'"
+		}
+	},
+
+	"custom/notification": {
+		"tooltip": false,
+		"format": "{icon}",
+		"return-type": "json",
+		"exec-if": "which swaync-client",
+		"exec": "swaync-client -swb",
+		"on-click": "swaync-client -t -sw",
+		"on-click-right": "swaync-client -d -sw",
+		"escape": true,
+		"format-icons": {
+			"none": "",
+			"notification": "<span foreground='red'></span>",
+			"dnd-none": "󰂛",
+			"dnd-notification": "󰂛<span foreground='red'></span>",
+			"inhibited-none": "",
+			"inhibited-notification": "<span foreground='red'></span>",
+			"dnd-inhibited-none": "󰂛",
+			"dnd-inhibited-notification": "󰂛<span foreground='red'></span>"
+		}
+	}
+}

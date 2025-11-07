@@ -1,0 +1,21 @@
+[init]
+	defaultBranch = main
+
+[status]
+	branch = true
+	showStash = true
+	showUntrackedFiles = all
+
+[user]
+	name = gobbls
+	email = 98641699+gobbls@users.noreply.github.com
+
+[core]
+	whitespace = error
+	editor = "nvim"
+
+[url "git@github.com:gobbls/"]
+	insteadOf = "gobbls:"
+
+[url "git@github.com:"]
+	insteadOf = "gh:"

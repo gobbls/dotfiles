@@ -11,15 +11,16 @@ return {
 						ui = {
 							bg_gutter = "none",
 							pmenu = {
-								bg = "#3e3e3e",
-								bg_sel = "#8e8e8e",
-								bg_thumb = "#FFFFFF",
-								bg_sbar = "#00FF00",
+								bg = "#181616",
+								bg_sel = "#393826",
+								bg_thumb = "#8992a7",
+								bg_sbar = "#625e5a",
 							},
 							float = {
 								bg = "none",
+								fg_border = "#dcd7ba",
 								bg_border = "none",
-							}
+							},
 						},
 					},
 				},
@@ -31,20 +32,20 @@ return {
 					return { fg = color, bg = c(color):blend(theme.ui.bg, 0.95):to_hex() }
 				end
 				return {
-					TelescopeTitle             = { fg = theme.vcs.changed, bold = true },
-					TelescopePromptBorder      = { fg = theme.vcs.changed },
-					TelescopeResultsBorder     = { fg = theme.vcs.changed },
-					TelescopePreviewBorder     = { fg = theme.vcs.changed },
+					TelescopeTitle = { fg = theme.vcs.changed, bold = true },
+					TelescopePromptBorder = { fg = theme.vcs.changed },
+					TelescopeResultsBorder = { fg = theme.vcs.changed },
+					TelescopePreviewBorder = { fg = theme.vcs.changed },
 
 					--NoiceCmdlinePopupBorder = { fg = theme.vcs.changed },
 
-					NormalFloat                = { bg = "none" },
-					FloatBorder                = { bg = "none" },
-					FloatTitle                 = { bg = "none" },
+					NormalFloat = { bg = "none" },
+					FloatBorder = { bg = "none" },
+					FloatTitle = { bg = "none" },
 
-					DiagnosticVirtualTextHint  = makeDiagnosticColor(theme.diag.hint),
-					DiagnosticVirtualTextInfo  = makeDiagnosticColor(theme.diag.info),
-					DiagnosticVirtualTextWarn  = makeDiagnosticColor(theme.diag.warning),
+					DiagnosticVirtualTextHint = makeDiagnosticColor(theme.diag.hint),
+					DiagnosticVirtualTextInfo = makeDiagnosticColor(theme.diag.info),
+					DiagnosticVirtualTextWarn = makeDiagnosticColor(theme.diag.warning),
 					DiagnosticVirtualTextError = makeDiagnosticColor(theme.diag.error),
 				}
 			end,

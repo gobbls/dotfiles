@@ -37,6 +37,7 @@ bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
 bindsym Shift+Print exec grim -g "$(slurp)" && notify-send -u normal 'grim took a *selective* screenshot!'
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+b exec "killall -SIGUSR1 waybar"
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -80,7 +81,7 @@ output eDP-1 pos 960 1600
 output DP-1 pos 0 0
 output DP-3 pos 0 0
 output HDMI-A-1 pos 0 0
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 
 for_window [app_id="thunar" title="Rename"] floating enable
 for_window [app_id="thunar" title=".*Confirm.*"] floating enable

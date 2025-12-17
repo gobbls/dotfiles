@@ -78,10 +78,17 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 output eDP-1 pos 960 1600
-output DP-1 pos 0 0
-output DP-3 pos 0 0
-output HDMI-A-1 pos 0 0
+#output HDMI-A-1 pos 0 0
+#output DP-1 pos 0 0
+output DP-3 pos 0 0 mode 3840x1600@59.994Hz
+output DP-3 pos 0 0 mode 3840x1600@59.994Hz
+#
+#output eDP-1 pos 0 800
+#output DP-3 pos 1920 0 mode 3840x1600@59.994Hz
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/gobbls/Images/wallpapers/wallhaven-yqqm7d.png fill
+bindsym $mod+m output "eDP-1" disable
+bindsym $mod+Shift+m output "eDP-1" enable
 
 for_window [app_id="thunar" title="Rename"] floating enable
 for_window [app_id="thunar" title=".*Confirm.*"] floating enable
@@ -91,7 +98,7 @@ for_window [app_id="Thunar" title="Rename"] floating enable
 for_window [app_id="Thunar" title=".*Confirm.*"] floating enable
 for_window [app_id="Thunar" title=".*Progress.*"] floating enable
 
-#gaps inner 9
+gaps inner 9
 default_border pixel 2
 default_floating_border pixel 2
 titlebar_padding 2

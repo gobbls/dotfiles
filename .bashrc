@@ -22,4 +22,5 @@ alias yt-dlp-v='yt-dlp \
 	--sponsorblock-remove "all" \
 	--output "%(title)s.%(ext)s"'
 
-PS1='\e[1;35m[\u@\h \W]\$\e[m '
+#PS1='\e[1;35m[\u@\h \W]\$\e[m '
+PS1='[\u@\h \W]\$ '

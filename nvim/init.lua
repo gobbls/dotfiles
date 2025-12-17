@@ -1,3 +1,5 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.o.colorcolumn = "80"
@@ -12,6 +14,7 @@ vim.o.winborder = "rounded"
 vim.o.termguicolors = true
 vim.o.completeopt = "fuzzy,menuone,noselect,popup"
 vim.o.pumheight = 7
+--vim.o.wrap = false
 
 -- ignore providers
 vim.g.loaded_perl_provider = 0
@@ -22,7 +25,8 @@ vim.g.loaded_ruby_provider = 0
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 -- QOA
-vim.keymap.set("n", "<leader>e", "<Cmd>Ex<CR>")
+--vim.keymap.set("n", "<leader>e", "<Cmd>Ex<CR>")
+vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>")
 vim.keymap.set("n", "<leader>dd", "<CMD> lua vim.diagnostic.open_float() <CR>")
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>q", vim.cmd.q)
@@ -54,6 +58,7 @@ vim.cmd("set completeopt+=noselect")
 vim.lsp.enable({ "lua_ls", "ts_ls", "svelte", "stylua" })
 
 require("config.lazy")
+require("my_plugins.flerminal")
 
 -- set the default notification function to notify
 vim.notify = require("notify")

@@ -11,7 +11,6 @@
 # qt6-base \
 # qt6-wayland \
 # rustup \
-# xdg-desktop-portal-wlr \
 # file-roller \
 # luarocks \
 # lua-language-server \
@@ -34,6 +33,7 @@ sudo pacman -S --needed \
 	ffmpegthumbnailer \
 	firefox \
 	foot \
+	fwupd \
 	fzf \
 	gcc \
 	gimp \
@@ -43,6 +43,7 @@ sudo pacman -S --needed \
 	grim \
 	gvfs \
 	gvfs-mtp \
+	gvfs-smb \
 	htop \
 	lazygit \
 	loupe \
@@ -58,12 +59,14 @@ sudo pacman -S --needed \
 	noto-fonts-extra \
 	npm \
 	nwg-look \
+	obs-studio \
 	papirus-icon-theme \
 	pavucontrol \
 	python \
 	python-pip \
 	ripgrep \
 	slurp \
+	smbclient \
 	sudo \
 	sway \
 	swaybg \
@@ -82,13 +85,13 @@ sudo pacman -S --needed \
 	tumbler \
 	unrar \
 	unzip \
-	vi \
 	waybar \
 	webp-pixbuf-loader \
 	wget \
 	wireplumber \
 	wofi \
 	xarchiver \
+	xdg-desktop-portal-wlr \
 	xorg-xwayland \
 	yazi \
-	yt-dlp \
+	yt-dlp

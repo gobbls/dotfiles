@@ -3,8 +3,14 @@
 	font-size: 18px;
 }
 
+#window {
+	background-color: rgba(0,0,0,0.7);
+}
+
 #outer-box {
+	/*
 	background-color: #000000;
+	*/
 }
 
 #inner-box {

@@ -4,28 +4,24 @@
 }
 
 window#waybar {
-	/*
-	background-color: #141415;
-	*/
-	background-color: #232323;
+	background-color: rgba(0,0,0,0.5);
 	color: #FFFFFF;
 }
 
-#workspaces button {
+#workspaces>button {
 	all: unset;
 	padding: 0px 6px;
-	color: #FFFFFF;
 }
 
-#workspaces button.visible {
+#workspaces>button.visible {
 	background-color: #737c73;
 }
 
-#workspaces button.focused {
+#workspaces>button.focused {
 	background-color: #285577;
 }
 
-#workspaces button.urgent {
+#workspaces>button.urgent {
 	background-color: #990000;
 }
 
@@ -38,7 +34,7 @@ window#waybar {
 #language,
 #battery,
 #custom-notification {
-	padding: 0 12px;
+	padding: 5px 12px;
 	margin: 0 4px;
 }
 
@@ -84,14 +80,13 @@ window#waybar {
 }
 
 menu {
-	border: 2px dotted #285577;
-	padding: 5px;
-	background: #111112;
+	border: 1px solid #285577;
+	padding: 10px;
+	background: #000000;
 	color: #FFFFFF;
 }
 
 menuitem:hover {
 	border-radius: 4px;
 	background-color: #285577;
-	color: #CCCCCC;
 }

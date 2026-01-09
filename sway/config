@@ -30,7 +30,7 @@ bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
 
 bindsym $mod+Return exec $term
-bindsym $mod+x exec "swaylock -f -c 000000"
+bindsym $mod+x exec "swaylock -f -C ~/.config/swaylock/catppuccin -i /home/gobbls/images/wallpapers/wallhaven-zpp2xg.png"
 bindsym $mod+d exec "pgrep -x wofi >/dev/null 2>&1 && killall wofi || wofi"
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 bindsym Print exec grim && notify-send -u normal 'grim took a screenshot!'
@@ -77,32 +77,45 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-output eDP-1 pos 960 1600
-#output HDMI-A-1 pos 0 0
-#output DP-1 pos 0 0
-output DP-3 pos 0 0 mode 3840x1600@59.994Hz
-output DP-3 pos 0 0 mode 3840x1600@59.994Hz
-#
-#output eDP-1 pos 0 800
+#output eDP-1 pos 960 1600
+#output DP-3 pos 0 0 mode 3840x1600@59.994Hz
+output eDP-1 pos 0 800
 #output DP-3 pos 1920 0 mode 3840x1600@59.994Hz
+output DP-3 disable
+
 #output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg /home/gobbls/Images/wallpapers/wallhaven-yqqm7d.png fill
+output eDP-1 bg /home/gobbls/images/wallpapers/dark-pictures-art-Alex-Palma-9166466.jpeg fill
+output DP-3 bg /home/gobbls/images/wallpapers/wallhaven-yqqm7d.png fill
+
 bindsym $mod+m output "eDP-1" disable
 bindsym $mod+Shift+m output "eDP-1" enable
 
 for_window [app_id="thunar" title="Rename"] floating enable
-for_window [app_id="thunar" title=".*Confirm.*"] floating enable
-for_window [app_id="thunar" title=".*Progress.*"] floating enable
-
 for_window [app_id="Thunar" title="Rename"] floating enable
+for_window [app_id="thunar" title=".*Confirm.*"] floating enable
 for_window [app_id="Thunar" title=".*Confirm.*"] floating enable
+for_window [app_id="thunar" title=".*Progress.*"] floating enable
 for_window [app_id="Thunar" title=".*Progress.*"] floating enable
 
-gaps inner 9
-default_border pixel 2
-default_floating_border pixel 2
-titlebar_padding 2
-titlebar_border_thickness 0
+gaps inner 						15
+default_border pixel 			1
+default_floating_border pixel	1
+corner_radius					10
+default_dim_inactive 			0.3
+dim_inactive_colors.unfocused 	#000000FF
+blur							enable
+blur_xray						disable
+shadows							enable
+shadow_color					#000000
+shadow_blur_radius				20
+
+layer_effects "waybar" {
+	blur						enable
+	blur_xray					enable
+	blur_ignore_transparent		enable
+	shadows						enable
+	corner_radius				10
+}
 
 bar {
 	swaybar_command waybar
@@ -121,9 +134,9 @@ input type:keyboard {
 client.focused	#285577	#285577	#ffffff	#285577	#285577
 
 exec swayidle -w \
-	timeout 1500 'swaylock -f -c 000000' \
+	timeout 1500 'swaylock -f -c 000000 -C ~/.config/swaylock/catppuccin -i /home/gobbls/images/wallpapers/wallhaven-zpp2xg.png' \
 	timeout 3000 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-	before-sleep 'swaylock -f -c 000000'
+	before-sleep 'swaylock -f -c 000000 -C ~/.config/swaylock/catppuccin -i /home/gobbls/images/wallpapers/wallhaven-zpp2xg.png'
 
 exec nm-applet
 exec swaync

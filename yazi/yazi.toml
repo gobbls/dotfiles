@@ -1,0 +1,3 @@
+[[plugin.prepend_preloaders]]
+url = "/mnt/samba/**"
+run = "noop"

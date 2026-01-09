@@ -1,4 +1,6 @@
 {
+	"margin": "10 20 0 20",
+
 	"modules-left": ["sway/workspaces", "sway/mode"],
 
 	"modules-center": ["clock"],

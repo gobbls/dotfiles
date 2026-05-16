@@ -207,3 +207,10 @@ fi
 
 # For permission to start up kvm/qemu.
 #sudo usermod -aG libvirt $USER
+
+
+#################### SYMLINK KEYD CONFIG ####################
+
+#sudo ln -s $HOME/.config/keyd/default.conf /etc/keyd/
+
+

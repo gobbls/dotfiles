@@ -78,6 +78,7 @@ noto-fonts-cjk
 noto-fonts-emoji
 noto-fonts-extra
 npm
+nwg-look
 obs-studio
 openssh
 otf-font-awesome

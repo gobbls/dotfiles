@@ -44,7 +44,8 @@
 			"class<chromium>": "chrome",
 			"class<libreoffice-calc>": "calc",
 			"class<libreoffice-writer>": "writer",
-			"class<filezilla>": "filezilla"
+			"class<filezilla>": "filezilla",
+			"class<virt-manager>": "vm"
 		}
 	},
 

@@ -99,18 +99,21 @@ deploy_dir() {
 		local conf_name=${conf##*/}
 		[[ $conf_name == $conf_ignore ]] && continue
 		logging_info "Linking ${conf}..."
-		local source_conf_path="${conf_source}/${conf_name}"
 		local target_conf_path="${conf_target}/${conf_name}"
 		if [[ -e $target_conf_path ]]; then
 			logging_warning "${YELLOW}${conf_name}${R} already exists in ${conf_target}/"
 			if yes_no "    Backup the old config *then* symlink?"; then
-				backup_conf "$target_conf_path" || { logging_warning "Backup failed!"; continue; }
-				ln -s -- "$source_conf_path" "$target_conf_path"
-				logging_ok "Symlink created: ${BLUE}${target_conf_path}${R} -> ${GREEN}${source_conf_path}${R}"
+				if ! backup_conf "$target_conf_path"; then 
+					logging_warning "Backup failed!"
+					continue
+				fi
 			else
 				logging_warning "Config ${YELLOW}${conf_name}${R} was ignored."
+				continue
 			fi
 		fi
+		ln -s -- "$conf" "$target_conf_path"
+		logging_ok "Symlink created: ${BLUE}${target_conf_path}${R} -> ${GREEN}${conf}${R}"
 	done
 }
 deploy_dir "$(pwd)/dotfiles/.config" "${HOME}/.config"

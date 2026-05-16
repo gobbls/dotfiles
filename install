@@ -33,7 +33,7 @@ yes_no() {
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if ${YELLOW}sudo${R} is accessible..."
-if type -p sudo > /dev/null; then
+if type -p sudo > /dev/null 2>&1; then
 	logging_ok "${GREEN}sudo${R} is accessible"
 else
 	logging_error "${RED}sudo${R} not available, but is required to install packages! Cancelling..."
@@ -42,8 +42,11 @@ fi
 
 logging_info "Checking for ${YELLOW}WAN${R} connection..."
 dest="archlinux.org"
-if ping -c 2 -W 3 -q "$dest" >/dev/null 2>&1; then
+if ping -c 2 -W 3 -q "$dest" > /dev/null 2>&1; then
 	logging_ok "${GREEN}${dest}${R} is reachable"
+else
+	logging_error "${dest} ${RED}not reachable${R}! Internet connection is required. Cancelling..."
+	exit 1
 fi
 
 logging_info "Checking if system is ${YELLOW}Arch Linux${R}..."
@@ -137,7 +140,7 @@ fi
 #################### RUSTUP INSTALL ####################
 
 logging_info "Installing ${BOLD}Rust${R} with ${YELLOW}rustup${R}..."
-if ! type -p rustup > /dev/null; then
+if ! type -p rustup > /dev/null 2>&1; then
 	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Skipping..."
 else
 	rustup default stable
@@ -148,19 +151,19 @@ fi
 
 logging_info "Checking if ${YELLOW}Paru${R} is installed..."
 paru_git="https://aur.archlinux.org/paru.git"
-if ! type -p paru > /dev/null; then
+if ! type -p paru > /dev/null 2>&1; then
 	logging_info "Paru ${YELLOW}not found${R}. Installing..."
 	temp_dir=$(mktemp -d)
 	logging_info "Temporary directory '${temp_dir}' created"
 	logging_info "Cloning repo..."
-	if ! git clone "$paru_git" "$temp_dir" 1>/dev/null; then
+	if ! git clone "$paru_git" "$temp_dir" > /dev/null 2>&1; then
 		logging_error "Failed to clone the Paru repo! Cleaning up then cancelling..."
 		rmdir "$temp_dir"
 		exit 1
 	fi
 	cd "$temp_dir"
 	logging_info "Building package with ${BOLD}makepkg${R}..."
-	makepkg -si --noconfirm > /dev/null
+	makepkg -si --noconfirm > /dev/null 2>&1
 	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
 	cd -
 	rm -rf "$temp_dir"

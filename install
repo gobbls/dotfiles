@@ -33,15 +33,16 @@ yes_no() {
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if ${YELLOW}sudo${R} is accessible..."
-if ! type -p sudo > /dev/null; then
-	logging_warning "${YELLOW}sudo${R} not available, but is required to install packages! Cancelling..."
-else
+if type -p sudo > /dev/null; then
 	logging_ok "${GREEN}sudo${R} is accessible"
+else
+	logging_error "${RED}sudo${R} not available, but is required to install packages! Cancelling..."
+	exit 1
 fi
 
 logging_info "Checking for ${YELLOW}WAN${R} connection..."
 dest="archlinux.org"
-if ping -c 3 -W 5 -q "$dest" >/dev/null 2>&1; then
+if ping -c 2 -W 3 -q "$dest" >/dev/null 2>&1; then
 	logging_ok "${GREEN}${dest}${R} is reachable"
 fi
 
@@ -57,9 +58,7 @@ if [[ $ID == "arch" ]]; then
     logging_ok "System is ${GREEN}Arch Linux${R}"
 elif [[ $ID_LIKE == *"arch"* ]]; then
     logging_warning "System is ${BOLD}based${R} on ${BLUE}Arch Linux${R}, this script is not tested on such systems"
-	if yes_no "Continue?"; then
-		logging_info "Continuing..."
-	else
+	if ! yes_no "Continue?"; then
 		logging_info "Cancelling..."
 		exit 0
 	fi
@@ -104,11 +103,11 @@ deploy_dir() {
 			logging_warning "${YELLOW}${conf_name}${R} already exists in ${conf_target}/"
 			if yes_no "    Backup the old config *then* symlink?"; then
 				if ! backup_conf "$target_conf_path"; then 
-					logging_warning "Backup failed!"
+					logging_warning "Backup failed! Ignoring..."
 					continue
 				fi
 			else
-				logging_warning "Config ${YELLOW}${conf_name}${R} was ignored."
+				logging_warning "Config ${YELLOW}${conf_name}${R} was ignored"
 				continue
 			fi
 		fi
@@ -124,24 +123,22 @@ deploy_dir "$(pwd)/dotfiles" "$HOME" ".config"
 
 logging_info "Installing packages with ${YELLOW}pacman${R}..."
 pacman_packages_len=$(wc -l ./packages/pacman.txt | awk '{print $1}')
-if (! yes_no "The script will install ${BOLD}$pacman_packages_len${R} packages, continue?"); then
-	logging_info "Cancelling..."
-	exit 0
+if yes_no "The script will install $pacman_packages_len packages, continue?"; then
+	logging_info "Synchronizing packages..."
+	sudo pacman -Sy
+	logging_info "Installing..."
+	mapfile -t pacman_packages < ./packages/pacman.txt
+	sudo pacman -S --needed --noconfirm "${pacman_packages[@]}"
+else
+	logging_info "Skipping..."
 fi
-logging_info "Synchronizing packages..."
-sudo pacman -Sy
-logging_info "Installing..."
-mapfile -t pacman_packages < ./packages/pacman.txt
-sudo pacman -S --needed --noconfirm "${pacman_packages[@]}"
 
 
 #################### RUSTUP INSTALL ####################
 
 logging_info "Installing ${BOLD}Rust${R} with ${YELLOW}rustup${R}..."
-rust_install_failed=0
 if ! type -p rustup > /dev/null; then
-	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Ignoring..."
-	rust_install_failed=1
+	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Skipping..."
 else
 	rustup default stable
 fi
@@ -163,31 +160,31 @@ if ! type -p paru > /dev/null; then
 	fi
 	cd "$temp_dir"
 	logging_info "Building package with ${BOLD}makepkg${R}..."
-	makepkg -si --noconfirm 1>/dev/null
+	makepkg -si --noconfirm > /dev/null
 	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
 	cd -
 	rm -rf "$temp_dir"
 else
-	logging_info "Paru is already installed."
+	logging_info "Paru is already installed. Skipping..."
 fi
 
 
 #################### PARU INSTALL ####################
 
 paru_packages_len=$(wc -l ./packages/paru.txt | awk '{print $1}')
-if (! yes_no "The script will install ${BOLD}$paru_packages_len${R} packages, continue?"); then
-	logging_info "Cancelling..."
-	exit 0
+if yes_no "The script will install $paru_packages_len packages, continue?"; then
+	logging_info "Installing..."
+	mapfile -t paru_packages < ./packages/paru.txt
+	paru -S --needed --noconfirm "${paru_packages[@]}"
+else
+	logging_info "Skipping..."
 fi
-logging_info "Installing..."
-mapfile -t paru_packages < ./packages/paru.txt
-paru -S --needed --noconfirm "${paru_packages[@]}"
 
 
 #################### ENABLE SERVICES ####################
 
 logging_info "Enabling services..."
-if ! sudo systemctl enable --now NetworkManager, bluetooth, keyd, libvirtd; then
+if ! sudo systemctl enable --now NetworkManager bluetooth keyd libvirtd; then
 	logging_warning "${YELLOW}Failed${R} to enable service(s)! Ignoring..."
 fi
 

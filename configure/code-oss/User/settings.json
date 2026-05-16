@@ -1,0 +1,40 @@
+{
+    "chat.agent.enabled": false,
+    "chat.disableAIFeatures": true,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "keyboard.dispatch": "keyCode",
+    "svelte.enable-ts-plugin": true,
+    "telemetry.feedback.enabled": false,
+    "update.mode": "none",
+    "window.autoDetectHighContrast": false,
+    "window.commandCenter": false,
+    "window.confirmBeforeClose": "keyboardOnly",
+    "window.customTitleBarVisibility": "never",
+    "window.density.editorTabHeight": "compact",
+    "window.dialogStyle": "custom",
+    "window.menuBarVisibility": "compact",
+    "window.menuBarVisibility": "toggle",
+    "window.menuStyle": "custom",
+    "window.titleBarStyle": "native",
+    "workbench.browser.showInTitleBar": false,
+    "workbench.colorTheme": "One Dark Pro Night Flat",
+    "workbench.editor.editorActionsLocation": "hidden",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.tabSizing": "fixed",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.layoutControl.enabled": false,
+    "workbench.startupEditor": "none",
+    "vim.leader": " ",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        }
+    ]
+}

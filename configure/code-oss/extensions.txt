@@ -1,0 +1,9 @@
+ms-dotnettools.vscode-dotnet-runtime
+muhammad-sammy.csharp
+pkief.material-icon-theme
+streetsidesoftware.code-spell-checker
+svelte.svelte-vscode
+thang-nm.flow-icons
+tobermory.es6-string-html
+vscodevim.vim
+zhuangtongfa.material-theme

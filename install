@@ -1,0 +1,206 @@
+#!/usr/bin/env bash
+
+
+#################### META STUFF #################### 
+
+R="\e[m"
+BOLD="\e[1m"
+ITALIC="\e[3m"
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+
+OK="[${BOLD}${GREEN}+${R}]"
+INFO="[${BOLD}>${R}]"
+WARNING="[${BOLD}${YELLOW}-${R}]"
+ERROR="[${BOLD}${RED}!${R}]"
+
+logging_info() { echo -e "$INFO $1"; }
+logging_ok() { echo -e "$OK $1"; }
+logging_warning() { echo -e "$WARNING $1"; }
+logging_error() { echo -e "$ERROR $1"; }
+
+separator() { echo "--------------------------------------------------------------------------------"; }
+
+yes_no() {
+	local q="${1:-Continue?}"
+	read -r -p "$q [y/N]: " answer
+	[[ $answer =~ ^[Yy]$ ]]
+}
+
+
+#################### SYSTEM CHECKS ####################
+
+logging_info "Checking if ${YELLOW}sudo${R} is accessible..."
+if ! type -p sudo > /dev/null; then
+	logging_warning "${YELLOW}sudo${R} not available, but is required to install packages! Cancelling..."
+else
+	logging_ok "${GREEN}sudo${R} is accessible"
+fi
+
+logging_info "Checking for ${YELLOW}WAN${R} connection..."
+dest="archlinux.org"
+if ping -c 3 -W 5 -q "$dest" >/dev/null 2>&1; then
+	logging_ok "${GREEN}${dest}${R} is reachable"
+fi
+
+logging_info "Checking if system is ${YELLOW}Arch Linux${R}..."
+if [[ -f /etc/os-release ]]; then
+	source /etc/os-release
+else
+	logging_error "Unable to locate ${RED}/etc/os-release${R}: Not able to check if distro type is Arch Linux"
+	exit 1
+fi
+
+if [[ $ID == "arch" ]]; then
+    logging_ok "System is ${GREEN}Arch Linux${R}"
+elif [[ $ID_LIKE == *"arch"* ]]; then
+    logging_warning "System is ${BOLD}based${R} on ${BLUE}Arch Linux${R}, this script is not tested on such systems"
+	if yes_no "Continue?"; then
+		logging_info "Continuing..."
+	else
+		logging_info "Cancelling..."
+		exit 0
+	fi
+else
+	logging_error "This installation script is not made for systems other than ${RED}Arch Linux${R}! Cancelling..."
+	exit 1
+fi
+
+
+#################### DEPLOY DOTFILES #################### 
+
+backup_conf() {
+	local path=$1
+	local bak_num=1
+	local bak_path="${path}.bak"
+	while [[ -e $bak_path ]]; do
+		bak_num=$((bak_num + 1))
+		bak_path="${path}.bak${bak_num}"
+	done
+	mv -- "$path" "$bak_path"
+	logging_ok "${YELLOW}${path}${R} backed up to ${GREEN}${bak_path}${R}"
+}
+
+deploy_dir() {
+	separator
+	local conf_source=$1 conf_target=$2 conf_ignore=${3-}
+	logging_info "Deploying from ${YELLOW}${conf_source}/${R}..."
+	if [[ ! -d $conf_target ]]; then
+		logging_info "Missing ${YELLOW}${conf_target}/${R}, creating..."
+		if ! mkdir -p -- "$conf_target"; then
+			logging_error "Not able to create ${RED}${conf_target}${R}! Cancelling..."
+			exit 1
+		fi
+	fi
+	for conf in "$conf_source"/* "$conf_source"/.*; do
+		[[ -e $conf ]] || continue
+		local conf_name=${conf##*/}
+		[[ $conf_name == $conf_ignore ]] && continue
+		logging_info "Linking ${conf}..."
+		local source_conf_path="${conf_source}/${conf_name}"
+		local target_conf_path="${conf_target}/${conf_name}"
+		if [[ -e $target_conf_path ]]; then
+			logging_warning "${YELLOW}${conf_name}${R} already exists in ${conf_target}/"
+			if yes_no "    Backup the old config *then* symlink?"; then
+				backup_conf "$target_conf_path" || { logging_warning "Backup failed!"; continue; }
+				ln -s -- "$source_conf_path" "$target_conf_path"
+				logging_ok "Symlink created: ${BLUE}${target_conf_path}${R} -> ${GREEN}${source_conf_path}${R}"
+			else
+				logging_warning "Config ${YELLOW}${conf_name}${R} was ignored."
+			fi
+		fi
+	done
+}
+deploy_dir "$(pwd)/dotfiles/.config" "${HOME}/.config"
+deploy_dir "$(pwd)/dotfiles" "$HOME" ".config"
+
+
+#################### PACMAN INSTALL #################### 
+
+logging_info "Installing packages with ${YELLOW}pacman${R}..."
+pacman_packages_len=$(wc -l ./packages/pacman.txt | awk '{print $1}')
+if (! yes_no "The script will install ${BOLD}$pacman_packages_len${R} packages, continue?"); then
+	logging_info "Cancelling..."
+	exit 0
+fi
+logging_info "Synchronizing packages..."
+sudo pacman -Sy
+logging_info "Installing..."
+mapfile -t pacman_packages < ./packages/pacman.txt
+sudo pacman -S --needed --noconfirm "${pacman_packages[@]}"
+
+
+#################### RUSTUP INSTALL ####################
+
+logging_info "Installing ${BOLD}Rust${R} with ${YELLOW}rustup${R}..."
+rust_install_failed=0
+if ! type -p rustup > /dev/null; then
+	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Ignoring..."
+	rust_install_failed=1
+else
+	rustup default stable
+fi
+
+
+#################### INSTALL PARU ####################
+
+logging_info "Checking if ${YELLOW}Paru${R} is installed..."
+paru_git="https://aur.archlinux.org/paru.git"
+if ! type -p paru > /dev/null; then
+	logging_info "Paru ${YELLOW}not found${R}. Installing..."
+	temp_dir=$(mktemp -d)
+	logging_info "Temporary directory '${temp_dir}' created"
+	logging_info "Cloning repo..."
+	if ! git clone "$paru_git" "$temp_dir" 1>/dev/null; then
+		logging_error "Failed to clone the Paru repo! Cleaning up then cancelling..."
+		rmdir "$temp_dir"
+		exit 1
+	fi
+	cd "$temp_dir"
+	logging_info "Building package with ${BOLD}makepkg${R}..."
+	makepkg -si --noconfirm 1>/dev/null
+	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
+	cd -
+	rm -rf "$temp_dir"
+else
+	logging_info "Paru is already installed."
+fi
+
+
+#################### PARU INSTALL ####################
+
+paru_packages_len=$(wc -l ./packages/paru.txt | awk '{print $1}')
+if (! yes_no "The script will install ${BOLD}$paru_packages_len${R} packages, continue?"); then
+	logging_info "Cancelling..."
+	exit 0
+fi
+logging_info "Installing..."
+mapfile -t paru_packages < ./packages/paru.txt
+paru -S --needed --noconfirm "${paru_packages[@]}"
+
+
+#################### ENABLE SERVICES ####################
+
+logging_info "Enabling services..."
+if ! sudo systemctl enable --now NetworkManager, bluetooth, keyd, libvirtd; then
+	logging_warning "${YELLOW}Failed${R} to enable service(s)! Ignoring..."
+fi
+
+
+#################### ENABLE VIRSH ####################
+
+#sudo virsh net-start default
+#sudo virsh net-autostart default
+
+
+#################### VSCODE EXTENSIONS INSTALL ####################
+
+#cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension
+
+
+#################### ADD USER TO LIBVIRT GROUP ####################
+
+# For permission to start up kvm/qemu.
+#sudo usermod -aG libvirt $USER

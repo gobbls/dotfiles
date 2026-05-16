@@ -1,0 +1,13 @@
+# Ignore manually downloaded repos.
+github/*
+
+# Self-compiled Tree-sitter parsers.
+parser/*
+
+# All the repos for the Tree-sitter parsers I use.
+parser-repos/*
+
+# Queries downloaded in bulk from nvim-treesitter;
+# https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries
+# Don't ignore for now, lots of simple files.
+# queries/*

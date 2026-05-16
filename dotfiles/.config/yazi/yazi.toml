@@ -1,0 +1,5 @@
+[plugin]
+prepend_preloaders = [
+    { url = "/mnt/T7/**", run = "noop" },
+    { url = "/home/gobbls/T7/**", run = "noop" },
+]

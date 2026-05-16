@@ -1,0 +1,4 @@
+bruno-bin
+localsend-bin
+oh-my-posh-bin
+roslyn-language-server

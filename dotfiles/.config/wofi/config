@@ -1,0 +1,16 @@
+show = drun
+height = 250
+width = 500
+normal_window = true
+hide_scroll = true
+close_on_focus_loss = true
+use_search_box = false
+
+allow_images = true
+image_size = 20
+
+insensitive = true
+no_actions = true
+columns = 1
+term = foot
+prompt =

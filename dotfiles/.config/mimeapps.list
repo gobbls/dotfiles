@@ -1,0 +1,29 @@
+[Default Applications]
+image/png=org.gnome.Loupe.desktop
+image/jpeg=org.gnome.Loupe.desktop
+video/webm=mpv.desktop
+video/mp4=mpv.desktop
+application/octet-stream=vim.desktop
+application/x-zerosize=vim.desktop
+text/markdown=nvim.desktop
+x-scheme-handler/bruno=bruno.desktop
+
+[Added Associations]
+image/png=gimp.desktop;firefox.desktop;org.gnome.Loupe.desktop;
+image/jpeg=gimp.desktop;firefox.desktop;org.gnome.Loupe.desktop;
+application/json=vim.desktop;
+application/x-xbel=vim.desktop;
+application/octet-stream=vim.desktop;
+application/xml=vim.desktop;
+application/x-zerosize=vim.desktop;
+video/webm=mpv.desktop;io.github.celluloid_player.Celluloid.desktop;
+image/webp=org.gnome.Loupe.desktop;firefox.desktop;
+image/gif=org.gnome.Loupe.desktop;
+audio/x-opus+ogg=mpv.desktop;firefox.desktop;
+inode/directory=io.github.celluloid_player.Celluloid.desktop;vlc.desktop;mpv.desktop;
+video/mp4=io.github.celluloid_player.Celluloid.desktop;mpv.desktop;firefox.desktop;
+video/x-matroska=io.github.celluloid_player.Celluloid.desktop;
+application/vnd.oasis.opendocument.text=libreoffice-writer.desktop;
+text/markdown=nvim.desktop;
+image/avif=gimp.desktop;
+image/vnd.microsoft.icon=org.gnome.Loupe.desktop;

@@ -1,0 +1,49 @@
+#################
+### Variables ###
+#################
+
+# Default Sway wallpaper
+set $dfwppr         "/usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png"
+
+# Desktop wallpaper
+set $wallpaper      "/home/gobbls/.config/wallpapers/08.jpg"
+
+# Lockscreen wallpaper
+set $lockscreen     "/home/gobbls/.config/wallpapers/08.jpg"
+
+# Swaylock wallpaper config
+set $lock           'swaylock -f -c 222222 -i $lockscreen -s fill'
+
+
+###############################
+### Window title font style ###
+###############################
+
+font pango:NotoSansNerdFont 11
+
+
+#####################
+### Window styles ###
+#####################
+
+# Hide borders and gaps on workspaces with only one window.
+smart_borders   on
+smart_gaps      on
+
+gaps                    inner   4
+default_border          pixel   2
+default_floating_border pixel   2
+titlebar_padding 		4 		1
+
+# class                 border  backg.  text    indica. child_border
+client.focused          #c3c3bc #c3c3bc #111111 #c3c3bc #c3c3bc
+client.focused_inactive #939387 #939387 #111111 #939387 #939387
+client.unfocused        #222222 #111111 #c3c3bc #111111 #111111
+
+
+##################
+### Wallpapers ###
+##################
+
+# Desktop
+output * bg $wallpaper fill

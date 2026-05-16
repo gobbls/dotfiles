@@ -9,7 +9,8 @@
 
 ```bash
 git clone https://github.com/gobbls/dotfiles.git
-cd dotfiles
+mv dotfiles .dotfiles
+cd .dotfiles
 chmod +x install
 ./install
 ```

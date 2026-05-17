@@ -27,3 +27,4 @@ application/vnd.oasis.opendocument.text=libreoffice-writer.desktop;
 text/markdown=nvim.desktop;
 image/avif=gimp.desktop;
 image/vnd.microsoft.icon=org.gnome.Loupe.desktop;
+application/x-shellscript=nvim.desktop;

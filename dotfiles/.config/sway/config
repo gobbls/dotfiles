@@ -35,8 +35,8 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-bindsym Print exec grim && notify-send -u normal -i image 'Grim took a screenshot!'
-bindsym Shift+Print exec grim -g "$(slurp)" && notify-send -u normal -i image 'Grim took a *selective* screenshot!'
+bindsym Print exec grim && notify-send -u low -i image 'Grim took a screenshot!'
+bindsym Shift+Print exec grim -g "$(slurp)" && notify-send -u low -i image 'Grim took a *selective* screenshot!'
 
 
 ###########################
@@ -163,4 +163,4 @@ exec swayidle -w \
          before-sleep $lock
 
 # Notification daemon
-exec swaync -s "/home/gobbls/dotfiles/swaync/style.css"
+exec swaync

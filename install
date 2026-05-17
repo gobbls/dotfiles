@@ -148,7 +148,12 @@ logging_info "Installing ${BOLD}Rust${R} with ${YELLOW}rustup${R}..."
 if ! type -p rustup > /dev/null 2>&1; then
 	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Skipping..."
 else
-	rustup default stable
+	if rustup default stable > /dev/null 2>&1; then
+		logging_ok "Rust installed successfully"
+	else
+		logging_error "Error occurred while installing Rust! Cancelling..."
+		exit 1
+	fi
 fi
 
 
@@ -173,7 +178,6 @@ if ! type -p paru > /dev/null 2>&1; then
 		exit 1
 	fi
 	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
-	cd -
 	rm -rf "$temp_dir"
 else
 	logging_info "Paru is already installed. Skipping..."

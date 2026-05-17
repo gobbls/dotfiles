@@ -163,7 +163,10 @@ if ! type -p paru > /dev/null 2>&1; then
 	fi
 	cd "$temp_dir"
 	logging_info "Building package with ${BOLD}makepkg${R}..."
-	makepkg -si --noconfirm > /dev/null 2>&1
+	if ! makepkg -si --noconfirm > /dev/null 2>&1; then
+		logging_error "Error occurred while building Paru! Cancelling..."
+		exit 1
+	fi
 	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
 	cd -
 	rm -rf "$temp_dir"
@@ -178,7 +181,10 @@ paru_packages_len=$(wc -l ./packages/paru.txt | awk '{print $1}')
 if yes_no "The script will install $paru_packages_len packages, continue?"; then
 	logging_info "Installing..."
 	mapfile -t paru_packages < ./packages/paru.txt
-	paru -S --needed --noconfirm "${paru_packages[@]}"
+	if ! paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
+		logging_error "Error occurred when installing paru packages! Cancelling..."
+		exit 1
+	fi
 else
 	logging_info "Skipping..."
 fi
@@ -187,8 +193,10 @@ fi
 #################### ENABLE SERVICES ####################
 
 logging_info "Enabling services..."
-if ! sudo systemctl enable --now NetworkManager bluetooth keyd libvirtd; then
-	logging_warning "${YELLOW}Failed${R} to enable service(s)! Ignoring..."
+if sudo systemctl enable --now NetworkManager bluetooth keyd libvirtd > /dev/null 2>&1; then
+	logging_ok "Services ${GREEN}enabled${R}"
+else
+	logging_warning "${YELLOW}Failed${R} to enable service(s)! Skipping..."
 fi
 
 

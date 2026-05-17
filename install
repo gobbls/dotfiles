@@ -131,7 +131,12 @@ if yes_no "The script will install $pacman_packages_len packages, continue?"; th
 	sudo pacman -Sy
 	logging_info "Installing..."
 	mapfile -t pacman_packages < ./packages/pacman.txt
-	sudo pacman -S --needed --noconfirm "${pacman_packages[@]}"
+	if sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
+		logging_ok "Successfully installed packages "
+	else
+		logging_error "Error occurred while installing pacman packages! Cancelling..."
+		exit 1
+	fi
 else
 	logging_info "Skipping..."
 fi

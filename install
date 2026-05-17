@@ -29,47 +29,61 @@ yes_no() {
 	[[ $answer =~ ^[Yy]$ ]]
 }
 
+check_create_dir() {
+	local path=$1
+	if [[ ! -e "$path" ]]; then
+		logging_info "Directory [${path}] not found. Creating..."
+		if ! mkdir -p -- "$path"; then
+			logging_error "Error occurred while creating direcory [${path}]! Cancelling..."
+			exit 1
+		fi
+	fi
+}
+
+#################### STARTUP ####################
+
+logging_info "Bootstrapping Gobbls' dots..."
 
 #################### SYSTEM CHECKS ####################
 
-logging_info "Checking if ${YELLOW}sudo${R} is accessible..."
+logging_info "Checking if [sudo] is accessible..."
 if type -p sudo > /dev/null 2>&1; then
-	logging_ok "${GREEN}sudo${R} is accessible"
+	logging_ok "[sudo] is accessible"
 else
-	logging_error "${RED}sudo${R} not available, but is required to install packages! Cancelling..."
+	logging_error "[sudo] not available, but is required to install packages! Cancelling..."
 	exit 1
 fi
 
-logging_info "Checking for ${YELLOW}WAN${R} connection..."
 dest="archlinux.org"
+logging_info "Checking for WAN connection (pinging ${dest})..."
 if ping -c 2 -W 3 -q "$dest" > /dev/null 2>&1; then
-	logging_ok "${GREEN}${dest}${R} is reachable"
+	logging_ok "Verified connection"
 else
-	logging_error "${dest} ${RED}not reachable${R}! Internet connection is required. Cancelling..."
+	logging_error "${dest} not reachable! Internet connection is required. Cancelling..."
 	exit 1
 fi
 
-logging_info "Checking if system is ${YELLOW}Arch Linux${R}..."
+dist="Arch Linux"
+logging_info "Checking if system is ${dist}..."
 if [[ -f /etc/os-release ]]; then
 	source /etc/os-release
 else
-	logging_error "Unable to locate ${RED}/etc/os-release${R}: Not able to check if distro type is Arch Linux"
+	logging_error "Unable to locate [/etc/os-release]: Not able to check if distro type is ${dist}. Cancelling..."
 	exit 1
 fi
 
 if [[ $ID == "arch" ]]; then
-    logging_ok "System is ${GREEN}Arch Linux${R}"
+    logging_ok "System is ${dist}"
 elif [[ $ID_LIKE == *"arch"* ]]; then
-    logging_warning "System is ${BOLD}based${R} on ${BLUE}Arch Linux${R}, this script is not tested on such systems"
+    logging_warning "System is *based* on ${dist}, this script is not tested on such systems"
 	if ! yes_no "Continue?"; then
 		logging_info "Cancelling..."
 		exit 0
 	fi
 else
-	logging_error "This installation script is not made for systems other than ${RED}Arch Linux${R}! Cancelling..."
+	logging_error "This installation script is not made for systems other than ${dist}! Cancelling..."
 	exit 1
 fi
-
 
 #################### DEPLOY DOTFILES #################### 
 
@@ -81,153 +95,158 @@ backup_conf() {
 		bak_num=$((bak_num + 1))
 		bak_path="${path}.bak${bak_num}"
 	done
-	mv -- "$path" "$bak_path"
-	logging_ok "${YELLOW}${path}${R} backed up to ${GREEN}${bak_path}${R}"
+	if ! mv -- "$path" "$bak_path"; then
+		logging_error "Error occurred while moving [${path}] to [${bak_path}]! Cancelling..."
+		exit 1
+	fi
+	logging_ok "[${path}] backed up to [${bak_path}]"
+}
+
+create_symlink() {
+	local source_path=$1
+	local target_path=$2
+	if ! ln -s -- "$source_path" "$target_path"; then
+		logging_error "Error occurred while symlinking [[${target_path}] --> [${source_path}]]! Cancelling..."
+		exit 1
+	fi
+	logging_ok "Symlink created: [[${target_conf_path}] --> [${source_path}]]"
 }
 
 deploy_dir() {
 	separator
 	local conf_source=$1 conf_target=$2 conf_ignore=${3-}
-	logging_info "Deploying from ${YELLOW}${conf_source}/${R}..."
-	if [[ ! -d $conf_target ]]; then
-		logging_info "Missing ${YELLOW}${conf_target}/${R}, creating..."
-		if ! mkdir -p -- "$conf_target"; then
-			logging_error "Not able to create ${RED}${conf_target}${R}! Cancelling..."
-			exit 1
-		fi
-	fi
+	logging_info "Deploying from [${conf_source}/]..."
+	check_create_dir "$conf_target"
 	for conf in "$conf_source"/* "$conf_source"/.*; do
-		[[ -e $conf ]] || continue
+		[[ -e $conf ]] || continue # skip the [$conf_source/*] literals if there is no match
 		local conf_name=${conf##*/}
 		[[ $conf_name == $conf_ignore ]] && continue
-		logging_info "Linking ${conf}..."
+		logging_info "Linking [${conf}]..."
 		local target_conf_path="${conf_target}/${conf_name}"
 		if [[ -e $target_conf_path ]]; then
-			logging_warning "${YELLOW}${conf_name}${R} already exists in ${conf_target}/"
-			if yes_no "    Backup the old config *then* symlink?"; then
-				if ! backup_conf "$target_conf_path"; then 
-					logging_warning "Backup failed! Ignoring..."
-					continue
-				fi
-			else
-				logging_warning "Config ${YELLOW}${conf_name}${R} was ignored"
-				continue
-			fi
+			logging_warning "[${conf_name}] already exists in [${conf_target}/]! Creating backup before linking..."
+			backup_conf "$target_conf_path"
 		fi
-		ln -s -- "$conf" "$target_conf_path"
-		logging_ok "Symlink created: ${BLUE}${target_conf_path}${R} -> ${GREEN}${conf}${R}"
+		create_symlink "$conf" "$target_conf_path"
 	done
 }
-deploy_dir "$(pwd)/dotfiles/.config" "${HOME}/.config"
-deploy_dir "$(pwd)/dotfiles" "$HOME" ".config"
 
+#			source_path									target_path							ignore_item
+deploy_dir 	"$(pwd)/dotfiles/.config" 					"${HOME}/.config"
+deploy_dir 	"$(pwd)/dotfiles/.local/share/applications"	"${HOME}/.local/share/applications"
+deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							".config"
 
 #################### PACMAN INSTALL #################### 
 
-logging_info "Installing packages with ${YELLOW}pacman${R}..."
-pacman_packages_len=$(wc -l ./packages/pacman.txt | awk '{print $1}')
-if yes_no "The script will install $pacman_packages_len packages, continue?"; then
-	logging_info "Synchronizing packages..."
-	sudo pacman -Sy
-	logging_info "Installing..."
-	mapfile -t pacman_packages < ./packages/pacman.txt
-	if sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
-		logging_ok "Successfully installed packages "
-	else
-		logging_error "Error occurred while installing pacman packages! Cancelling..."
-		exit 1
-	fi
-else
-	logging_info "Skipping..."
+logging_info "Installing packages with [pacman]..."
+pacman_packages_len=$(wc -l packages/pacman.txt | awk '{print $1}')
+logging_info "Synchronizing packages (this might take some time)..."
+if ! sudo pacman -Sy > /dev/null 2>&1; then
+	logging_error "Error occurred while synching packages! Cancelling..."
+	exit 1
 fi
-
+logging_info "Installing [${pacman_packages_len}] packages (this might take some time)..."
+mapfile -t pacman_packages < packages/pacman.txt
+if sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
+	logging_ok "Successfully installed [pacman] packages"
+else
+	logging_error "Error occurred while installing [pacman] packages! Cancelling..."
+	exit 1
+fi
 
 #################### RUSTUP INSTALL ####################
 
-logging_info "Installing ${BOLD}Rust${R} with ${YELLOW}rustup${R}..."
+logging_info "Installing [rust] with [rustup]..."
 if ! type -p rustup > /dev/null 2>&1; then
-	logging_warning "Rustup should have been installed before, but was ${YELLOW}not found${R}! Skipping..."
-else
-	if rustup default stable > /dev/null 2>&1; then
-		logging_ok "Rust installed successfully"
-	else
-		logging_error "Error occurred while installing Rust! Cancelling..."
-		exit 1
-	fi
+	logging_warning "[rustup] should have been installed before, but was not found! Cancelling..."
+	exit 1
 fi
 
+if rustup default stable > /dev/null 2>&1; then
+	logging_ok "[rust] installed successfully"
+else
+	logging_error "Error occurred while installing [rust]! Cancelling..."
+	exit 1
+fi
 
 #################### INSTALL PARU ####################
 
-logging_info "Checking if ${YELLOW}Paru${R} is installed..."
+logging_info "Checking if [Paru] is installed..."
 paru_git="https://aur.archlinux.org/paru.git"
 if ! type -p paru > /dev/null 2>&1; then
-	logging_info "Paru ${YELLOW}not found${R}. Installing..."
+	logging_info "[paru] not found. Installing..."
 	temp_dir=$(mktemp -d)
-	logging_info "Temporary directory '${temp_dir}' created"
+	logging_info "Temporary directory [${temp_dir}] created"
 	logging_info "Cloning repo..."
 	if ! git clone "$paru_git" "$temp_dir" > /dev/null 2>&1; then
-		logging_error "Failed to clone the Paru repo! Cleaning up then cancelling..."
+		logging_error "Failed to clone the [paru] repo! Cleaning up then cancelling..."
 		rmdir "$temp_dir"
 		exit 1
 	fi
 	cd "$temp_dir"
-	logging_info "Building package with ${BOLD}makepkg${R}..."
-	if ! makepkg -si --noconfirm > /dev/null 2>&1; then
+	logging_info "Building package with [makepkg]..."
+	if makepkg -si --noconfirm > /dev/null 2>&1; then
+		logging_info "Build complete. Cleaning up..."
+	else
 		logging_error "Error occurred while building Paru! Cancelling..."
 		exit 1
 	fi
-	logging_info "Build ${GREEN}complete${R}! Cleaning up..."
+	cd -
 	rm -rf "$temp_dir"
 else
 	logging_info "Paru is already installed. Skipping..."
 fi
 
-
 #################### PARU INSTALL ####################
 
-paru_packages_len=$(wc -l ./packages/paru.txt | awk '{print $1}')
-if yes_no "The script will install $paru_packages_len packages, continue?"; then
-	logging_info "Installing..."
-	mapfile -t paru_packages < ./packages/paru.txt
-	if ! paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
-		logging_error "Error occurred when installing paru packages! Cancelling..."
-		exit 1
-	fi
+paru_packages_len=$(wc -l packages/paru.txt | awk '{print $1}')
+logging_info "Installing [${paru_packages_len}] packages (this might take some time)..."
+mapfile -t paru_packages < packages/paru.txt
+if paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
+	logging_ok "Successfully installed [paru] packages"
 else
-	logging_info "Skipping..."
+	logging_error "Error occurred when installing [paru] packages! Cancelling..."
+	exit 1
 fi
-
 
 #################### ENABLE SERVICES ####################
 
 logging_info "Enabling services..."
-if sudo systemctl enable --now NetworkManager bluetooth keyd libvirtd > /dev/null 2>&1; then
-	logging_ok "Services ${GREEN}enabled${R}"
+mapfile -t services < services.txt
+if sudo systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
+	logging_ok "Services enabled"
 else
-	logging_warning "${YELLOW}Failed${R} to enable service(s)! Skipping..."
+	logging_warning "Error occurred while enabling service(s)! Cancelling..."
+	exit 1
 fi
-
 
 #################### ENABLE VIRSH ####################
 
 #sudo virsh net-start default
 #sudo virsh net-autostart default
 
-
 #################### VSCODE EXTENSIONS INSTALL ####################
 
-#cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension
-
+logging_info "Installing [code-oss] extensions..."
+cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension
 
 #################### ADD USER TO LIBVIRT GROUP ####################
 
 # For permission to start up kvm/qemu.
-#sudo usermod -aG libvirt $USER
-
+logging_info "Adding [${$USER}] to [libvirt] group..."
+if sudo usermod -aG libvirt $USER; then
+	logging_ok "User added to group without issues"
+else
+	logging_error "Unable to add user to group! Cancelling..."
+	exit 1
+fi
 
 #################### SYMLINK KEYD CONFIG ####################
 
-#sudo ln -s $HOME/.config/keyd/default.conf /etc/keyd/
-
-
+logging_info "Symlinking [keyd] config..."
+if sudo ln -s $HOME/.config/keyd/default.conf /etc/keyd/; then
+	logging_ok "[keyd] config symlinked without isses"
+else
+	logging_error "Error occurred while symlinking [keyd] config! Cancelling..."
+	exit 1
+fi

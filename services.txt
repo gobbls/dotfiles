@@ -1,0 +1,4 @@
+NetworkManager
+bluetooth
+libvirtd
+keyd

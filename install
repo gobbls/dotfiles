@@ -228,12 +228,17 @@ fi
 #################### VSCODE EXTENSIONS INSTALL ####################
 
 logging_info "Installing [code-oss] extensions..."
-cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension
+if cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension > /dev/null 2>&1; then
+	logging_ok "Successfully installed [code-oss] extensions"
+else
+	logging_warning "Error occurred while installing [code-oss] extension(s)! Cancelling..."
+	exit 1
+fi
 
 #################### ADD USER TO LIBVIRT GROUP ####################
 
 # For permission to start up kvm/qemu.
-logging_info "Adding [${$USER}] to [libvirt] group..."
+logging_info "Adding [${USER}] to [libvirt] group..."
 if sudo usermod -aG libvirt $USER; then
 	logging_ok "User added to group without issues"
 else

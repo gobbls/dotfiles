@@ -225,7 +225,7 @@ if ! type -p paru > /dev/null 2>&1; then
 		exit 1
 	fi
 	logging_info "Installing [paru] package with [makepkg]..."
-	if ! echo "$pass" | sudo -S makepkg -i --noconfirm > /dev/null 2>&1; then
+	if ! makepkg -i > /dev/null 2>&1; then
 		logging_error "Error occurred while installing [paru]! Cleaning up then cancelling..."
 		cleanup
 		exit 1
@@ -325,3 +325,7 @@ gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 #################### END ####################
 
 echo "Done!"
+
+#################### OTHER STUFF TO (PERHAPS) CONFIGURE ####################
+
+# - Set up FStab to mount samba network drive.

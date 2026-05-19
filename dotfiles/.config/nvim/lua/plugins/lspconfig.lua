@@ -3,10 +3,9 @@
 ----------------------------------------------------------------------------------------
 
 return {
-	-- https://github.com/neovim/nvim-lspconfig.git
-	dir = "~/.config/nvim/github/nvim-lspconfig",
+	"neovim/nvim-lspconfig",
+	commit = "16812abf",
 	dependencies = {
-		-- https://github.com/saghen/blink.cmp
-		dir = "~/.config/nvim/github/blink.cmp",
+		"saghen/blink.cmp",
 	},
 }

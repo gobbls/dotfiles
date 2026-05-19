@@ -3,8 +3,8 @@
 ----------------------------------------------------------------------------
 
 return {
-	-- https://github.com/folke/lazydev.nvim.git
-	dir = "~/.config/nvim/github/lazydev.nvim",
+	"folke/lazydev.nvim",
+	commit = "ff2cbcba",
 	ft = "lua",
 	opts = {
 		library = {

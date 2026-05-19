@@ -3,11 +3,10 @@
 -------------------------------------------------------------
 
 return {
-	-- https://github.com/kdheepak/lazygit.nvim
-	dir = "~/.config/nvim/github/lazygit.nvim",
+	"kdheepak/lazygit.nvim",
+	commit = "a04ad0db",
 	dependencies = {
-		-- https://github.com/nvim-lua/plenary.nvim
-		dir = "~/.config/nvim/github/plenary.nvim",
+		"nvim-lua/plenary.nvim",
 	},
 	lazy = true,
 	cmd = {

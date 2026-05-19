@@ -3,9 +3,9 @@
 ----------------------------------------------------------------------------------
 
 return {
-	-- https://github.com/saghen/blink.cmp
-	dir = "~/.config/nvim/github/blink.cmp",
+	"saghen/blink.cmp",
 	version = "1.*",
+	commit = "35e3923",
 	opts = {
 		keymap = { preset = "default" },
 		completion = { documentation = { auto_show = true } },

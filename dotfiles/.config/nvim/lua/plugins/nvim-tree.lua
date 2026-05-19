@@ -3,11 +3,10 @@
 ---------------------------------------------------
 
 return {
-	-- https://github.com/nvim-tree/nvim-tree.lua
-	dir = "~/.config/nvim/github/nvim-tree.lua/",
+	"nvim-tree/nvim-tree.lua",
+	commit = "24cfcc94",
 	dependencies = {
-		-- https://github.com/nvim-tree/nvim-web-devicons
-		dir = "~/.config/nvim/github/nvim-web-devicons/",
+		"nvim-tree/nvim-web-devicons",
 	},
 	lazy = false,
 	opts = {},

@@ -3,8 +3,8 @@
 -------------------------
 
 return {
-	-- https://github.com/ramojus/mellifluous.nvim
-	dir = "~/.config/nvim/github/mellifluous.nvim",
+	"ramojus/mellifluous.nvim",
+	commit = "9948359e",
 	lazy = false,
 	priority = 1000,
 }

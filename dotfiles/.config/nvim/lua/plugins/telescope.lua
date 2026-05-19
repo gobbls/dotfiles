@@ -3,13 +3,11 @@
 --------------------------------------------------------
 
 return {
-	-- https://github.com/nvim-telescope/telescope.nvim.git
-	dir = "~/.config/nvim/github/telescope.nvim",
+	"nvim-telescope/telescope.nvim",
+	commit = "5255aa27",
 	dependencies = {
-		-- https://github.com/nvim-lua/plenary.nvim
-		{ dir = "~/.config/nvim/github/plenary.nvim" },
-		-- https://github.com/nvim-telescope/telescope-fzf-native.nvim
-		{ dir = "~/.config/nvim/github/telescope-fzf-native.nvim" },
+		{ "nvim-lua/plenary.nvim" },
+		{ "nvim-telescope/telescope-fzf-native.nvim" },
 	},
 	opts = {
 		pickers = {

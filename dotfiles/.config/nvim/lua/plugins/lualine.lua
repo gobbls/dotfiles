@@ -3,11 +3,10 @@
 ----------------------------------------------------------
 
 return {
-	-- https://github.com/nvim-lualine/lualine.nvim
-	dir = "~/.config/nvim/github/lualine.nvim",
+	"nvim-lualine/lualine.nvim",
+	commit = "131a558",
 	dependencies = {
-		-- https://github.com/nvim-tree/nvim-web-devicons
-		dir = "~/.config/nvim/github/nvim-web-devicons",
+		"nvim-tree/nvim-web-devicons",
 	},
 	lazy = false,
 	opts = {

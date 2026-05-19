@@ -3,8 +3,8 @@
 ------------------------------------------------------
 
 return {
-	-- https://github.com/iamcco/markdown-preview.nvim
-	dir = "~/.config/nvim/github/markdown-preview.nvim",
+	"iamcco/markdown-preview.nvim",
+	commit = "a923f5f",
 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 	build = "cd app && npm install",
 	init = function()

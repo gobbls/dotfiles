@@ -200,27 +200,38 @@ separator
 
 #################### INSTALL PARU ####################
 
+function cleanup() {
+	cd - > /dev/null
+	rm -rf "$temp_dir"
+}
+
 logging_info "Checking if [paru] is installed..."
 paru_git="https://aur.archlinux.org/paru.git"
 if ! type -p paru > /dev/null 2>&1; then
 	logging_info "[paru] not found. Installing..."
 	temp_dir=$(mktemp -d)
 	logging_info "Temporary directory [${temp_dir}] created"
-	logging_info "Cloning repo..."
+	logging_info "Cloning [paru] repo..."
 	if ! git clone "$paru_git" "$temp_dir" > /dev/null 2>&1; then
 		logging_error "Failed to clone the [paru] repo! Cleaning up then cancelling..."
 		rmdir "$temp_dir"
 		exit 1
 	fi
 	cd "$temp_dir"
-	logging_info "Building package with [makepkg]..."
-	if ! makepkg -si --noconfirm > /dev/null 2>&1; then
-		logging_error "Error occurred while building [paru]! Cancelling..."
+	logging_info "Building [paru] with [makepkg]..."
+	if ! makepkg -s --noconfirm > /dev/null 2>&1; then
+		logging_error "Error occurred while building [paru]! Cleaning up then cancelling..."
+		cleanup
+		exit 1
+	fi
+	logging_info "Installing [paru] package with [makepkg]..."
+	if ! echo "$pass" | sudo -S makepkg -i --noconfirm > /dev/null 2>&1; then
+		logging_error "Error occurred while installing [paru]! Cleaning up then cancelling..."
+		cleanup
 		exit 1
 	fi
 	logging_info "Build complete. Cleaning up..."
-	cd - > /dev/null
-	rm -rf "$temp_dir"
+	cleanup
 else
 	logging_info "Paru is already installed. Skipping..."
 fi

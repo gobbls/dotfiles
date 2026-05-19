@@ -219,7 +219,7 @@ if ! type -p paru > /dev/null 2>&1; then
 	fi
 	cd "$temp_dir"
 	logging_info "Building [paru] with [makepkg]..."
-	if ! makepkg -s --noconfirm > /dev/null 2>&1; then
+	if ! makepkg -s > /dev/null 2>&1; then
 		logging_error "Error occurred while building [paru]! Cleaning up then cancelling..."
 		cleanup
 		exit 1

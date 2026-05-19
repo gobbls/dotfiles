@@ -129,6 +129,10 @@ xdg-desktop-portal-wlr
 xorg-xwayland
 yazi
 yt-dlp
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting
+zsh-zsh-completions
 ```
 
 #### Rustup

@@ -45,6 +45,19 @@ logging_info "Bootstrapping Gobbls' dots..."
 
 separator
 
+#################### GET SUDO ####################
+
+# avoid waiting for prompt input on every sudo action
+read -sp "Type your (sudo) password: " pass
+
+echo ""
+
+# test the password, might pass due to correct password still being valid from earlier.
+if ! echo "$pass" | sudo -S ls > /dev/null 2>&1; then
+	logging_error "Incorrect password. Cancelling..."
+	exit 0
+fi
+
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if [sudo] is accessible..."
@@ -154,14 +167,14 @@ separator
 logging_info "Installing packages with [pacman]..."
 pacman_packages_len=$(wc -l packages/pacman.txt | awk '{print $1}')
 logging_info "Synchronizing packages (this might take some time)..."
-if ! sudo pacman -Sy > /dev/null 2>&1; then
+if ! echo "$pass" | sudo -S pacman -Sy > /dev/null 2>&1; then
 	logging_error "Error occurred while synching packages! Cancelling..."
 	exit 1
 fi
 
 logging_info "Installing [${pacman_packages_len}] packages (this might take some time)..."
 mapfile -t pacman_packages < packages/pacman.txt
-if ! sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
+if ! echo "$pass" | sudo -S pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
 	logging_error "Error occurred while installing [pacman] packages! Cancelling..."
 	exit 1
 fi
@@ -231,7 +244,7 @@ separator
 
 logging_info "Enabling services..."
 mapfile -t services < services.txt
-if ! sudo systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
+if ! echo "$pass" | sudo -S systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
 	logging_warning "Error occurred while enabling service(s)! Cancelling..."
 	exit 1
 fi
@@ -241,8 +254,9 @@ separator
 
 #################### ENABLE VIRSH ####################
 
-#sudo virsh net-start default
-#sudo virsh net-autostart default
+logging_info "Enabling the [virsh] network..."
+echo "$pass" | sudo -S virsh net-start default
+echo "$pass" | sudo -S virsh net-autostart default
 
 #################### VSCODE ####################
 
@@ -271,7 +285,7 @@ separator
 
 # For permission to start up kvm/qemu.
 logging_info "Adding [${USER}] to [libvirt] group..."
-if ! sudo usermod -aG libvirt $USER; then
+if ! echo "$pass" | sudo -S usermod -aG libvirt $USER; then
 	logging_error "Unable to add user to group! Cancelling..."
 	exit 1
 fi
@@ -284,7 +298,7 @@ separator
 logging_info "Symlinking [keyd] config..."
 path="$HOME/.config/keyd/default.conf"
 target="/etc/keyd/"
-if ! sudo ln -s -- "$path" "$target"; then
+if ! echo "$pass" | sudo -S ln -s -- "$path" "$target"; then
 	logging_error "Error occurred while symlinking [keyd] config! Cancelling..."
 	exit 1
 fi

@@ -42,39 +42,38 @@ check_create_dir() {
 
 #################### STARTUP ####################
 
-logging_info "Bootstrapping Gobbls' dots...\n"
+logging_info "Bootstrapping Gobbls' dots..."
+separator
 
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if [sudo] is accessible..."
-if type -p sudo > /dev/null 2>&1; then
-	logging_ok "[sudo] is accessible"
-else
+if ! type -p sudo > /dev/null 2>&1; then
 	logging_error "[sudo] not available, but is required to install packages! Cancelling..."
 	exit 1
 fi
+logging_ok "[sudo] is accessible"
 
 dest="archlinux.org"
 logging_info "Checking for WAN connection (pinging ${dest})..."
-if ping -c 2 -W 3 -q "$dest" > /dev/null 2>&1; then
-	logging_ok "Verified connection"
-else
+if ! ping -c 2 -W 3 -q "$dest" > /dev/null 2>&1; then
 	logging_error "${dest} not reachable! Internet connection is required. Cancelling..."
 	exit 1
 fi
+logging_ok "Verified connection"
 
 dist="Arch Linux"
+path="/etc/os-release"
 logging_info "Checking if system is ${dist}..."
-if [[ -f /etc/os-release ]]; then
-	source /etc/os-release
-else
-	logging_error "Unable to locate [/etc/os-release]: Not able to check if distro type is ${dist}. Cancelling..."
+if [[ ! -f "$path" ]]; then
+	logging_error "Unable to locate [${path}]: Not able to check if distro type is ${dist}. Cancelling..."
 	exit 1
 fi
+source "$path"
 
-if [[ $ID == "arch" ]]; then
+if [[ "$ID" == "arch" ]]; then
     logging_ok "System is ${dist}"
-elif [[ $ID_LIKE == *"arch"* ]]; then
+elif [[ "$ID_LIKE" == *"arch"* ]]; then
     logging_warning "System is *based* on ${dist}, this script is not tested on such systems"
 	if ! yes_no "Continue?"; then
 		logging_info "Cancelling..."
@@ -85,13 +84,15 @@ else
 	exit 1
 fi
 
+separator
+
 #################### DEPLOY DOTFILES #################### 
 
-backup_conf() {
+function backup_conf() {
 	local path=$1
 	local bak_num=1
 	local bak_path="${path}.bak"
-	while [[ -e $bak_path ]]; do
+	while [[ -e "$bak_path" ]]; do
 		bak_num=$((bak_num + 1))
 		bak_path="${path}.bak${bak_num}"
 	done
@@ -102,17 +103,17 @@ backup_conf() {
 	logging_ok "[${path}] backed up to [${bak_path}]"
 }
 
-create_symlink() {
+function create_symlink() {
 	local source_path=$1
 	local target_path=$2
 	if ! ln -s -- "$source_path" "$target_path"; then
-		logging_error "Error occurred while symlinking [[${target_path}] --> [${source_path}]]! Cancelling..."
+		logging_error "Error occurred while symlinking [${target_path}] -> [${source_path}]! Cancelling..."
 		exit 1
 	fi
-	logging_ok "Symlink created: [[${target_conf_path}] --> [${source_path}]]"
+	logging_ok "Symlink created: [${target_conf_path}] -> [${source_path}]"
 }
 
-item_in_list() {
+function item_in_list() {
 	local item=$1
 	shift
 	local list=("$@")
@@ -122,20 +123,18 @@ item_in_list() {
 	return 1
 }
 
-deploy_dir() {
-	separator
+function deploy_dir() {
 	local conf_source=$1 conf_target=$2
 	shift 2
 	local conf_ignore=("$@")
 	logging_info "Deploying from [${conf_source}/]..."
 	check_create_dir "$conf_target"
 	for conf in "$conf_source"/* "$conf_source"/.*; do
-		[[ -e $conf ]] || continue # skip the [$conf_source/*] literals if there is no match
+		[[ -e "$conf" ]] || continue # skip the [$conf_source/*] literals if there is no match
 		local conf_name=${conf##*/}
 		if item_in_list "$conf" "${conf_ignore[@]}"; then continue; fi
-		logging_info "Linking [${conf}]..."
 		local target_conf_path="${conf_target}/${conf_name}"
-		if [[ -e $target_conf_path ]]; then
+		if [[ -e "$target_conf_path" ]]; then
 			logging_warning "[${conf_name}] already exists in [${conf_target}/]! Creating backup before linking..."
 			backup_conf "$target_conf_path"
 		fi
@@ -148,6 +147,8 @@ deploy_dir 	"$(pwd)/dotfiles/.config" 					"${HOME}/.config"
 deploy_dir 	"$(pwd)/dotfiles/.local/share/applications"	"${HOME}/.local/share/applications"
 deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							"$(pwd)/dotfiles/.config" "$(pwd)/dotfiles/.local"
 
+separator
+
 #################### PACMAN INSTALL #################### 
 
 logging_info "Installing packages with [pacman]..."
@@ -157,14 +158,16 @@ if ! sudo pacman -Sy > /dev/null 2>&1; then
 	logging_error "Error occurred while synching packages! Cancelling..."
 	exit 1
 fi
+
 logging_info "Installing [${pacman_packages_len}] packages (this might take some time)..."
 mapfile -t pacman_packages < packages/pacman.txt
-if sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
-	logging_ok "Successfully installed [pacman] packages"
-else
+if ! sudo pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
 	logging_error "Error occurred while installing [pacman] packages! Cancelling..."
 	exit 1
 fi
+logging_ok "Successfully installed [pacman] packages"
+
+separator
 
 #################### RUSTUP INSTALL ####################
 
@@ -174,16 +177,17 @@ if ! type -p rustup > /dev/null 2>&1; then
 	exit 1
 fi
 
-if rustup default stable > /dev/null 2>&1; then
-	logging_ok "[rust] installed successfully"
-else
+if ! rustup default stable > /dev/null 2>&1; then
 	logging_error "Error occurred while installing [rust]! Cancelling..."
 	exit 1
 fi
+logging_ok "[rust] installed successfully"
+
+separator
 
 #################### INSTALL PARU ####################
 
-logging_info "Checking if [Paru] is installed..."
+logging_info "Checking if [paru] is installed..."
 paru_git="https://aur.archlinux.org/paru.git"
 if ! type -p paru > /dev/null 2>&1; then
 	logging_info "[paru] not found. Installing..."
@@ -197,40 +201,43 @@ if ! type -p paru > /dev/null 2>&1; then
 	fi
 	cd "$temp_dir"
 	logging_info "Building package with [makepkg]..."
-	if makepkg -si --noconfirm > /dev/null 2>&1; then
-		logging_info "Build complete. Cleaning up..."
-	else
-		logging_error "Error occurred while building Paru! Cancelling..."
+	if ! makepkg -si --noconfirm > /dev/null 2>&1; then
+		logging_error "Error occurred while building [paru]! Cancelling..."
 		exit 1
 	fi
-	cd -
+	logging_info "Build complete. Cleaning up..."
+	cd - > /dev/null
 	rm -rf "$temp_dir"
 else
 	logging_info "Paru is already installed. Skipping..."
 fi
+
+separator
 
 #################### PARU INSTALL ####################
 
 paru_packages_len=$(wc -l packages/paru.txt | awk '{print $1}')
 logging_info "Installing [${paru_packages_len}] packages (this might take some time)..."
 mapfile -t paru_packages < packages/paru.txt
-if paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
-	logging_ok "Successfully installed [paru] packages"
-else
+if ! paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
 	logging_error "Error occurred when installing [paru] packages! Cancelling..."
 	exit 1
 fi
+logging_ok "Successfully installed [paru] packages"
+
+separator
 
 #################### ENABLE SERVICES ####################
 
 logging_info "Enabling services..."
 mapfile -t services < services.txt
-if sudo systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
-	logging_ok "Services enabled"
-else
+if ! sudo systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
 	logging_warning "Error occurred while enabling service(s)! Cancelling..."
 	exit 1
 fi
+logging_ok "Services enabled"
+
+separator
 
 #################### ENABLE VIRSH ####################
 
@@ -241,41 +248,50 @@ fi
 
 # install extensions
 logging_info "Installing [code-oss] extensions..."
-if cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension > /dev/null 2>&1; then
-	logging_ok "Successfully installed [code-oss] extensions"
-else
+path="configure/code-oss/extensions.txt"
+if ! cat "${path}" | xargs -n 1 code --install-extension; then
 	logging_warning "Error occurred while installing [code-oss] extension(s)! Cancelling..."
 	exit 1
 fi
+logging_ok "Successfully installed [code-oss] extensions"
 
 # link config
 target_path="$HOME/.config/Code - OSS/User"
-source_path="./configure/code-oss/User/settings.json"
+source_path="configure/code-oss/User/settings.json"
 check_create_dir "$target_path"
-if ln -s -- "$source_path" "$target_path"; then
-	logging_ok "Linked [code] settings file"
-else
+if ! ln -s -- "$source_path" "$target_path"; then
 	logging_error "Failed to link [code] settings file! Cancelling..."
 	exit 1
 fi
+logging_ok "Linked [code] settings file"
+
+separator
 
 #################### ADD USER TO LIBVIRT GROUP ####################
 
 # For permission to start up kvm/qemu.
 logging_info "Adding [${USER}] to [libvirt] group..."
-if sudo usermod -aG libvirt $USER; then
-	logging_ok "User added to group without issues"
-else
+if ! sudo usermod -aG libvirt $USER; then
 	logging_error "Unable to add user to group! Cancelling..."
 	exit 1
 fi
+logging_ok "User added to group without issues"
+
+separator
 
 #################### SYMLINK KEYD CONFIG ####################
 
 logging_info "Symlinking [keyd] config..."
-if sudo ln -s -- "$HOME/.config/keyd/default.conf" "/etc/keyd/"; then
-	logging_ok "[keyd] config symlinked without isses"
-else
+path="$HOME/.config/keyd/default.conf"
+target="/etc/keyd/"
+if ! sudo ln -s -- "$path" "$target"; then
 	logging_error "Error occurred while symlinking [keyd] config! Cancelling..."
 	exit 1
 fi
+logging_ok "[keyd] config symlinked without isses"
+
+separator
+
+#################### END ####################
+
+echo "Done!"

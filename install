@@ -42,7 +42,7 @@ check_create_dir() {
 
 #################### STARTUP ####################
 
-logging_info "Bootstrapping Gobbls' dots..."
+logging_info "Bootstrapping Gobbls' dots...\n"
 
 #################### SYSTEM CHECKS ####################
 
@@ -112,15 +112,27 @@ create_symlink() {
 	logging_ok "Symlink created: [[${target_conf_path}] --> [${source_path}]]"
 }
 
+item_in_list() {
+	local item=$1
+	shift
+	local list=("$@")
+	for i in "${list[@]}"; do
+		[[ "$i" == "$item" ]] && return 0
+	done
+	return 1
+}
+
 deploy_dir() {
 	separator
-	local conf_source=$1 conf_target=$2 conf_ignore=${3-}
+	local conf_source=$1 conf_target=$2
+	shift 2
+	local conf_ignore=("$@")
 	logging_info "Deploying from [${conf_source}/]..."
 	check_create_dir "$conf_target"
 	for conf in "$conf_source"/* "$conf_source"/.*; do
 		[[ -e $conf ]] || continue # skip the [$conf_source/*] literals if there is no match
 		local conf_name=${conf##*/}
-		[[ $conf_name == $conf_ignore ]] && continue
+		if item_in_list $conf "${conf_ignore[@]}"; then continue; fi
 		logging_info "Linking [${conf}]..."
 		local target_conf_path="${conf_target}/${conf_name}"
 		if [[ -e $target_conf_path ]]; then
@@ -134,7 +146,7 @@ deploy_dir() {
 #			source_path									target_path							ignore_item
 deploy_dir 	"$(pwd)/dotfiles/.config" 					"${HOME}/.config"
 deploy_dir 	"$(pwd)/dotfiles/.local/share/applications"	"${HOME}/.local/share/applications"
-deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							".config"
+deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							".config" ".local"
 
 #################### PACMAN INSTALL #################### 
 
@@ -225,13 +237,25 @@ fi
 #sudo virsh net-start default
 #sudo virsh net-autostart default
 
-#################### VSCODE EXTENSIONS INSTALL ####################
+#################### VSCODE ####################
 
+# install extensions
 logging_info "Installing [code-oss] extensions..."
 if cat ./configure/code-oss/extensions.txt | xargs -n 1 code --install-extension > /dev/null 2>&1; then
 	logging_ok "Successfully installed [code-oss] extensions"
 else
 	logging_warning "Error occurred while installing [code-oss] extension(s)! Cancelling..."
+	exit 1
+fi
+
+# link config
+target_path="$HOME/.config/Code - OSS/User"
+source_path="./configure/code-oss/User/settings.json"
+check_create_dir "$target_path"
+if ln -s -- "$source_path" "$target_path"; then
+	logging_ok "Linked [code] settings file"
+else
+	logging_error "Failed to link [code] settings file! Cancelling..."
 	exit 1
 fi
 
@@ -249,7 +273,7 @@ fi
 #################### SYMLINK KEYD CONFIG ####################
 
 logging_info "Symlinking [keyd] config..."
-if sudo ln -s $HOME/.config/keyd/default.conf /etc/keyd/; then
+if sudo ln -s -- "$HOME/.config/keyd/default.conf" "/etc/keyd/"; then
 	logging_ok "[keyd] config symlinked without isses"
 else
 	logging_error "Error occurred while symlinking [keyd] config! Cancelling..."

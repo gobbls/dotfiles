@@ -257,7 +257,7 @@ logging_ok "Successfully installed [code-oss] extensions"
 
 # link config
 target_path="$HOME/.config/Code - OSS/User"
-source_path="configure/code-oss/User/settings.json"
+source_path="$(pwd)/configure/code-oss/User/settings.json"
 check_create_dir "$target_path"
 if ! ln -s -- "$source_path" "$target_path"; then
 	logging_error "Failed to link [code] settings file! Cancelling..."

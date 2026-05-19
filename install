@@ -132,7 +132,7 @@ deploy_dir() {
 	for conf in "$conf_source"/* "$conf_source"/.*; do
 		[[ -e $conf ]] || continue # skip the [$conf_source/*] literals if there is no match
 		local conf_name=${conf##*/}
-		if item_in_list $conf "${conf_ignore[@]}"; then continue; fi
+		if item_in_list "$conf" "${conf_ignore[@]}"; then continue; fi
 		logging_info "Linking [${conf}]..."
 		local target_conf_path="${conf_target}/${conf_name}"
 		if [[ -e $target_conf_path ]]; then
@@ -146,7 +146,7 @@ deploy_dir() {
 #			source_path									target_path							ignore_item
 deploy_dir 	"$(pwd)/dotfiles/.config" 					"${HOME}/.config"
 deploy_dir 	"$(pwd)/dotfiles/.local/share/applications"	"${HOME}/.local/share/applications"
-deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							".config" ".local"
+deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							"$HOME/.config" "$HOME/.local"
 
 #################### PACMAN INSTALL #################### 
 

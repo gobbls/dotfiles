@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 #################### META STUFF #################### 
 
 R="\e[m"
@@ -43,6 +42,7 @@ check_create_dir() {
 #################### STARTUP ####################
 
 logging_info "Bootstrapping Gobbls' dots..."
+
 separator
 
 #################### SYSTEM CHECKS ####################
@@ -291,6 +291,11 @@ fi
 logging_ok "[keyd] config symlinked without isses"
 
 separator
+
+#################### SET THEME ####################
+
+# Arch relies mostly on this, instead of only GTK / QT, and needs to be set.
+gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 
 #################### END ####################
 

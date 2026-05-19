@@ -132,7 +132,7 @@ yt-dlp
 zsh
 zsh-autosuggestions
 zsh-syntax-highlighting
-zsh-zsh-completions
+zsh-completions
 ```
 
 #### Rustup

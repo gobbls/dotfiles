@@ -6,6 +6,8 @@
 ## Install
 
 > The `install` script is currently a work in progress, and does not bootstap the complete setup. Use with caution.
+> Missing setup for:
+> - Neovim tree-sitter parsers (clone parsers, build and then diplay to neovim dir)
 
 ```bash
 git clone https://github.com/gobbls/dotfiles.git
@@ -168,7 +170,7 @@ libvirtd
 #### Neovim
 
 - Tree-sitter grammars (`nvim/parser-repos/*`) are downloaded and compiled individually, and output to `nvim/parser/`.
-- The Tree-sitter queries were downloaded in bulk from the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries) repo, which was archived some time ago.
+- The Tree-sitter queries are downloaded in bulk from the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries) repo, which was archived some time ago.
 
 #### Code (code-oss)
 

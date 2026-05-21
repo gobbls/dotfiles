@@ -150,7 +150,7 @@ echo ""
 
 # test the password, might pass due to correct password still being
 # valid from earlier don't know how to correct that.
-if ! echo "$pass" | sudo -S ls > /dev/null 2>>> "$LOGGFILE_PATH"; then
+if ! echo "$pass" | sudo -S ls > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_warning "Incorrect password. Cancelling..."
 	exit 0
 fi
@@ -158,7 +158,7 @@ fi
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if [sudo] is accessible..."
-if ! type -p sudo > /dev/null 2>>> "$LOGGFILE_PATH"; then
+if ! type -p sudo > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_error "[sudo] not available, but is required to install packages! Cancelling..."
 	exit 1
 fi

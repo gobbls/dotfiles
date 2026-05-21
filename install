@@ -19,7 +19,7 @@ HOME_SOURCE_PATH="$(pwd)/dotfiles"
 HOME_TARGET_PATH="$HOME"
 VSCODE_SOURCE_PATH="$(pwd)/configure/code-oss/User/settings.json"
 VSCODE_TARGET_PATH="${HOME}/.config/Code - OSS/User"
-KEYD_SOURCE_PATH="${HOME}/.config/keyd/default.conf"
+KEYD_SOURCE_PATH="$(pwd)/dotfiles/.config/keyd/default.conf"
 KEYD_TARGET_PATH="/etc/keyd/"
 
 # I like to keep the directory structure as intended once deployed,

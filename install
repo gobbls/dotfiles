@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+###################################################################
 #################### SOURCES / TARGETS / PATHS #################### 
+################################################################### 
 
 PACMAN_PACKAGES_PATH="./packages/pacman.txt"
 PARU_PACKAGES_PATH="./packages/pacman.txt"
@@ -67,7 +69,9 @@ TS_PARSERS_URLS=(
 )
 PARU_GIT_URL="https://aur.archlinux.org/paru.git"
 
-#################### LOGGING #################### 
+###################################################################
+############################ LOGGING ##############################
+###################################################################
 
 R="\e[m"
 BOLD="\e[1m"
@@ -96,7 +100,9 @@ function logging_error() {
 	echo "See ${LOGGFILE_PATH} for more information"
 }
 
-#################### META STUFF #################### 
+###################################################################
+############################ META STUFF ###########################
+###################################################################
 
 function yes_no() {
 	local q="${1:-Continue?}"
@@ -116,7 +122,9 @@ function check_create_dir() {
 	fi
 }
 
-#################### STARTUP ####################
+###################################################################
+############################# STARTUP #############################
+###################################################################
 
 echo "
 ______________________________________________________________________
@@ -150,7 +158,9 @@ ______________________________________________________________________
 logging_info "Bootstrapping Gobbls' dots..."
 separator
 
-#################### GET SUDO ####################
+###################################################################
+############################# GET SUDO ############################
+###################################################################
 
 # avoid waiting for prompt input on every sudo action.
 # NB: doesn't work with paru build, can't preemptively use `sudo` for `makepkg -i`.
@@ -166,7 +176,9 @@ if ! echo "$pass" | sudo -S ls > /dev/null 2>&1; then
 	exit 0
 fi
 
-#################### SYSTEM CHECKS ####################
+###################################################################
+########################## SYSTEM CHECKS ##########################
+###################################################################
 
 logging_info "Checking if [sudo] is accessible..."
 if ! type -p sudo > /dev/null 2>> "$LOGGFILE_PATH"; then
@@ -207,7 +219,9 @@ fi
 
 separator
 
-#################### DEPLOY DOTFILES #################### 
+###################################################################
+######################### DEPLOY DOTFILES #########################
+###################################################################
 
 function backup_conf() {
 	local path=$1
@@ -270,7 +284,9 @@ deploy_dir 	"$HOME_SOURCE_PATH"			"$HOME_TARGET_PATH"			$HOME_IGNORE_PATHS
 
 separator
 
-#################### PACMAN INSTALL #################### 
+###################################################################
+########################## PACMAN INSTALL #########################
+###################################################################
 
 logging_info "Installing packages with [pacman]..."
 logging_info "Synchronizing packages (this might take some time)..."
@@ -290,7 +306,9 @@ logging_ok "Successfully installed [pacman] packages"
 
 separator
 
-#################### RUSTUP INSTALL ####################
+###################################################################
+########################## RUSTUP INSTALL #########################
+###################################################################
 
 logging_info "Installing [rust] with [rustup]..."
 if ! type -p rustup > /dev/null 2>> "$LOGGFILE_PATH"; then
@@ -306,7 +324,9 @@ logging_ok "[rust] installed successfully"
 
 separator
 
-#################### INSTALL PARU ####################
+###################################################################
+########################### INSTALL PARU ##########################
+###################################################################
 
 function cleanup() {
 	cd - > /dev/null
@@ -337,7 +357,9 @@ fi
 
 separator
 
-#################### PARU INSTALL ####################
+###################################################################
+########################### PARU INSTALL ##########################
+###################################################################
 
 paru_packages_len=$(wc -l packages/paru.txt | awk '{print $1}')
 logging_info "Synching and Installing [${paru_packages_len}] packages (this might take some time)..."
@@ -349,17 +371,23 @@ fi
 
 separator
 
-#################### ENABLE SERVICES ####################
+###################################################################
+######################### ENABLE SERVICES #########################
+###################################################################
 
 logging_info "Enabling services..."
 mapfile -t services < "$SERVICES_PATH"
 if ! echo "$pass" | sudo -S systemctl enable --now "${services[@]}" > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_warning "Error occurred while enabling service(s)! Skipping..."
+else
+	logging_ok "Successfully enabled services"
 fi
 
 separator
 
-#################### VSCODE ####################
+###################################################################
+############################## VSCODE #############################
+###################################################################
 
 logging_info "Installing [code-oss] extensions..."
 if ! cat "${VSCODE_EXTENSIONS_PATH}" | xargs -n 1 code --install-extension > /dev/null 2>> "$LOGGFILE_PATH"; then
@@ -378,7 +406,9 @@ fi
 
 separator
 
+###################################################################
 #################### ADD USER TO LIBVIRT GROUP ####################
+###################################################################
 
 # For permission to start up kvm/qemu.
 logging_info "Adding [${USER}] to [libvirt] group..."
@@ -390,7 +420,9 @@ fi
 
 separator
 
-#################### SYMLINK KEYD CONFIG ####################
+###################################################################
+####################### SYMLINK KEYD CONFIG #######################
+###################################################################
 
 logging_info "Symlinking [keyd] config..."
 if ! echo "$pass" | sudo -S ln -s -- "$KEYD_SOURCE_PATH" "$KEYD_TARGET_PATH"; then
@@ -401,7 +433,9 @@ fi
 
 separator
 
-#################### SET THEME ####################
+###################################################################
+############################ SET THEME ############################
+###################################################################
 
 # Arch relies mostly on [org.gnome] for themes, instead of GTK / QT, and needs to be set
 logging_info "Setting icon theme to [${THEME}]..."
@@ -413,7 +447,11 @@ fi
 
 separator
 
-#################### NEOVIM TREE-SITTER QUERY SETUP ####################
+###################################################################
+################## NEOVIM TREE-SITTER QUERY SETUP #################
+###################################################################
+
+logging_info "Setting up [neovim] [tree-sitter] queries..."
 
 function clone_ts_repo() {
 	logging_info "Cloning [nvim-treesitter] repo..."
@@ -447,12 +485,16 @@ clone_ts_repo && copy_ts_queries && delete_ts_repo
 
 separator
 
-#################### NEOVIM TREE-SITTER PARSERS SETUP ####################
+###################################################################
+################ NEOVIM TREE-SITTER PARSERS SETUP #################
+###################################################################
 
 # WIP
 echo "NB!: Still need to set up the tree-sitter parsers"
 separator
 
-#################### END ####################
+###################################################################
+############################### END ###############################
+###################################################################
 
 echo "Done!"

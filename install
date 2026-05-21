@@ -1,6 +1,63 @@
 #!/usr/bin/env bash
 
-#################### META STUFF #################### 
+#################### SOURCES / TARGETS / PATHS #################### 
+
+PACMAN_PACKAGES_PATH="./packages/pacman.txt"
+PARU_PACKAGES_PATH="./packages/pacman.txt"
+SERVICES_PATH="./services.txt"
+VSCODE_EXTENSIONS_PATH="./configure/code-oss/extensions.txt"
+LOGGFILE_PATH="./$(date +%Hh%Mm)_install.log"
+
+# configs
+CONFIG_SOURCE_PATH="$(pwd)/dotfiles/.config"
+CONFIG_TARGET_PATH="${HOME}/.config"
+APPLICATIONS_SOURCE_PATH="$(pwd)/dotfiles/.local/share/applications"
+APPLICATIONS_TARGET_PATH="${HOME}/.local/share/applications"
+HOME_SOURCE_PATH="$(pwd)/dotfiles"
+HOME_TARGET_PATH="$HOME"
+VSCODE_SOURCE_PATH="$(pwd)/configure/code-oss/User/settings.json"
+VSCODE_TARGET_PATH="${HOME}/.config/Code - OSS/User"
+KEYD_SOURCE_PATH="${HOME}/.config/keyd/default.conf"
+KEYD_TARGET_PATH="/etc/keyd/"
+
+# I like to keep the directory structure as intended once deployed,
+# but that means we can end up messing with configs that are
+# handled by some other metod and thus clash. Therefore,
+# I have added a way to ignore configs that are independently handled.
+HOME_IGNORE_PATHS=("$CONFIG_SOURCE_PATH" "$(pwd)/dotfiles/.local")
+
+# neovim tree-sitter parser paths
+NVIM_PARSERS_PATH="${HOME}/.config/nvim/parser"
+NVIM_PARSERS_DIR="${HOME}/.config/nvim/parser-repos"
+
+# neovim tree-sitter query paths
+NVIM_TREE_SITTER_DOWNLOAD_PATH="${HOME}/nvim-treesitter"
+NVIM_TREE_SITTER_QUERIES_SOURCE_PATH="${NVIM_TREE_SITTER_DOWNLOAD_PATH}/runtime/queries"
+NVIM_TREE_SITTER_QUERIES_TARGET_PATH="${HOME}/.config/nvim/queries"
+
+# misc
+PING_TEST_URL="archlinux.org"
+DIST_ID="arch"
+BACKUP_EXT=".bak"
+CUR_LINUX_VERSION="7.0.8"
+DATE_OF_WRITING="2026.05.21"
+THEME="Papirus"
+
+# urls
+GITHUB_URL_BASE="https://github.com"
+TS_URL="${GITHUB_URL_BASE}/nvim-treesitter/nvim-treesitter"
+TS_PARSERS_URL_BASE="${GITHUB_URL_BASE}/tree-sitter/tree-sitter-"
+TS_BASH_URL="${TS_PARSERS_URL_BASE}bash"
+TS_REGEX_URL="${TS_PARSERS_URL_BASE}regex"
+TS_HTML_URL="${TS_PARSERS_URL_BASE}html"
+TS_CSS_URL="${TS_PARSERS_URL_BASE}css"
+TS_JAVASCRIPT_URL="${TS_PARSERS_URL_BASE}javascript"
+TS_TYPESCRIPT_URL="${TS_PARSERS_URL_BASE}typescript"
+TS_PYTHON_URL="${TS_PARSERS_URL_BASE}python"
+TS_SVELTE_URL="${GITHUB_URL_BASE}/tree-sitter-grammars/tree-sitter-bash"
+PARU_GIT_URL="https://aur.archlinux.org/paru.git"
+
+#################### LOGGING #################### 
 
 R="\e[m"
 BOLD="\e[1m"
@@ -15,20 +72,30 @@ INFO="[${BOLD}>${R}]"
 WARNING="[${BOLD}${YELLOW}-${R}]"
 ERROR="[${BOLD}${RED}!${R}]"
 
-logging_info() { echo -e "$INFO $1"; }
-logging_ok() { echo -e "$OK $1"; }
-logging_warning() { echo -e "$WARNING $1"; }
-logging_error() { echo -e "$ERROR $1"; }
+function write_to_logfile() { echo "[$(date +%T)] $1" >> "$LOGGFILE_PATH"; }
+function s() { echo "--------------------------------------------------------------------------------"; }
+function separator() { echo $(s); echo "[$(date +%T)] $(s)" >> "$LOGGFILE_PATH"; }
+function logging_info() { echo -e "$INFO $1"; write_to_logfile "[>] $1"; }
+function logging_ok() { echo -e "$OK $1"; write_to_logfile "[+] $1"; }
+function logging_warning() { echo -e "$WARNING $1"; write_to_logfile "[-] $1"; }
 
-separator() { echo "--------------------------------------------------------------------------------"; }
+function logging_error() {
+	echo -e "$ERROR $1"
+	write_to_logfile "[!] $1"
+	# an `exit 1` usually happens after here, notify about the logfile
+	echo "See ${LOGGFILE_PATH} for more information"
+}
 
-yes_no() {
+#################### META STUFF #################### 
+
+function yes_no() {
 	local q="${1:-Continue?}"
 	read -r -p "$q [y/N]: " answer
+	write_to_logfile "${q} [y/N]: ${answer}"
 	[[ $answer =~ ^[Yy]$ ]]
 }
 
-check_create_dir() {
+function check_create_dir() {
 	local path=$1
 	if [[ ! -e "$path" ]]; then
 		logging_info "Directory [${path}] not found. Creating..."
@@ -41,52 +108,82 @@ check_create_dir() {
 
 #################### STARTUP ####################
 
-logging_info "Bootstrapping Gobbls' dots..."
+echo "
+______________________________________________________________________
+|
+| Last updated ${DATE_OF_WRITING}
+| 
+| This script is written to work exclusevly with my (gobbls)
+| computer — a Lenovo X1 Carbon Gen. 10 with Arch Linux (${CUR_LINUX_VERSION})
+| — in order to fully recreate my current setup and preferences.
+| There is no guarantee that it will work with your system.
+| 
+| This script is intended to be ran immediately after a fresh
+| Arch install, but needs to meet the following preconditions:
+|  - WAN connection
+|  - [sudo] installed with user added to group
+| 
+| Preexisting files in these directories will be backed up
+| before symlinking files with the same names:
+|  - [~/*]
+|  - [~/.config/*]
+|  - [~/.local/share/applications/*]
+| 
+| Intentionaly excluded configs / setups:
+|  - FStab
+|  - AppImage downlaods and unzipping
+|  - [~/] directories for Thunar bookmarks
+|  - Virsh network service ($ virsh net-start default)
+|_____________________________________________________________________
+"
 
+logging_info "Bootstrapping Gobbls' dots..."
 separator
 
 #################### GET SUDO ####################
 
-# avoid waiting for prompt input on every sudo action
+# avoid waiting for prompt input on every sudo action.
+# NB: doesn't work with paru build, can't preemptively use `sudo` for `makepkg -i`.
 read -sp "Type your (sudo) password: " pass
 
 echo ""
 
-# test the password, might pass due to correct password still being valid from earlier.
-if ! echo "$pass" | sudo -S ls > /dev/null 2>&1; then
-	logging_error "Incorrect password. Cancelling..."
+# test the password, might pass due to correct password still being
+# valid from earlier don't know how to correct that.
+if ! echo "$pass" | sudo -S ls > /dev/null 2>>> "$LOGGFILE_PATH"; then
+	logging_warning "Incorrect password. Cancelling..."
 	exit 0
 fi
 
 #################### SYSTEM CHECKS ####################
 
 logging_info "Checking if [sudo] is accessible..."
-if ! type -p sudo > /dev/null 2>&1; then
+if ! type -p sudo > /dev/null 2>>> "$LOGGFILE_PATH"; then
 	logging_error "[sudo] not available, but is required to install packages! Cancelling..."
 	exit 1
 fi
 logging_ok "[sudo] is accessible"
 
-dest="archlinux.org"
-logging_info "Checking for WAN connection (pinging ${dest})..."
-if ! ping -c 2 -W 3 -q "$dest" > /dev/null 2>&1; then
-	logging_error "${dest} not reachable! Internet connection is required. Cancelling..."
+logging_info "Checking for WAN connection (pinging ${PING_TEST_URL})..."
+if ! ping -c 2 -W 3 -q -- "$PING_TEST_URL" > /dev/null 2>> "$LOGGFILE_PATH"; then
+	logging_error "${PING_TEST_URL} not reachable! Internet connection is required. Cancelling..."
 	exit 1
 fi
 logging_ok "Verified connection"
 
 dist="Arch Linux"
-path="/etc/os-release"
+
+VSCODE_EXTENSION_PATH="/etc/os-release"
 logging_info "Checking if system is ${dist}..."
-if [[ ! -f "$path" ]]; then
-	logging_error "Unable to locate [${path}]: Not able to check if distro type is ${dist}. Cancelling..."
+if [[ ! -f "$VSCODE_EXTENSION_PATH" ]]; then
+	logging_error "Unable to locate [${VSCODE_EXTENSION_PATH}]: Not able to check if distro type is ${dist}. Cancelling..."
 	exit 1
 fi
-source "$path"
+source "$VSCODE_EXTENSION_PATH"
 
-if [[ "$ID" == "arch" ]]; then
+if [[ "$ID" == "$DIST_ID" ]]; then
     logging_ok "System is ${dist}"
-elif [[ "$ID_LIKE" == *"arch"* ]]; then
+elif [[ "$ID_LIKE" == *"$DIST_ID"* ]]; then
     logging_warning "System is *based* on ${dist}, this script is not tested on such systems"
 	if ! yes_no "Continue?"; then
 		logging_info "Cancelling..."
@@ -104,10 +201,10 @@ separator
 function backup_conf() {
 	local path=$1
 	local bak_num=1
-	local bak_path="${path}.bak"
+	local bak_path="${path}${BACKUP_EXT}"
 	while [[ -e "$bak_path" ]]; do
 		bak_num=$((bak_num + 1))
-		bak_path="${path}.bak${bak_num}"
+		bak_path="${path}${BACKUP_EXT}${bak_num}"
 	done
 	if ! mv -- "$path" "$bak_path"; then
 		logging_error "Error occurred while moving [${path}] to [${bak_path}]! Cancelling..."
@@ -155,26 +252,26 @@ function deploy_dir() {
 	done
 }
 
-#			source_path									target_path							ignore_item
-deploy_dir 	"$(pwd)/dotfiles/.config" 					"${HOME}/.config"
-deploy_dir 	"$(pwd)/dotfiles/.local/share/applications"	"${HOME}/.local/share/applications"
-deploy_dir 	"$(pwd)/dotfiles" 							"$HOME" 							"$(pwd)/dotfiles/.config" "$(pwd)/dotfiles/.local"
+#			source_path					target_path					ignore_item
+deploy_dir 	"$CONFIG_SOURCE_PATH"		"$CONFIG_TARGET_PATH"	
+deploy_dir 	"$APPLICATIONS_SOURCE_PATH"	"$APPLICATIONS_TARGET_PATH"
+deploy_dir 	"$HOME_SOURCE_PATH"			"$HOME_TARGET_PATH"			$HOME_IGNORE_PATHS	
 
 separator
 
 #################### PACMAN INSTALL #################### 
 
 logging_info "Installing packages with [pacman]..."
-pacman_packages_len=$(wc -l packages/pacman.txt | awk '{print $1}')
+pacman_packages_len=$(wc -l "$PACMAN_PACKAGES_PATH" | awk '{print $1}')
 logging_info "Synchronizing packages (this might take some time)..."
-if ! echo "$pass" | sudo -S pacman -Sy > /dev/null 2>&1; then
+if ! echo "$pass" | sudo -S pacman -Sy > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_error "Error occurred while synching packages! Cancelling..."
 	exit 1
 fi
 
 logging_info "Installing [${pacman_packages_len}] packages (this might take some time)..."
-mapfile -t pacman_packages < packages/pacman.txt
-if ! echo "$pass" | sudo -S pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>&1; then
+mapfile -t pacman_packages < "$PACMAN_PACKAGES_PATH"
+if ! echo "$pass" | sudo -S pacman -S --needed --noconfirm "${pacman_packages[@]}" > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_error "Error occurred while installing [pacman] packages! Cancelling..."
 	exit 1
 fi
@@ -185,12 +282,12 @@ separator
 #################### RUSTUP INSTALL ####################
 
 logging_info "Installing [rust] with [rustup]..."
-if ! type -p rustup > /dev/null 2>&1; then
+if ! type -p rustup > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_warning "[rustup] should have been installed before, but was not found! Cancelling..."
 	exit 1
 fi
 
-if ! rustup default stable > /dev/null 2>&1; then
+if ! rustup default stable > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_error "Error occurred while installing [rust]! Cancelling..."
 	exit 1
 fi
@@ -206,26 +303,23 @@ function cleanup() {
 }
 
 logging_info "Checking if [paru] is installed..."
-paru_git="https://aur.archlinux.org/paru.git"
-if ! type -p paru > /dev/null 2>&1; then
+if ! type -p paru > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_info "[paru] not found. Installing..."
 	temp_dir=$(mktemp -d)
-	logging_info "Temporary directory [${temp_dir}] created"
-	logging_info "Cloning [paru] repo..."
-	if ! git clone "$paru_git" "$temp_dir" > /dev/null 2>&1; then
+	if ! git clone --depth=1 -- "$PARU_GIT_URL" "$temp_dir" > /dev/null 2>> "$LOGGFILE_PATH"; then
 		logging_error "Failed to clone the [paru] repo! Cleaning up then cancelling..."
 		rmdir "$temp_dir"
 		exit 1
 	fi
 	cd "$temp_dir"
-	logging_info "Building [paru] with [makepkg]..."
-	if ! makepkg -s > /dev/null 2>&1; then
+	logging_info "Building [paru] with [makepkg] (this might take some time)..."
+	if ! makepkg -s > /dev/null 2>> "$LOGGFILE_PATH"; then
 		logging_error "Error occurred while building [paru]! Cleaning up then cancelling..."
 		cleanup
 		exit 1
 	fi
 	logging_info "Installing [paru] package with [makepkg]..."
-	if ! makepkg -i > /dev/null 2>&1; then
+	if ! makepkg -i 2>> "$LOGGFILE_PATH"; then
 		logging_error "Error occurred while installing [paru]! Cleaning up then cancelling..."
 		cleanup
 		exit 1
@@ -242,8 +336,8 @@ separator
 
 paru_packages_len=$(wc -l packages/paru.txt | awk '{print $1}')
 logging_info "Installing [${paru_packages_len}] packages (this might take some time)..."
-mapfile -t paru_packages < packages/paru.txt
-if ! paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>&1; then
+mapfile -t paru_packages < "$PARU_PACKAGES_PATH"
+if ! paru -S --needed --noconfirm "${paru_packages[@]}" > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_error "Error occurred when installing [paru] packages! Cancelling..."
 	exit 1
 fi
@@ -254,8 +348,8 @@ separator
 #################### ENABLE SERVICES ####################
 
 logging_info "Enabling services..."
-mapfile -t services < services.txt
-if ! echo "$pass" | sudo -S systemctl enable --now "${services[@]}" > /dev/null 2>&1; then
+mapfile -t services < "$SERVICES_PATH"
+if ! echo "$pass" | sudo -S systemctl enable --now "${services[@]}" > /dev/null 2>> "$LOGGFILE_PATH"; then
 	logging_warning "Error occurred while enabling service(s)! Cancelling..."
 	exit 1
 fi
@@ -263,28 +357,19 @@ logging_ok "Services enabled"
 
 separator
 
-#################### ENABLE VIRSH ####################
-
-logging_info "Enabling the [virsh] network..."
-echo "$pass" | sudo -S virsh net-start default
-echo "$pass" | sudo -S virsh net-autostart default
-
 #################### VSCODE ####################
 
 # install extensions
 logging_info "Installing [code-oss] extensions..."
-path="configure/code-oss/extensions.txt"
-if ! cat "${path}" | xargs -n 1 code --install-extension; then
+if ! cat "${VSCODE_EXTENSIONS_PATH}" | xargs -n 1 code --install-extension; then
 	logging_warning "Error occurred while installing [code-oss] extension(s)! Cancelling..."
 	exit 1
 fi
 logging_ok "Successfully installed [code-oss] extensions"
 
 # link config
-target_path="$HOME/.config/Code - OSS/User"
-source_path="$(pwd)/configure/code-oss/User/settings.json"
-check_create_dir "$target_path"
-if ! ln -s -- "$source_path" "$target_path"; then
+check_create_dir "$VSCODE_TARGET_PATH"
+if ! ln -s -- "$VSCODE_SOURCE_PATH" "$VSCODE_TARGET_PATH" 2>> "$LOGGFILE_PATH"; then
 	logging_error "Failed to link [code] settings file! Cancelling..."
 	exit 1
 fi
@@ -296,36 +381,55 @@ separator
 
 # For permission to start up kvm/qemu.
 logging_info "Adding [${USER}] to [libvirt] group..."
-if ! echo "$pass" | sudo -S usermod -aG libvirt $USER; then
+if ! echo "$pass" | sudo -S usermod -aG libvirt $USER 2>> "$LOGGFILE_PATH"; then
 	logging_error "Unable to add user to group! Cancelling..."
 	exit 1
 fi
-logging_ok "User added to group without issues"
+logging_ok "User added to group"
 
 separator
 
 #################### SYMLINK KEYD CONFIG ####################
 
 logging_info "Symlinking [keyd] config..."
-path="$HOME/.config/keyd/default.conf"
-target="/etc/keyd/"
-if ! echo "$pass" | sudo -S ln -s -- "$path" "$target"; then
+if ! echo "$pass" | sudo -S ln -s -- "$KEYD_SOURCE_PATH" "$KEYD_TARGET_PATH"; then
 	logging_error "Error occurred while symlinking [keyd] config! Cancelling..."
 	exit 1
 fi
-logging_ok "[keyd] config symlinked without isses"
+logging_ok "[keyd] config symlinked"
 
 separator
 
 #################### SET THEME ####################
 
-# Arch relies mostly on this, instead of only GTK / QT, and needs to be set.
-gsettings set org.gnome.desktop.interface icon-theme "Papirus"
+# Arch relies mostly on [org.gnome] for themes, instead of GTK / QT, and needs to be set
+logging_info "Setting icon theme to [${THEME}]..."
+if ! gsettings set org.gnome.desktop.interface icon-theme "$THEME" 2>> "$LOGGFILE_PATH"; then
+	logging_error "Error occurred while setting the icon theme! Cancelling..."
+	exit 1
+fi
+
+#################### NEOVIM SETUP ####################
+
+logging_info "Cloning [nvim-treesitter] repo..."
+if ! git clone --depth=1 -- "$TS_URL" "$HOME" > /dev/null 2>> "$LOGGFILE_PATH"; then
+	logging_error "Failed to clone [nvim-treesitter]! Cancelling..."
+	exit 1
+fi
+
+logging_info "Copying [nvim-treesitter] queries into [neovim] config..."
+if ! cp -r -- "$NVIM_TREE_SITTER_QUERIES_SOURCE_PATH" "$NVIM_TREE_SITTER_QUERIES_TARGET_PATH" 2>> "$LOGGFILE_PATH"; then
+	logging_error "Failed to copy from [${NVIM_TREE_SITTER_QUERIES_SOURCE_PATH}] to [${NVIM_TREE_SITTER_QUERIES_TARGET_PATH}]! Cancelling..."
+	exit 1
+fi
+
+logging_info "Deleting [nvim-treesitter] repo..."
+if ! rm -rf -- "$NVIM_TREE_SITTER_DOWNLOAD_PATH" 2>> "$LOGGFILE_PATH"; then
+	logging_warning "Not able to delete [${NVIM_TREE_SITTER_DOWNLOAD_PATH}]! Skipping..."
+fi
+
+separator
 
 #################### END ####################
 
 echo "Done!"
-
-#################### OTHER STUFF TO (PERHAPS) CONFIGURE ####################
-
-# - Set up FStab to mount samba network drive.

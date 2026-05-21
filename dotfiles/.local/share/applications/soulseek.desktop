@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Soulseek
+Exec=/opt/SoulseekQt-2024-6-30.AppImage %F
+Icon=soulseek
+Comment=SoulseekQt
+Terminal=false
+Categories=Utility;

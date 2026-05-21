@@ -417,7 +417,7 @@ separator
 
 function clone_ts_repo() {
 	logging_info "Cloning [nvim-treesitter] repo..."
-	if ! git clone --depth=1 -- "$TS_URL" "$HOME" > /dev/null 2>> "$LOGGFILE_PATH"; then
+	if ! git clone --depth=1 -- "$TS_URL" "$NVIM_TREE_SITTER_DOWNLOAD_PATH" > /dev/null 2>> "$LOGGFILE_PATH"; then
 		logging_warning "Failed to clone [nvim-treesitter]! Skipping..."
 		return 1
 	fi
@@ -426,6 +426,7 @@ function clone_ts_repo() {
 
 function copy_ts_queries() {
 	logging_info "Copying [nvim-treesitter] queries into [neovim] config..."
+	check_create_dir "$NVIM_TREE_SITTER_QUERIES_TARGET_PATH"
 	if ! cp -r -- "$NVIM_TREE_SITTER_QUERIES_SOURCE_PATH" "$NVIM_TREE_SITTER_QUERIES_TARGET_PATH" 2>> "$LOGGFILE_PATH"; then
 		logging_warning "Failed to copy from [${NVIM_TREE_SITTER_QUERIES_SOURCE_PATH}] to [${NVIM_TREE_SITTER_QUERIES_TARGET_PATH}]! Skipping..."
 		return 1

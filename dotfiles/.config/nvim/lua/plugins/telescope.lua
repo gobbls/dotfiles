@@ -12,11 +12,7 @@ return {
 	opts = {
 		pickers = {
 			find_files = {
-				-- Disable `nvim-web-devicons` icons in the file-picker.
-				disable_devicons = true,
-			},
-			live_grep = {
-				disable_devicons = true,
+				hidden = true,
 			},
 		},
 	},

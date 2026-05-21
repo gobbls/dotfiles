@@ -5,7 +5,7 @@
 ################################################################### 
 
 PACMAN_PACKAGES_PATH="./packages/pacman.txt"
-PARU_PACKAGES_PATH="./packages/pacman.txt"
+PARU_PACKAGES_PATH="./packages/paru.txt"
 SERVICES_PATH="./services.txt"
 VSCODE_EXTENSIONS_PATH="./configure/code-oss/extensions.txt"
 LOGGFILE_PATH="./$(date +%Hh%Mm)_install.log"

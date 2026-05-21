@@ -55,6 +55,16 @@ TS_JAVASCRIPT_URL="${TS_PARSERS_URL_BASE}javascript"
 TS_TYPESCRIPT_URL="${TS_PARSERS_URL_BASE}typescript"
 TS_PYTHON_URL="${TS_PARSERS_URL_BASE}python"
 TS_SVELTE_URL="${GITHUB_URL_BASE}/tree-sitter-grammars/tree-sitter-bash"
+TS_PARSERS_URLS=(
+	TS_BASH_URL
+	TS_REGEX_URL
+	TS_HTML_URL
+	TS_CSS_URL
+	TS_JAVASCRIPT_URL
+	TS_TYPESCRIPT_URL
+	TS_PYTHON_URL
+	TS_SVELTE_URL
+)
 PARU_GIT_URL="https://aur.archlinux.org/paru.git"
 
 #################### LOGGING #################### 
@@ -403,7 +413,7 @@ fi
 
 separator
 
-#################### NEOVIM SETUP ####################
+#################### NEOVIM TREE-SITTER QUERY SETUP ####################
 
 function clone_ts_repo() {
 	logging_info "Cloning [nvim-treesitter] repo..."
@@ -434,6 +444,12 @@ function delete_ts_repo() {
 
 clone_ts_repo && copy_ts_queries && delete_ts_repo
 
+separator
+
+#################### NEOVIM TREE-SITTER PARSERS SETUP ####################
+
+# WIP
+echo "NB!: Still need to set up the tree-sitter parsers"
 separator
 
 #################### END ####################

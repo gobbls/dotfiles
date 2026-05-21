@@ -10,4 +10,4 @@ parser-repos/*
 # Queries downloaded in bulk from nvim-treesitter;
 # https://github.com/nvim-treesitter/nvim-treesitter/tree/main/runtime/queries
 # Don't ignore for now, lots of simple files.
-# queries/*
+queries/*

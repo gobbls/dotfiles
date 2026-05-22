@@ -14,7 +14,6 @@
     "window.density.editorTabHeight": "compact",
     "window.dialogStyle": "custom",
     "window.menuBarVisibility": "compact",
-    "window.menuBarVisibility": "toggle",
     "window.menuStyle": "custom",
     "window.titleBarStyle": "native",
     "workbench.browser.showInTitleBar": false,
@@ -36,5 +35,10 @@
                 "workbench.action.quickOpen"
             ]
         }
-    ]
+    ],
+    "editor.allowVariableLineHeights": false,
+    "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+    "terminal.integrated.fontLigatures.enabled": true,
+    "terminal.integrated.fontSize": 13,
+    "explorer.excludeGitIgnore": true
 }

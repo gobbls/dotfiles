@@ -110,6 +110,12 @@ vim.keymap.set(
 	telescope_builtin.help_tags,
 	{ desc = "Telescope help tags." }
 )
+vim.keymap.set(
+	"n",
+	"<leader>fi",
+	telescope_builtin.highlights,
+	{ desc = "Telescope highlight." }
+)
 
 -- LazyGit
 vim.keymap.set(

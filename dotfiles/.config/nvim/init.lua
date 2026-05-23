@@ -15,6 +15,7 @@ vim.o.tabstop = 4
 vim.o.swapfile = false
 vim.o.termguicolors = true
 vim.o.completeopt = "fuzzy,menuone,noselect,popup"
+vim.o.winborder = "rounded"
 
 -- Ignore providers.
 vim.g.loaded_perl_provider = 0
@@ -29,13 +30,3 @@ require("config.lazy")
 require("config.keymaps")
 require("config.lsp")
 require("config.autocmds")
-
-----------
--- Misc --
-----------
-
--- Set colorscheme after the plugin was loaded.
-vim.cmd("colorscheme mellifluous")
-
--- Change the nvim-tree root folder fg color (was too dark).
-vim.cmd([[ :hi NvimTreeRootFolder guifg=#5b5b5b ]])

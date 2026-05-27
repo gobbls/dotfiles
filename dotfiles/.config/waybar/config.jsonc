@@ -26,6 +26,7 @@
 	},
 
 	"sway/workspaces": {
+		"disable-scroll": true,
 		"format": "<span size='larger'><b>{value}</b></span> : {windows}",
 		"format-window-separator": "  ",
 		"window-rewrite-default": "{name}",

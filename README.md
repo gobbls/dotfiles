@@ -89,6 +89,7 @@ papirus-icon-theme
 pavucontrol
 pyright
 python
+python-curl_cffi
 python-mutagen
 python-pip
 qbittorrent
@@ -99,7 +100,6 @@ rustup
 slurp
 stylua
 svelte-language-server
-sway
 swaybg
 swayidle
 swaylock
@@ -150,6 +150,7 @@ rustup default stable
 #### Paru (AUR)
 
 ```
+swayfx
 bruno-bin
 localsend-bin
 oh-my-posh-bin

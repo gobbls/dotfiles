@@ -1,3 +1,4 @@
+swayfx
 bruno-bin
 localsend-bin
 oh-my-posh-bin

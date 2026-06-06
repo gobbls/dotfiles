@@ -20,6 +20,10 @@ vim.lsp.config("pyright", {
 			},
 		},
 	},
+	handlers = {
+		-- Suppresses noisy blank progress messages
+		["$/progress"] = function() end,
+	},
 })
 
 -- Python LSP, disable ruff capability that is left up to pyright.

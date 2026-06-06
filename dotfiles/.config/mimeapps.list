@@ -7,10 +7,11 @@ application/octet-stream=vim.desktop
 application/x-zerosize=vim.desktop
 text/markdown=nvim.desktop
 x-scheme-handler/bruno=bruno.desktop
+text/plain=nvim.desktop
 
 [Added Associations]
 image/png=gimp.desktop;firefox.desktop;org.gnome.Loupe.desktop;
-image/jpeg=gimp.desktop;firefox.desktop;org.gnome.Loupe.desktop;
+image/jpeg=firefox.desktop;gimp.desktop;org.gnome.Loupe.desktop;
 application/json=vim.desktop;
 application/x-xbel=vim.desktop;
 application/octet-stream=vim.desktop;
@@ -28,3 +29,4 @@ text/markdown=nvim.desktop;
 image/avif=gimp.desktop;
 image/vnd.microsoft.icon=org.gnome.Loupe.desktop;
 application/x-shellscript=nvim.desktop;
+text/plain=nvim.desktop;

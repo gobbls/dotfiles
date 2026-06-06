@@ -57,6 +57,7 @@ papirus-icon-theme
 pavucontrol
 pyright
 python
+python-curl_cffi
 python-mutagen
 python-pip
 qbittorrent

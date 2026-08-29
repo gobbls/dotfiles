@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+
+#
+# Creates a TUI checkbox menu for users to navigate and check items.
+# Default behaviour returns all the checked items.
+#
+# `--unchecked` returun all UNCHECKED items instead.
+# `--all-checked` checks all items in the list.
+#
+
+# Returns checked by default.
+return_unchecked=0
+# All items unchecked by default.
+all_checked=0
+# How many args there are to remove (the script is an argument itself, start with 1).
+options=1
+# Given items to show in the menu.
+items=()
+# All unchecked menu items.
+unchecked=()
+# All checked menu items.
+checked=()
+# Index of the item currently being hovered.
+hover_idx=0
+
+UNCHECKED_SYMBOL="[ ]"
+CHECKED_SYMBOL="[x]"
+
+function parse_args() {
+    for i in $@; do
+        case "$i" in
+            -u|--unchecked)
+                return_unchecked=1
+                ((options++))
+                ;;
+            -a|--all-checked)
+                all_checked=1
+                ((options++))
+                ;;
+            -*|--*)
+                echo "Unknown option $i"
+                exit 1
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
+}
+
+function get_menu_items() {
+    echo "${@:$options}"
+}
+
+function in_list() {
+    local search_item="$1"
+    shift 1
+    local list=("$@")
+    for i in "${list[@]}"; do
+        [[ $search_item == $i ]] && return 0
+    done
+    return 1
+}
+
+# Add a checkbox to the menu-item. 
+function add_checkbox() {
+    local item="$1"
+    in_list "$item" "${checked[@]}" && echo "$CHECKED_SYMBOL $item" || echo "$UNCHECKED_SYMBOL $item"
+}
+
+function print_list() {
+    for i in "${!items[@]}"; do
+        local row=$(add_checkbox "${items[i]}")
+        # Highlight the item if index matches "selected" index.
+        if [[ $i -eq $hover_idx ]]; then
+            echo -e "\e[30;47m${row}\e[0m"
+        else
+            echo "$row"
+        fi
+    done
+}
+
+function input_parser() {
+    local escape=$'\x1b'
+    local up=$'[A'
+    local down=$'[B'
+    IFS= read -r -s -n1 key
+    case "$key" in
+        # Handle up/down keys by reading prefixed escape keys.
+        $escape)
+            read -r -s -n2 -t 0.05 next_chars
+            case $next_chars in
+                $up)
+                    echo "up"
+                    ;;
+                $down)
+                    echo "down"
+                    ;;
+            esac
+            ;;
+        " ")
+            echo "space"
+            ;;
+        "")
+            echo "enter"
+            ;;
+        "k")
+            echo "up"
+            ;;
+        "j")
+            echo "down"
+            ;;
+        "q"|"Q")
+            echo "exit"
+            ;;
+    esac
+}
+
+function shift_hover() {
+    local direction="$1"
+    if [[ $direction == "up" ]]; then
+        ((hover_idx--))
+        [[ $hover_idx -lt 0 ]] && hover_idx=$((${#items[@]} - 1))
+    elif [[ $direction == "down" ]]; then
+        ((hover_idx++))
+        [[ $hover_idx -gt $((${#items[@]} - 1)) ]] && hover_idx=0
+    fi
+}
+
+function mark_selection() {
+    echo "selection marked"
+}
+
+function selection_loop() {
+    local selection_complete=0
+    local rows_count=$((${#items[@]} + 1))
+    local key=
+    until (( $selection_complete )); do
+        print_list
+        key=$(input_parser)
+        if [[ "$key" == "exit" ]]; then 
+            exit 0
+        elif [[ $key =~ ^(up|down)$ ]]; then
+            shift_hover "$key"
+        elif [[ $key == "space" ]]; then
+            mark_selection
+        elif [[ $key == "enter" ]]; then
+            selection_complete=1
+        fi
+        echo -e "\033[${rows_count}A"
+    done
+}
+
+# Hide terminal cursor.
+tput civis
+
+# Restore cursor on exit.
+trap 'tput cnorm; exit' INT TERM EXIT
+
+parse_args "$@"
+items=($(get_menu_items $@))
+
+# set initial selected or unselected items.
+if [[ $all_checked -eq 1 ]]; then
+    checked=items
+else
+    unchecked=items
+fi
+
+selection_loop

@@ -1,0 +1,24 @@
+#################
+### Variables ###
+#################
+
+set $lockscreen_bg  "/home/gobbls/.cache/wpppicker/wpppicker-lock.jpg"
+set $lock           "swaylock -f -c 222222 -i $lockscreen_bg -s fill"
+
+#####################
+### Window styles ###
+#####################
+
+titlebar_padding 4 1
+
+####################################################
+### Window opening preferences / targeted styles ###
+####################################################
+
+for_window [window_role="pop-up"]                                                                       floating enable
+for_window [app_id="^(?i)thunar$" title="Rename*|File Operation Progress|Confirm to replace files"]     floating enable
+for_window [app_id="org.pulseaudio.pavucontrol"]                                                        floating enable, resize set 1000 700
+for_window [app_id="nm-connection-editor"]                                                              floating enable, resize set 1000 700
+for_window [app_id="blueman-manager"]                                                                   floating enable, resize set 800 500
+for_window [app_id="org.qbittorrent.qBittorrent" title="^(?!.*qBittorrent).*$"]                         floating enable
+for_window [app_id="wofi"]                                                                              border pixel 1

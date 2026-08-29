@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# [ ] Connect to wifi using NetworkManager cli `nmcli`
+# [ ] Install dependencies `./install`
+# [ ] Change shell to zsh `chsh`
+# [ ] Install rust with `rustup default stable`
+# [ ] Install Firefox and log into account, then Proton Pass
+# [ ] Enable `multilib` in `/etc/pacman.conf`
+# [ ] Clone, build and move `yazi` into `.local/bin/`
+# [ ] Clone, build and install `paru`
+# [ ] Install NPM + NodeJS

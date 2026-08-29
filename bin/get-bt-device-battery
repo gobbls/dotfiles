@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#
+# Intended to be used with a Sway taskbar (waybar / swaybar) to
+# display connected bluetooth device battery capacities.
+#
+
+IFS=$'\n'
+
+RAW_DEVICE_LIST=( $(bluetoothctl devices Connected | sed 's/Device\s//') )
+
+output=""
+for d in "${!RAW_DEVICE_LIST[@]}"; do
+    device="${RAW_DEVICE_LIST[d]}"
+    mac="${device%% *}"
+    name="${device#* }"
+    battery_percentage=$(bluetoothctl info $mac | grep 'Battery Percentage' | grep -oP '\(\K[^)]*')
+    output+="$name: ${battery_percentage}%"
+    if (($d < ${#RAW_DEVICE_LIST[@]} - 1)); then output+=" | "; fi
+done
+
+echo "$output"

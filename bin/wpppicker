@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+#
+# A simple wallpaper picker that uses Wofi's dmenu
+# to create a list of images to pick from.
+#
+# The script also offer these options:
+# `--image [PATH]`: Set a new wallpaper by path (useful for setting wallpaper through Yazi!).
+# `--restore`: Restore previously set wallpaper from cache.
+#
+
+WPP_DIR="$HOME/.config/wallpapers"
+CACHE="$HOME/.cache/wpppicker"
+IMG_PATH="$CACHE/path"
+BLURRED="$CACHE/wpppicker-lock.jpg"
+
+notify=1
+image=
+
+mkdir "$CACHE" &> /dev/null
+
+if [[ ! -n $1 ]]; then
+    current=$(cat $IMG_PATH | xargs basename)
+    selection=$(ls "$WPP_DIR" | wofi -d -i -p "Select wallpaper (current: ${current:-"none"}):")
+    notify=0
+    [[ -n "$selection" ]] && image="${WPP_DIR}/${selection}" || exit 0
+else
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -i|--image)
+                if [[ -n "$2" && "$2" != -* ]]; then
+                    if [[ ! -f "$2" ]]; then
+                        echo "Error: Not a valid file." >&2
+                        exit 1
+                    fi
+                    image="$2"
+                    break
+                else
+                    echo "Error: Missing image path." >&2
+                    exit 1
+                fi
+                ;;
+            -r|--restore)
+                if [[ ! -d "$WPP_DIR" ]]; then
+                    notify-send --urgency=low "wpppicker" "Directory $WPP_DIR not found!"
+                    exit 1
+                fi
+                image=$(cat $IMG_PATH)
+                break
+                ;;
+            *)
+                echo "Error: Unhandled argument(s)." >&2
+                exit 1
+                ;;
+        esac
+    done
+fi
+
+echo "$image" > "$IMG_PATH"
+pkill swaybg
+swaybg -m fill -i "$image" &> /dev/null &
+disown
+
+[[ -n $(command -v magick) ]] && magick "$image" -blur 0x20 "$BLURRED"
+[[ "$notify" -eq 0 ]] && notify-send --urgency=low "wpppicker" "Set: $image"

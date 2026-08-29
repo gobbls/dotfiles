@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#
+# Intended for Sway to only run a program once
+# on startup and remain after config refresh.
+#
+
+if ! pidof "$1" > /dev/null; then
+  "$@" &
+fi

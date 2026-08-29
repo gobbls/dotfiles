@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#
+# List connected HID devices and their `hidraw` number.
+#
+
+for dev in /sys/class/hidraw/hidraw*; do
+	echo "$(basename $dev): $(cat $dev/device/uevent | grep HID_NAME | cut -d'=' -f2)"
+done

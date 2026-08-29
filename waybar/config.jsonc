@@ -1,0 +1,144 @@
+{
+    "spacing": 12,
+
+	"modules-left": ["sway/workspaces", "sway/mode"],
+
+	"modules-center": ["group/group-time"],
+
+	"modules-right": [
+        "tray",
+        "group/group-audio",
+        "group/group-system",
+        "group/group-misc"
+	],
+
+    "group/group-time": {
+        "orientation": "horizontal",
+        "modules": ["clock#date", "custom/separator", "clock#time"]
+    },
+
+    "group/group-audio": {
+        "orientation": "horizontal",
+        "modules": ["pulseaudio#output", "custom/separator", "pulseaudio#input"]
+    },
+
+    "group/group-system": {
+        "orientation": "horizontal",
+        "modules": ["cpu", "custom/separator", "memory", "custom/separator", "disk"]
+    },
+
+    "group/group-misc": {
+        "orientation": "horizontal",
+        "modules": ["sway/language", "custom/separator", "battery", "custom/separator", "custom/notification"]
+    },
+
+    "custom/separator": {
+        "tooltip": false,
+        "format": "::",
+        "interval": "once"
+    },
+
+	"sway/workspaces": {
+		"disable-scroll": true
+	},
+
+	"sway/mode": {
+		"format": "<span style=\"italic\">{}</span>"
+	},
+
+	"clock#date": {
+		"tooltip": false,
+		"format": "{:%d-%m}"
+	},
+
+	"clock#time": {
+		"tooltip": false,
+		"format": "{:%H:%M}"
+	},
+
+	"tray": {
+		"icon-size": 18,
+		"spacing": 8
+	},
+
+	"pulseaudio#output": {
+		"tooltip": false,
+		"on-click": "pavucontrol --tab=3",
+        "format": "{volume}%",
+		"format-muted": "muted",
+		"format-bluetooth": "{volume}% \uDB80\uDCAF",
+		"format-bluetooth-muted": "muted \uDB80\uDCAF"
+	},
+
+	"pulseaudio#input": {
+		"tooltip": false,
+		"on-click": "pavucontrol --tab=4",
+		"format": "{format_source}",
+		"format-source": "{volume}% \uDB80\uDF6C",
+		"format-source-muted": "muted \uDB80\uDF6D"
+	},
+
+	"cpu": {
+		"tooltip": false,
+		"format": "{usage}%"
+	},
+
+	"memory": {
+		"tooltip": false,
+		"interval": 30,
+		"format": "{avail:0.1f}GB"
+	},
+
+    "disk": {
+        "path": "/home",
+        "unit": "GB",
+        "format": "{specific_free:0.1f}GB"
+    },
+
+	"sway/language": {
+		"tooltip": false,
+		"format": "{short}"
+	},
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 60,
+        "format": "{capacity}%"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "events": {
+            "on-discharging-warning": "notify-send -u normal 'Low Battery'",
+            "on-discharging-critical": "notify-send -u critical 'Very Low Battery'"
+        },
+        "format": "{capacity}%",
+        "max-length": 25
+    },
+
+	"custom/notification": {
+		"tooltip": false,
+		"format": "{icon}",
+		"return-type": "json",
+		"exec-if": "which swaync-client",
+		"exec": "swaync-client -swb",
+		"on-click": "swaync-client -t -sw",
+		"on-click-right": "swaync-client -d -sw",
+		"escape": true,
+		"format-icons": {
+			"none": "\uDB80\uDC9A",
+			"notification": "\uDB80\uDC9A<span foreground='mediumpurple'></span>",
+			"dnd-none": "\uDB80\uDC9B",
+			"dnd-notification": "\uDB80\uDC9B<span foreground='mediumpurple'></span>",
+			"inhibited-none": "\uDB80\uDC9A",
+			"inhibited-notification": "\uDB80\uDC9A<span foreground='mediumpurple'></span>",
+			"dnd-inhibited-none": "\uDB80\uDC9B",
+			"dnd-inhibited-notification": "\uDB80\uDC9B<span foreground='mediumpurple'></span>"
+		}
+	}
+}

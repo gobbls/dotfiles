@@ -13,6 +13,7 @@ sudo pacman -S --needed \
     ffmpegthumbnailer \
     firefox \
     foot \
+    freecad \
     fzf \
     gimp \
     git \
@@ -33,6 +34,7 @@ sudo pacman -S --needed \
     noto-fonts-emoji \
     noto-fonts-extra \
     nwg-look \
+    obsidian \
     openssh \
     otf-font-awesome \
     papirus-icon-theme \

@@ -8,6 +8,7 @@ sudo pacman -S --needed \
     brightnessctl \
     btop \
     curl \
+    discord \
     fastfetch \
     ffmpeg \
     ffmpegthumbnailer \
@@ -51,6 +52,7 @@ sudo pacman -S --needed \
     swaylock \
     tmux \
     typescript \
+    udisks2 \
     unzip \
     vim \
     waybar \
@@ -59,5 +61,6 @@ sudo pacman -S --needed \
     wl-clipboard \
     wofi \
     xdg-desktop-portal-wlr \
+    xorg-xwayland \
     zsh \
     zsh-syntax-highlighting \

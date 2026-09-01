@@ -8,7 +8,7 @@
 # `--all-checked` checks all items in the list.
 #
 # TODO:
-# - When chaning the hovering item, the entire list
+# - When changing the hovering item, the entire list
 #   is redrawn. This causes visual stuttering and flickering.
 #   Change the behaviour to only redraw the relevant section of the list.
 #   Only the highlighted line, and then the same line on selection / hover change.

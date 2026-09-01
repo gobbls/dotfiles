@@ -69,7 +69,7 @@ function add_remove_selection() {
 }
 
 function highlight() {
-    echo -e "\e[30;47m${1}\e[0m"
+    echo -e "\e[30;47m${1}\e[0m" > /dev/tty
 }
 
 function add_checkbox() {
@@ -81,7 +81,7 @@ function print_list() {
     local row=
     for i in "${!items[@]}"; do
         row=$(add_checkbox "${items[i]}")
-        [[ $i -eq $hover_idx ]] && highlight "$row" || echo "$row"
+        [[ $i -eq $hover_idx ]] && highlight "$row" || echo "$row" > /dev/tty
     done
 }
 
@@ -164,10 +164,10 @@ fi
 #========#
 
 # Hide terminal cursor.
-tput civis
+#tput civis
 
 # Restore cursor on exit.
-trap 'tput cnorm; exit' INT TERM EXIT
+#trap 'tput cnorm; exit' INT TERM EXIT
 
 items=("$@")
 [[ $check_all -eq 0 ]] && checked=("${items[@]}") || unchecked=("${items[@]}")
@@ -191,9 +191,10 @@ while [[ $selection_complete -eq 1 ]]; do
         add_remove_selection 
     elif [[ $key == "enter" ]]; then
         selection_complete=0
+        break
     fi
     # Prepare redraw; move cursor to top of list.
-    echo -e "\033[${rows_count}A"
+    echo -e "\033[${rows_count}A" > /dev/tty
 done
 
 [[ $return_unchecked -eq 0 ]] && echo "${unchecked[@]}" || echo "${checked[@]}"

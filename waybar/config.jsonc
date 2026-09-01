@@ -110,12 +110,12 @@
         "bat": "BAT0",
         "interval": 60,
         "states": {
-            "warning": 30,
-            "critical": 15
+            "warning": 20,
+            "critical": 10
         },
         "events": {
-            "on-discharging-warning": "notify-send -u normal 'Low Battery'",
-            "on-discharging-critical": "notify-send -u critical 'Very Low Battery'"
+            "on-discharging-warning": "notify-send --icon=battery-low --urgency=normal 'Battery Status {capacity}%' 'Low Battery'",
+            "on-discharging-critical": "notify-send --icon=battery-empty --urgency=critical 'Battery Status {capacity}%' 'Very Low Battery'"
         },
         "format": "{capacity}%",
         "max-length": 25

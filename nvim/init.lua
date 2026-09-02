@@ -24,13 +24,6 @@ vim.g.loaded_perl_provider    = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider    = 0
 
--- Set built-in colorscheme.
-vim.cmd("colorscheme habamax")
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "TablineSel", { fg = "orange" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = "purple" })
-
 --------------------
 -- Config modules --
 --------------------
@@ -38,3 +31,4 @@ vim.api.nvim_set_hl(0, "FloatBorder", { fg = "purple" })
 require("config.lazy")
 require("config.keymaps")
 require("config.lsp")
+require("colors")

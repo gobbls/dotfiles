@@ -1,17 +1,22 @@
-# `zsh-newuser-install` stuff
+# `zsh-newuser-install` stuff.
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=5000
 setopt autocd
 bindkey -e
 
-# `compinstall` stuff
+# `compinstall` stuff.
 zstyle :compinstall filename '/home/gobbls/.zshrc'
 autoload -Uz compinit
 compinit
 
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
+
+# Start sway if all relevant variables are available.
+if [ -z "$WAYLAND_DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ] ; then
+    exec sway
+fi
 
 PS1="%F{cyan}%n:%f %~ \$ "
 

@@ -42,6 +42,7 @@ sudo pacman -S --needed \
     pavucontrol \
     perl-image-exiftool \
     qbittorrent \
+    ripgrep \
     rustup \
     slurp \
     sudo \

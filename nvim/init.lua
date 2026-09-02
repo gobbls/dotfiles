@@ -36,3 +36,4 @@ vim.api.nvim_set_hl(0, "TablineSel", {fg = "orange" })
 
 require("config.lazy")
 require("config.keymaps")
+require("config.lsp")

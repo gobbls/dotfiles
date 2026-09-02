@@ -53,6 +53,7 @@ sudo pacman -S --needed \
     swaylock \
     tmux \
     typescript \
+    typescript-language-server \
     udisks2 \
     unzip \
     vim \

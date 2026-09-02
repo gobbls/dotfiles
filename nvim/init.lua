@@ -26,7 +26,9 @@ vim.g.loaded_ruby_provider    = 0
 
 -- Set built-in colorscheme.
 vim.cmd("colorscheme habamax")
-vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
+--vim.api.nvim_set_hl(0, "Normal", { bg = "#111111" })
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "TablineSel", {fg = "orange" })
 
 --------------------
 -- Config modules --

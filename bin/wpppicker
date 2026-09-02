@@ -62,4 +62,4 @@ swaybg -m fill -i "$image" &> /dev/null &
 disown
 
 [[ -n $(command -v magick) ]] && magick "$image" -blur 0x20 "$BLURRED"
-[[ "$notify" -eq 0 ]] && notify-send --urgency=low "wpppicker" "Set: $image"
+[[ "$notify" -eq 0 ]] && notify-send --icon=image --urgency=low "wpppicker" "Set: $image"

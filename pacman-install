@@ -8,10 +8,14 @@ sudo pacman -S --needed \
     brightnessctl \
     btop \
     curl \
+    deno \
     discord \
     fastfetch \
+    fd \
+    fdupes \
     ffmpeg \
     ffmpegthumbnailer \
+    filezilla \
     firefox \
     foot \
     freecad \
@@ -23,18 +27,25 @@ sudo pacman -S --needed \
     htop \
     imagemagick \
     keyd \
+    lazygit \
     libnotify \
     libreoffice-fresh \
     libreoffice-fresh-nb \
+    lua-language-server \
+    lua51 \
+    luarocks \
     man-db \
     mpv \
     neovim \
     networkmanager \
+    nodejs \
     noto-fonts \
     noto-fonts-cjk \
     noto-fonts-emoji \
     noto-fonts-extra \
+    npm \
     nwg-look \
+    obs-studio \
     obsidian \
     openssh \
     otf-font-awesome \
@@ -46,11 +57,11 @@ sudo pacman -S --needed \
     rustup \
     slurp \
     sudo \
-    sway \
     swaybg \
     swayidle \
     swayimg \
     swaylock \
+    swaync \
     tmux \
     typescript \
     typescript-language-server \
@@ -64,5 +75,7 @@ sudo pacman -S --needed \
     wofi \
     xdg-desktop-portal-wlr \
     xorg-xwayland \
+    yazi \
+    yt-dlp \
     zsh \
     zsh-syntax-highlighting \

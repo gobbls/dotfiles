@@ -1,24 +1,33 @@
-# `zsh-newuser-install` stuff.
+#==============================#
+# `zsh-newuser-install` stuff. #
+#==============================#
+
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=5000
 setopt autocd
 bindkey -e
 
-# `compinstall` stuff.
+#======================#
+# `compinstall` stuff. #
+#======================#
+
 zstyle :compinstall filename '/home/gobbls/.zshrc'
 autoload -Uz compinit
 compinit
 
-# If not running interactively, don't do anything.
-[[ $- != *i* ]] && return
+#==========#
+# Exports. #
+#==========#
 
-# Start sway if all relevant variables are available.
-if [ -z "$WAYLAND_DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ] ; then
-    exec sway
-fi
+export EDITOR=nvim
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.npm-global/bin:$PATH"
 
-PS1="%F{cyan}%n:%f %~ \$ "
+#============#
+# Functions. #
+#============#
 
 function y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -28,14 +37,16 @@ function y() {
     rm -f -- "$tmp"
 }
 
-export EDITOR=nvim
-export PATH="$PATH:$HOME/.local/bin:$HOME/bin"
-export PATH="$PATH:/usr/local/go/bin"
-export PATH="$PATH:$(go env GOPATH)/bin"
+#=========#
+# Prompt. #
+#=========#
 
-export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+PS1="%F{cyan}%n:%f %~ \$ "
 
-[ -f ~/.zsh_aliases ] && . ~/.zsh_aliases
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#==========#
+# Sources. #
+#==========#
+
+[ -f ~/.zsh_aliases ] && \. ~/.zsh_aliases
+zsh_highlighting="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[ -f "$zsh_highlighting" ] && \. "$zsh_highlighting" 

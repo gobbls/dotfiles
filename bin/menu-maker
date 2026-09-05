@@ -6,12 +6,15 @@
 #
 # `--unchecked` returun all UNCHECKED items instead.
 # `--all-checked` checks all items in the list.
+# `--precheck=""` space-seperated list of menu-items that should be pre-checked.
 #
 # TODO:
 # - When changing the hovering item, the entire list
 #   is redrawn. This causes visual stuttering and flickering.
 #   Change the behaviour to only redraw the relevant section of the list.
 #   Only the highlighted line, and then the same line on selection / hover change.
+# - Add `--one` option, to only be able to select one item in a list.
+# - Add `--preselect` option, to have certain item pre-selected (hovering) upon start.
 #
 
 UNCHECKED_SYMBOL="[ ]"
@@ -144,6 +147,14 @@ while [[ $# -gt 0 ]]; do
             ;;
         -a|--check-all)
             check_all=0
+            shift 1
+            ;;
+        --precheck=*)
+            pattern="^--precheck=(.*)$"
+            if [[ "$1" =~ $pattern ]]; then
+                read -r -a array <<< "${BASH_REMATCH[1]}"
+                checked+=("${array[@]}")
+            fi
             shift 1
             ;;
         -*|--*)

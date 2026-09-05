@@ -1,9 +1,9 @@
 include /etc/sway/config.d/*
 include style
 
-#################
-### Variables ###
-#################
+#===========#
+# Variables #
+#===========#
 
 set $mod Mod4
 set $left h
@@ -15,9 +15,9 @@ set $menu wofi
 
 set $grim_output "$HOME/images/$(date +%Y.%m.%d_%Hh%Mm%Ss)_grim.png"
 
-#######################
-### Action keybinds ###
-#######################
+#=================#
+# Action keybinds #
+#=================#
 
 bindsym $mod+Return     exec $term
 bindsym $mod+Shift+q    kill
@@ -41,9 +41,16 @@ bindsym Print           exec grim "$grim_output" && notify-send -u low -i image 
 bindsym Shift+Print     exec grim -g "$(slurp)" "$grim_output" && notify-send -u low -i image 'Grim took a *selective* screenshot'
 bindsym $mod+Shift+p    exec /home/gobbls/bin/wpppicker
 
-###########################
-### Navigation keybinds ###
-###########################
+#============================#
+# Laptop functionality binds #
+#============================#
+
+bindswitch lid:on output eDP-1 disable
+bindswitch lid:off output eDP-1 enable
+
+#=====================#
+# Navigation keybinds #
+#=====================#
 
 bindsym $mod+$left      focus left
 bindsym $mod+$down      focus down
@@ -77,9 +84,9 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
-#################################
-### Window modifying keybinds ###
-#################################
+#===========================#
+# Window modifying keybinds #
+#===========================#
 
 bindsym $mod+b              splith
 bindsym $mod+v              splitv
@@ -102,25 +109,25 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-########################
-### Display settings ###
-########################
+#==================#
+# Display settings #
+#==================#
 
 # Laptop centered under TCL.
 output HDMI-A-1 pos 0 0 res 2560x1440@119.998Hz
 output eDP-1 pos 320 1440
 
-########################
-### S(way)bar config ###
-########################
+#==================#
+# S(way)bar config #
+#==================#
 
 bar {
     swaybar_command waybar
 }
 
-#####################
-### Input configs ###
-#####################
+#===============#
+# Input configs #
+#===============#
 
 input type:keyboard {
     repeat_delay 300
@@ -133,9 +140,9 @@ input "type:touchpad" {
     natural_scroll enabled
 }
 
-#############
-### Execs ###
-#############
+#=======#
+# Execs #
+#=======#
 
 exec swayidle -w \
          timeout 3000 $lock \

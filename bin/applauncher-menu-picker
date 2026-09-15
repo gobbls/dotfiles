@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+
+#
+# Pick what items should and should not show
+# in your applauncer menu (e.g Wofi / Rofi).
+# It does so by appending or removing `NoDisplay=true`
+# property from the applications `.desktop` files.
+#
+# Relies on `menu-maker` script!
+#
+
+# Entries are sorted by precedence.
+# Meaning entries found in a path below a another
+# path, that have the same `.desktop` name,
+# will not be included in the list.
+# The path above it took precedence.
+PATHS=(
+    "$HOME/.local/share/applications"
+    "/usr/share/applications"
+)
+
+menu_items=()
+menu_items_fullpath=()
+checked_menu_items=()
+checked_menu_items_fullpath=()
+
+function in_list() {
+    local search_item="$1"
+    shift 1
+    local list=("$@")
+    for i in "${list[@]}"; do
+        [[ "$search_item" == "$i" ]] && return 0
+    done
+    return 1
+}
+
+function entryHasHidingPropery() {
+    local path="$1"
+    [[ -n $(grep "NoDisplay=true" "$path") ]] && return 0 || return 1
+}
+
+function appendHidingProperty() {
+    local path="$1"
+    echo "NoDisplay=true" >> "$path"
+}
+
+function removeHidingPropery() {
+    local path="$1"
+    sed -i '/NoDisplay=true/d' "$path"
+}
+
+function listPathEntries() {
+    local path="$1"
+    local entries=
+    if [[ -d "$path" ]]; then
+        entries=$(ls "$path")
+    else
+        echo "Error: $1 is not a valid path, or it does not exist!" >&2
+        exit 1
+    fi
+    echo $entries
+}
+
+# Gather entries.
+for path in "${PATHS[@]}"; do
+    entries=($(listPathEntries "$path"))
+    for entry in "${entries[@]}"; do
+        if ! in_list "$entry" "${menu_items[@]}"; then
+            menu_items+=("$entry")
+            menu_items_fullpath+=("${path}/${entry}")
+        fi
+    done
+done
+
+# Figure out which already has the hiding property, to have them checked.
+for full_path in "${menu_items_fullpath[@]}"; do
+    if entryHasHidingPropery "$full_path"; then
+        checked_menu_items_fullpath+=("$full_path")
+        checked_menu_items+=("${full_path##*/}")
+    fi
+done
+
+# For some reason, can't just pass the array,
+# need to wrap in string first.
+# Why???
+precheck_these="${checked_menu_items[@]}"
+
+menu_maker_result=$(menu-maker --precheck="$precheck_these" "${menu_items[@]}")
+menu_maker_exit_statur=$?
+
+read -r -a checked_menu_items <<< $menu_maker_result
+
+# Process the results.
+# NOTE: CHECKED items are HIDDEN.
+for entry in "${menu_items_fullpath[@]}"; do
+
+    # Capture the returncode (since it's not an `echo`, it can't be captured with `$()`).
+    entryHasHidingPropery "$entry"
+    is_hidden=$?
+
+    in_list "${entry##*/}" "${checked_menu_items[@]}"
+    is_checked=$?
+
+    local_path="$HOME/.local/share/applications"
+    local_path_entry="$local_path/${entry##*/}"
+
+    #echo "[LOG] Working on $entry: is_hidden=$is_hidden, is_checked=$is_checked"
+    #continue
+
+    # If the entry should be modified, move it to local path first.
+    if [[ $is_hidden -eq 1 ]] && [[ $is_checked -eq 0 ]]; then
+        #echo "[LOG] Entry is NOT HIDDEN, but should be. Modifying...."
+        [[ ! -f "$local_path_entry" ]] && cp "$entry" "$local_path_entry"
+        appendHidingProperty "$local_path_entry"
+    elif [[ $is_hidden -eq 0 ]] && [[ $is_checked -eq 1 ]]; then
+        #echo "[LOG] Entry is HIDDEN, but should be visible. Modifying...."
+        [[ ! -f "$local_path_entry" ]] && cp "$entry" "$local_path_entry"
+        removeHidingPropery "$local_path_entry"
+    fi
+done

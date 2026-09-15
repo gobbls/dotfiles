@@ -25,6 +25,9 @@
   --group-collapse-tranistion: opacity 400ms ease-in-out;
   --hover-transition: var(--hover-tranistion);
   --group-collapse-transition: var(--group-collapse-tranistion);
+  /* My custom variables */
+  --sway-blue: #4c7899;
+  --sway-dark-blue: #285577;
 }
 
 /* Fallback for older CSS themes */
@@ -321,11 +324,17 @@ notificationwindow, blankwindow {
   /* The Control Center which contains the old notifications + widgets */
   background: var(--cc-bg);
   color: var(--text-color);
+  /*
   border-top: 1px solid rgba(200, 200, 200, 0.2);
   border-left: 1px solid rgba(200, 200, 200, 0.2);
   border-bottom: 1px solid rgba(200, 200, 200, 0.2);
   border-radius: var(--border-radius) 0px 0px var(--border-radius);
-  margin: 10px 0px;
+  */
+  border: 2px solid;
+  border-top: 25px solid;
+  border-radius: 0px;
+  border-color: var(--sway-dark-blue);
+  margin: 10px 5px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
 

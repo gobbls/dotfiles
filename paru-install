@@ -2,3 +2,4 @@
 
 paru -S --needed \
 	swayfx \
+    bambu-studio \

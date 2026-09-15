@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 sudo pacman -S --needed \
+    file-roller \
     7zip \
     base-devel \
     blueman \
@@ -24,6 +25,7 @@ sudo pacman -S --needed \
     git \
     gnome-themes-extra \
     grim \
+    gvfs-mtp \
     htop \
     imagemagick \
     keyd \
@@ -55,6 +57,7 @@ sudo pacman -S --needed \
     qbittorrent \
     ripgrep \
     rustup \
+    signal-desktop \
     slurp \
     sudo \
     swaybg \
@@ -62,7 +65,11 @@ sudo pacman -S --needed \
     swayimg \
     swaylock \
     swaync \
+    thunar \
+    thunar-archive-plugin \
+    thunar-volman \
     tmux \
+    tumbler \
     typescript \
     typescript-language-server \
     udisks2 \
@@ -73,6 +80,7 @@ sudo pacman -S --needed \
     wireplumber \
     wl-clipboard \
     wofi \
+    xarchiver \
     xdg-desktop-portal-wlr \
     xorg-xwayland \
     yazi \

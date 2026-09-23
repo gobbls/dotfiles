@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 sudo pacman -S --needed \
-    file-roller \
+    aspnet-runtime \
+    dotnet-runtime \
+    dotnet-sdk \
     7zip \
     base-devel \
     blueman \
@@ -16,6 +18,7 @@ sudo pacman -S --needed \
     fdupes \
     ffmpeg \
     ffmpegthumbnailer \
+    file-roller \
     filezilla \
     firefox \
     foot \
@@ -54,6 +57,7 @@ sudo pacman -S --needed \
     papirus-icon-theme \
     pavucontrol \
     perl-image-exiftool \
+    proton-vpn-gtk-app \
     qbittorrent \
     ripgrep \
     rustup \

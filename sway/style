@@ -9,7 +9,10 @@ set $lock           "swaylock -f -c 222222 -i $lockscreen_bg -s fill"
 ### Window styles ###
 #####################
 
-titlebar_padding 4 1
+titlebar_padding    4       1
+smart_borders       on
+hide_edge_borders   smart
+default_border      pixel   1
 
 ####################################################
 ### Window opening preferences / targeted styles ###

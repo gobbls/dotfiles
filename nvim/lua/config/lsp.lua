@@ -4,5 +4,6 @@
 
 vim.lsp.enable({
     "ts_ls",
-    "lua_ls"
+    "lua_ls",
+    "roslyn_ls"
 })

@@ -24,6 +24,7 @@ export EDITOR=nvim
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.dotnet/tools:$PATH"
 
 #============#
 # Functions. #

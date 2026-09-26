@@ -113,13 +113,21 @@ bindsym $mod+r mode "resize"
 # Display settings #
 #==================#
 
-# Laptop centered under TCL.
-output HDMI-A-1 pos 0 0 res 2560x1440@119.998Hz
-output eDP-1 pos 320 1440
+# Laptop centered UNDER TCL.
+#output HDMI-A-1 pos 0 0 res 2560x1440@119.998Hz
+#output eDP-1 pos 320 1440
 
-# Laptop to the right of TCL.
+# Laptop to the RIGHT of TCL.
 #output HDMI-A-1 pos 0 0 res 2560x1440@119.998Hz
 #output eDP-1 pos 2560 0
+
+# Laptop to the LEFT of TCL.
+#output eDP-1 pos 0 0
+#output HDMI-A-1 pos 1920 0 res 2560x1440@119.998Hz
+
+# Laptop to the LEFT of VERTICAL TCL.
+output eDP-1 pos 0 0
+output HDMI-A-1 pos 1920 0 transform 90 res 2560x1440@119.998Hz
 
 #==================#
 # S(way)bar config #

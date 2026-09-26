@@ -1,0 +1,37 @@
+output eDP-1 { 
+    alias $INTERNAL
+}
+
+output "Technical Concepts Ltd 27G64 *" {
+    alias $TCL
+    mode 2560x1440@119.998Hz
+}
+
+profile laptop {
+    output $INTERNAL enable
+    exec notify-send -u low -i display "Kanshi" "Config 'laptop' was set."
+}
+
+profile tcl {
+    output $INTERNAL disable
+    output $TCL enable
+    exec notify-send -u low -i display "Kanshi" "Config 'tcl' was set."
+}
+
+profile tcl-right {
+    output $INTERNAL enable position 0,0
+    output $TCL enable position 1920,0
+    exec notify-send -u low -i display "Kanshi" "Config 'tcl-right' was set."
+}
+
+profile tcl-left {
+    output $INTERNAL enable position 2560,0
+    output $TCL enable position 0,0
+    exec notify-send -u low -i display "Kanshi" "Config 'tcl-left' was set."
+}
+
+profile tcl-above {
+    output $INTERNAL enable position 0,0
+    output $TCL enable position 1920,0
+    exec notify-send -u low -i display "Kanshi" "Config 'tcl-above' was set."
+}

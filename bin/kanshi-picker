@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+selection=$(grep -Po '(?<=profile )[\w-]+' "$HOME/.config/kanshi/config" | wofi -d -i -p "Select display config:")
+
+if [[ ! -n "$selection" ]]; then
+    exit 0
+fi
+
+kanshictl switch "$selection"

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 sudo pacman -S --needed \
+    fwupd \
+    dbeaver \
+    steam \
+    loupe \
     kanshi \
     aspnet-runtime \
     dotnet-runtime \

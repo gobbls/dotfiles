@@ -40,6 +40,7 @@ bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
 bindsym Print           exec grim "$grim_output" && notify-send -u low -i image 'Grim took a screenshot'
 bindsym Shift+Print     exec grim -g "$(slurp)" "$grim_output" && notify-send -u low -i image 'Grim took a *selective* screenshot'
 bindsym $mod+Shift+p    exec "$HOME/bin/wpppicker"
+bindsym $mod+Shift+o    exec "$HOME/bin/kanshi-picker"
 
 #============================#
 # Laptop functionality binds #

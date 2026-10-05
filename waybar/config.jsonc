@@ -63,7 +63,7 @@
 
 	"pulseaudio#output": {
 		"tooltip": false,
-		"on-click": "pavucontrol --tab=3",
+		"on-click": "pavucontrol --tab=1",
         "format": "{volume}%",
 		"format-muted": "muted",
 		"format-bluetooth": "{volume}% \uDB80\uDCAF",

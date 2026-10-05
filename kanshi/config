@@ -31,7 +31,7 @@ profile tcl-left {
 }
 
 profile tcl-above {
-    output $INTERNAL enable position 0,0
-    output $TCL enable position 1920,0
+    output $INTERNAL enable position 320,1440
+    output $TCL enable position 0,0
     exec notify-send -u low -i display "Kanshi" "Config 'tcl-above' was set."
 }

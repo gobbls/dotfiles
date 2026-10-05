@@ -4,6 +4,7 @@
 
 return {
     'MeanderingProgrammer/render-markdown.nvim',
+    commit = "bf1bd4e",
     dependencies = {
         'nvim-tree/nvim-web-devicons',
     },

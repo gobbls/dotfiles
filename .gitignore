@@ -1,1 +1,3 @@
 /systemd/user/sway-session.target.wants
+/nvim/parser
+/nvim/queries

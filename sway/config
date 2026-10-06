@@ -147,5 +147,5 @@ exec swaync
 exec "$HOME/bin/wpppicker --restore"
 
 # Kanshi daemon stuff.
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-exec systemctl --user start sway-session.target
+#exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+#exec systemctl --user start sway-session.target

@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
+#kanshi \
+#luarocks \
+#udisks2 \
 
 sudo pacman -S --needed \
-    fwupd \
-    dbeaver \
-    steam \
-    loupe \
-    kanshi \
-    aspnet-runtime \
-    dotnet-runtime \
-    dotnet-sdk \
     7zip \
+    aspnet-runtime \
     base-devel \
     blueman \
     bluez \
     brightnessctl \
     btop \
     curl \
+    dbeaver \
     deno \
     discord \
+    dotnet-runtime \
+    dotnet-sdk \
     fastfetch \
     fd \
     fdupes \
@@ -28,6 +27,7 @@ sudo pacman -S --needed \
     firefox \
     foot \
     freecad \
+    fwupd \
     fzf \
     gimp \
     git \
@@ -41,9 +41,9 @@ sudo pacman -S --needed \
     libnotify \
     libreoffice-fresh \
     libreoffice-fresh-nb \
+    loupe \
     lua-language-server \
     lua51 \
-    luarocks \
     man-db \
     mpv \
     neovim \
@@ -68,7 +68,9 @@ sudo pacman -S --needed \
     rustup \
     signal-desktop \
     slurp \
+    steam \
     sudo \
+    sway \
     swaybg \
     swayidle \
     swayimg \
@@ -81,7 +83,6 @@ sudo pacman -S --needed \
     tumbler \
     typescript \
     typescript-language-server \
-    udisks2 \
     unzip \
     vim \
     waybar \

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #kanshi \
-#luarocks \
 #udisks2 \
 
 sudo pacman -S --needed \
@@ -44,6 +43,7 @@ sudo pacman -S --needed \
     loupe \
     lua-language-server \
     lua51 \
+    luarocks \
     man-db \
     mpv \
     neovim \
@@ -80,11 +80,14 @@ sudo pacman -S --needed \
     thunar-archive-plugin \
     thunar-volman \
     tmux \
+    tree-sitter \
+    tree-sitter-cli \
     tumbler \
     typescript \
     typescript-language-server \
     unzip \
     vim \
+    vscode-html-languageserver \
     waybar \
     wget \
     wireplumber \

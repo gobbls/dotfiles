@@ -25,3 +25,31 @@ git clone https://github.com/tree-sitter/tree-sitter-bash.git
 cd tree-sitter-bash
 tree-sitter build
 mv bash.so $path
+
+#======#
+# HTML #
+#======#
+
+git clone https://github.com/tree-sitter/tree-sitter-html.git
+cd tree-sitter-html
+tree-sitter build
+mv html.so $path
+
+#======#
+# YAML #
+#======#
+
+git clone https://github.com/tree-sitter-grammars/tree-sitter-yaml.git
+cd tree-sitter-yaml
+tree-sitter build
+mv yaml.so $path
+
+#=======#
+# Latex #
+#=======#
+
+git clone https://github.com/latex-lsp/tree-sitter-latex.git
+cd tree-sitter-latex
+tree-sitter generate
+tree-sitter build
+mv latex.so $path

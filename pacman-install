@@ -4,6 +4,8 @@
 
 sudo pacman -S --needed \
     7zip \
+    arduino-cli \
+    arduino-language-server \
     aspnet-runtime \
     base-devel \
     blueman \

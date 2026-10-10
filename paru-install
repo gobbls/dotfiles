@@ -2,3 +2,4 @@
 
 paru -S --needed \
     bambu-studio \
+    brave-bin \

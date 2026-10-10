@@ -1,3 +1,4 @@
 /systemd/user/sway-session.target.wants
 /nvim/parser
 /nvim/queries
+/.arduino15

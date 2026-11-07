@@ -4,7 +4,7 @@ play = [
 ]
 
 show = [
-    { run = "swayimg %s", orphan = true, for = "unix" },
+    { run = "loupe %s", orphan = true, for = "unix" },
 ]
 
 edit = [

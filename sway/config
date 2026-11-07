@@ -39,6 +39,10 @@ bindsym --locked XF86MonBrightnessUp    exec brightnessctl set 5%+
 
 bindsym Print           exec grim "$grim_output" && notify-send -u low -i image 'Grim took a screenshot'
 bindsym Shift+Print     exec grim -g "$(slurp)" "$grim_output" && notify-send -u low -i image 'Grim took a *selective* screenshot'
+
+# temp 'til I set a print key on Tofu.
+bindsym $mod+Shift+bracketleft     exec grim -g "$(slurp)" "$grim_output" && notify-send -u low -i image 'Grim took a *selective* screenshot'
+
 bindsym $mod+Shift+p    exec "$HOME/bin/wpppicker"
 bindsym $mod+Shift+o    exec "$HOME/bin/kanshi-picker"
 
@@ -46,8 +50,8 @@ bindsym $mod+Shift+o    exec "$HOME/bin/kanshi-picker"
 # Laptop functionality binds #
 #============================#
 
-#bindswitch lid:on output eDP-1 disable
-#bindswitch lid:off output eDP-1 enable
+bindswitch lid:on output eDP-1 disable
+bindswitch lid:off output eDP-1 enable
 
 #=====================#
 # Navigation keybinds #
@@ -109,6 +113,18 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+#================#
+# Display config #
+#================#
+
+# Laptop to the RIGHT of TCL.
+#output HDMI-A-1 pos 0 0 res 2560x1440
+#output eDP-1 pos 2560 0
+
+# Laptop BELOW TCL
+output HDMI-A-1 pos 0 0 res 2560x1440
+output eDP-1 pos 320 1440
 
 #==================#
 # S(way)bar config #

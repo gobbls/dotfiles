@@ -3,6 +3,7 @@
 #udisks2 \
 
 sudo pacman -S --needed \
+    just \
     7zip \
     arduino-cli \
     aspnet-runtime \

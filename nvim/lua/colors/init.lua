@@ -1,5 +1,5 @@
 -- Set built-in colorscheme.
---vim.cmd("colorscheme habamax")
+vim.cmd("colorscheme vague")
 
 -- Customizing some colors.
 local hi = vim.api.nvim_set_hl

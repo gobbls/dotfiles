@@ -13,6 +13,7 @@ titlebar_padding    4       1
 smart_borders       on
 hide_edge_borders   smart
 default_border      pixel   1
+gaps                inner   4
 
 ####################################################
 ### Window opening preferences / targeted styles ###

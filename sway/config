@@ -50,8 +50,8 @@ bindsym $mod+Shift+o    exec "$HOME/bin/kanshi-picker"
 # Laptop functionality binds #
 #============================#
 
-bindswitch lid:on output eDP-1 disable
-bindswitch lid:off output eDP-1 enable
+bindswitch --reload lid:on output eDP-1 disable
+bindswitch --reload lid:off output eDP-1 enable
 
 #=====================#
 # Navigation keybinds #
